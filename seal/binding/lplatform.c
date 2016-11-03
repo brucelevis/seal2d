@@ -1,6 +1,5 @@
 #include "../seal.h"
 
-
 int lplatform_write_s(lua_State* L)
 {
     const char* path = luaL_checkstring(L, -1);
@@ -59,8 +58,7 @@ int lplatform_print_hook(lua_State* L)
         LOGP_LUA("%s", msg);
     #endif
 
-        // printf("[LUA]: %s\n", msg);
-        return 1;
+	return 0;
 }
 
 int luaopen_seal_platform(lua_State* L)

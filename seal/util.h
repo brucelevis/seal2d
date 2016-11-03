@@ -36,11 +36,15 @@
 #define stringfy_bool(v) (v ? "true" : "false")
 
 #ifdef DEBUG
-#define s_assert(e) ((void)((e)|| \
-(fprintf(stderr, "%s:%d: Assertion failed: %s\n", \
-__FILE__, (int)__LINE__, #e), abort(), 0)))
+    #define s_assert(e) ((void)((e)|| \
+        (fprintf(stderr, "%s:%d: Assertion failed: %s\n", \
+            __FILE__, (int)__LINE__, #e), abort(), 0)))
 #else
-#define s_assert(e) (0)
+    #define s_assert(e) (0)
 #endif
+
+
+#define LOGP(...) ((void) printf ("SEAL2D: " __VA_ARGS__)); printf ("\n")
+#define LOGP_LUA(format, msg) LOGP(format, msg)
 
 #endif
