@@ -1,4 +1,5 @@
 #include "../seal.h"
+#include "lua.h"
 
 // core engine part
 extern int luaopen_seal_core(lua_State* L);
@@ -163,5 +164,6 @@ void luaopen_lua_extensions(lua_State *L)
         lua_pushcfunction(L, lib->func);
         lua_setfield(L, -2, lib->name);
     }
+
     lua_pop(L, 2);
 }

@@ -1297,6 +1297,7 @@
 					SEAL_USE_FSWRITE,
 					SDK_DEBUG_LOG,
 					SEAL_USE_SPINE,
+					LUA_COMPAT_LOADERS,
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
