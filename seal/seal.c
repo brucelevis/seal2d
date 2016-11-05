@@ -26,6 +26,7 @@
 
 #include "seal.h"
 
+extern void (luaL_openlibs) (lua_State *L);
 extern void luaopen_lua_extensions(lua_State *L);
 extern void nuk_init(void* winctx);
 extern void nanovg_init(int w, int h);
