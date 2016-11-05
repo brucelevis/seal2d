@@ -173,10 +173,41 @@ local function load_scale9(self)
     local s2 = sprite.new_scale9("ui.png", "scale9_example.png")
     s2:set_pos(WINDOW_WIDTH/2, WINDOW_HEIGHT/2)
 
-    -- s2:set_color(255, 0, 0, 255)
     s2:set_size(200, 200)
 
     self:add_child(s2)
+end
+
+local function load_touch_test(self)
+    local root_label
+
+    local touch_event_text = {
+        "begin", "move", "end"
+    }
+    local root_event_handler = function(event, ...)
+        local function on_touch(event, x, y)
+            print(string.format("Touch (%s) (%d, %d)", event, x, y))
+            root_label:set_text(string.format("%s: (%d, %d)",
+                                 touch_event_text[event+1], x, y))
+        end
+        if event == "touch" then
+            on_touch(...)
+        end
+    end
+
+    local cw = WINDOW_WIDTH/2
+    local ch = WINDOW_HEIGHT/2
+    local root = sprite.new_container(WINDOW_WIDTH/2, WINDOW_HEIGHT/2, cw, ch)
+    root:set_anchor(0.5, 0.5)
+    root:set_bbox_visible(true)
+    root:register_handler(root_event_handler)
+
+    root_label = sprite.new_bmfont_label("root:", "res/fonts/animated.txt")
+    root_label:set_pos(-cw/2, ch/2)
+    root_label:set_anchor(0, 1)
+    root:add_child(root_label)
+
+    self:add_child(root)
 end
 
 function sprite_test:ctor()
@@ -200,6 +231,7 @@ local test_cases = {
     {name = "glyph test", load_func = load_glyph },
     {name = "zorder test", load_func = load_zorder},
     {name = "scale9 test", load_func = load_scale9},
+    {name = "touch test", load_func = load_touch_test},
 }
 
 local BH = 40 --button height

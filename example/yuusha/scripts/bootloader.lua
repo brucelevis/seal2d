@@ -2,8 +2,10 @@ local function hook()
     local platform = require("platform_core")
 
     -- hook print, save the origin print to __print
-    __print = print
-    print = platform.__print
+    if platform.get_platform() == 'android' then
+        __print = print
+        print = platform.__print
+    end
 
     local loaders = package.loaders or {}
     table.insert(loaders, platform.__loader)

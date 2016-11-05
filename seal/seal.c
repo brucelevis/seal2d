@@ -198,14 +198,13 @@ struct game* seal_load_game_config()
     return GAME;
 }
 
-void seal_init_graphics()
+void seal_init_graphics(int w, int h)
 {
     // baisc graphic modules
     GAME->texture_cache = texture_cache_new();
     GAME->sprite_frame_cache = sprite_frame_cache_new();
     GAME->bmfont_cache = bmfont_cache_new();
-    GAME->global_camera = camera_new( GAME->config.window_height,
-                                        GAME->config.window_height);
+    GAME->global_camera = camera_new(w, h);
     GAME->render = render_new();
     GAME->lua_handler = lua_handler_new(GAME->lstate);
     GAME->scheduler = scheduler_new();
@@ -237,7 +236,7 @@ void seal_load_string(const char* script_data)
 void seal_load_file(const char* script_path)
 {
 #if defined PLAT_DESKTOP
-    const char* buff = fs_reads(script_path);
+    char* buff = fs_reads(script_path);
 
     if (luaL_loadbuffer(GAME->lstate, buff, strlen(buff), script_path)) {
         fprintf(stderr, "load start script Failed. %s \n",
@@ -251,7 +250,7 @@ void seal_load_file(const char* script_path)
         }
     }
 
-    seal_free(buff);
+    s_free(buff);
 
     //if(luaL_dofile(GAME->lstate, script_path)) {
     //    fprintf(stderr, "run start script Failed. %s \n",
