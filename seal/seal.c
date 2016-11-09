@@ -209,6 +209,7 @@ void seal_init_graphics(int w, int h)
     GAME->render = render_new();
     GAME->lua_handler = lua_handler_new(GAME->lstate);
     GAME->scheduler = scheduler_new();
+    GAME->touch_handler = touch_handler_new();
     sprite_init_render(GAME->render);
 
 #ifdef PLAT_DESKTOP
@@ -276,6 +277,7 @@ static int traceback (lua_State *L)
     const char *msg = lua_tostring(L, 1);
     if (msg) {
         luaL_traceback(L, L, msg, 1);
+        LOGP("%s:%s", msg, lua_tostring(L, -1));
     } else if (!lua_isnoneornil(L, 1)) {
         if (!luaL_callmeta(L, 1, "__tostring")) {
             lua_pushliteral(L, "(no error message)");
@@ -362,7 +364,13 @@ void seal_event(int event_type,
 
 void seal_touch_event(struct touch_event* touch_event)
 {
-    sprite_touch(GAME->root, touch_event);
+    LOGP("touch: %d - (%d, %d)", touch_event->type, touch_event->x, touch_event->y);
+
+    struct touch_handler* handler = GAME->touch_handler;
+    // push all the sprites which `contained touch_event' into handler's queue
+    sprite_visit_touch(GAME->root, handler, touch_event);
+
+    touch_handler_visit(handler, touch_event);
 }
 
 void seal_draw()

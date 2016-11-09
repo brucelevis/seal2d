@@ -24,7 +24,6 @@ void glfw_mouse_button_callback(GLFWwindow* window,
                 struct touch_event e = {TOUCH_BEGIN,
                                  GAME->window->cursor_x,
                                  GAME->config.window_height - GAME->window->cursor_y,
-                                 false,
                                  false};
                 seal_touch_event(&e);
                 GAME->window->is_touch_down = 1;
@@ -35,7 +34,6 @@ void glfw_mouse_button_callback(GLFWwindow* window,
                 struct touch_event e = {TOUCH_END,
                     GAME->window->cursor_x,
                     GAME->config.window_height - GAME->window->cursor_y,
-                    false,
                     false};
                 seal_touch_event(&e);
                 GAME->window->is_touch_down = 0;
@@ -56,7 +54,7 @@ void glfw_mouse_pos_callback(GLFWwindow* window, double x, double y)
         struct touch_event e = {TOUCH_MOVE,
                                 x,
                                 GAME->config.window_height - y,
-                                false, false};
+                                false};
         seal_touch_event(&e);
     }
 }

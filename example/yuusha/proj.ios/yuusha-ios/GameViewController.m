@@ -105,4 +105,69 @@
     seal_draw();
 }
 
+-(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    // Enumerate through all the touch objects.
+    NSUInteger touchCount = 0;
+
+    for (UITouch *touch in touches) {
+        // Send to the dispatch method, which will make sure the appropriate subview is acted upon.
+        CGPoint p = [touch locationInView:self.view];
+        touchCount++;
+        struct touch_event e = {
+            TOUCH_BEGIN,
+            p.x,
+            [self.view bounds].size.height - p.y,
+            false
+        };
+        seal_touch_event(&e);
+    }
+    LOGP("touchCount = %d", touchCount);
+}
+
+-(void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    NSUInteger touchCount = 0;
+    for (UITouch *touch in touches) {
+        CGPoint p = [touch locationInView:self.view];
+        touchCount++;
+        struct touch_event e = {
+            TOUCH_MOVE,
+            p.x,
+            [self.view bounds].size.height - p.y,
+            false
+        };
+        seal_touch_event(&e);
+    }
+}
+
+
+-(void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    for (UITouch *touch in touches) {
+        CGPoint p = [touch locationInView:self.view];
+        struct touch_event e = {
+            TOUCH_END,
+            p.x,
+            [self.view bounds].size.height - p.y,
+            false
+        };
+        seal_touch_event(&e);
+    }
+}
+
+-(void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    for (UITouch *touch in touches) {
+        CGPoint p = [touch locationInView:self.view];
+        struct touch_event e = {
+            TOUCH_CANCEL,
+            p.x,
+            [self.view bounds].size.height - p.y,
+            false
+        };
+        seal_touch_event(&e);
+    }
+}
+
 @end

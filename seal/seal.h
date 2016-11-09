@@ -62,7 +62,7 @@
 #include "ttf_font.h"
 #include "util.h"
 #include "window.h"
-
+#include "touch_handler.h"
 
 struct camera;
 struct sprite_batch;
@@ -76,6 +76,7 @@ struct touch_event;
 struct lua_handler;
 struct nuk_node;
 struct scheduler;
+struct touch_handler;
 
 struct game_config {
     int window_width;
@@ -105,6 +106,7 @@ struct game {
     struct sprite* root;             // the root node of the world
     struct shader* shader;
     struct render* render;
+    struct touch_handler* touch_handler;
 
     // extra util
     struct lua_handler* lua_handler;

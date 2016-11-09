@@ -14,6 +14,11 @@ local function load_srt(self)
     }
 
     common.load_skeltons(self, "skeleton.png", sprites, 0, WINDOW_HEIGHT/2)
+
+    self:run_action(require("action_core").call_func(function()
+            local t
+            t.a = b
+        end))
 end
 
 local function load_anchor(self)

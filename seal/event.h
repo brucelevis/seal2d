@@ -36,15 +36,21 @@
 #include <GLFW/glfw3.h>
 #endif
 
-#define TOUCH_BEGIN  (0)
-#define TOUCH_MOVE   (1)
-#define TOUCH_END    (2)
-#define TOUCH_CANCEL (3)
+enum TOUCH_EVENT_TYPE {
+    TOUCH_BEGIN = 0,
+    TOUCH_MOVE,
+    TOUCH_END,
+    TOUCH_CANCEL
+};
 
 #define SPRITE_EVENT_TYPE "touch"
 
+struct array;
+struct sprite;
+
+#define SPRITE_VISIT_DEPTH (8)
 struct touch_event {
-    int type;
+    enum TOUCH_EVENT_TYPE type;
     int x, y;
     bool swallowd;
 };

@@ -46,6 +46,7 @@ struct bmfont;
 struct spine_anim;
 #endif
 struct action;
+struct touch_handler;
 
 enum sprite_type {
     // single sprite
@@ -205,6 +206,7 @@ struct sprite* sprite_new_scale9(struct sprite_frame* frame, struct rect* r);
 
 void sprite_free(struct sprite* self);
 
+void sprite_visit_touch(struct sprite* self, struct touch_handler* handler, struct touch_event* touch_event);
 void sprite_touch(struct sprite* self, struct touch_event* touch_event);
 void sprite_visit(struct sprite* self, float dt);
 bool sprite_contains(struct sprite* self, float x, float y);

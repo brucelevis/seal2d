@@ -827,32 +827,26 @@ static int touch_event_set_func(lua_State* L, void* ud)
     return 4;
 }
 
-void sprite_touch(struct sprite* self, struct touch_event* touch_event)
+void sprite_visit_touch(struct sprite* self, struct touch_handler* handler, struct touch_event* touch_event)
 {
-    if(touch_event->swallowd) {
-        return;
-    }
-
     struct array* children = self->children;
     for (int i = 0 ;i < array_size(children); ++i) {
         struct sprite* child = (struct sprite*)array_at(children, i);
         if (child) { // NULL indicates that the child has been removed
             // recursively visit the children.
-            sprite_touch(child, touch_event);
-
-            if(touch_event->swallowd) {
-                return;
-            }
+            sprite_visit_touch(child, handler, touch_event);
         }
     }
 
-    if (sprite_contains(self, touch_event->x, touch_event->y)) {
-        if (self->swallow) {
-            touch_event->swallowd = true;
-        }
-
-        seal_call_func(self, touch_event_set_func, touch_event, false);
+    bool contains =sprite_contains(self, touch_event->x, touch_event->y);
+    if (touch_event->type == TOUCH_BEGIN && contains) {
+        touch_handler_push(handler, self);
     }
+}
+
+void sprite_touch(struct sprite* self, struct touch_event* touch_event)
+{
+    seal_call_func(self, touch_event_set_func, touch_event, false);
 }
 
 bool sprite_contains(struct sprite* self, float x, float y)

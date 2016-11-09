@@ -12,6 +12,7 @@
 		4D7676141DB20AC300493C2D /* laction.c in Sources */ = {isa = PBXBuildFile; fileRef = 4D7676121DB20AC300493C2D /* laction.c */; };
 		4D7C54701D78A0ED00348A5D /* primitive_render.c in Sources */ = {isa = PBXBuildFile; fileRef = 4D7C546C1D78A0ED00348A5D /* primitive_render.c */; };
 		4D7C54711D78A0ED00348A5D /* sprite_render.c in Sources */ = {isa = PBXBuildFile; fileRef = 4D7C546E1D78A0ED00348A5D /* sprite_render.c */; };
+		4D853D131DD3903D00D7B62B /* touch_handler.c in Sources */ = {isa = PBXBuildFile; fileRef = 4D853D111DD3903D00D7B62B /* touch_handler.c */; };
 		4DC479571D4DB966002E444B /* fs.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC479561D4DB966002E444B /* fs.m */; };
 		A67C62841D90E1B900138CD2 /* Animation.c in Sources */ = {isa = PBXBuildFile; fileRef = A67C62621D90E1B900138CD2 /* Animation.c */; };
 		A67C62851D90E1B900138CD2 /* AnimationState.c in Sources */ = {isa = PBXBuildFile; fileRef = A67C62631D90E1B900138CD2 /* AnimationState.c */; };
@@ -157,6 +158,8 @@
 		4D7C546D1D78A0ED00348A5D /* primitive_render.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = primitive_render.h; sourceTree = "<group>"; };
 		4D7C546E1D78A0ED00348A5D /* sprite_render.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = sprite_render.c; sourceTree = "<group>"; };
 		4D7C546F1D78A0ED00348A5D /* sprite_render.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sprite_render.h; sourceTree = "<group>"; };
+		4D853D111DD3903D00D7B62B /* touch_handler.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = touch_handler.c; sourceTree = "<group>"; };
+		4D853D121DD3903D00D7B62B /* touch_handler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = touch_handler.h; sourceTree = "<group>"; };
 		4DC479561D4DB966002E444B /* fs.m */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.objc; fileEncoding = 4; path = fs.m; sourceTree = "<group>"; };
 		A67C62401D90E1B900138CD2 /* Animation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Animation.h; sourceTree = "<group>"; };
 		A67C62411D90E1B900138CD2 /* AnimationState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnimationState.h; sourceTree = "<group>"; };
@@ -646,6 +649,8 @@
 				A6A835DB1D4CA94C00A48B19 /* util.h */,
 				A6A835DC1D4CA94C00A48B19 /* window.c */,
 				A6A835DD1D4CA94C00A48B19 /* window.h */,
+				4D853D111DD3903D00D7B62B /* touch_handler.c */,
+				4D853D121DD3903D00D7B62B /* touch_handler.h */,
 			);
 			name = seal;
 			path = ../../../seal;
@@ -944,7 +949,7 @@
 				TargetAttributes = {
 					A6A835781D4CA87000A48B19 = {
 						CreatedOnToolsVersion = 7.3.1;
-						DevelopmentTeam = ASNTZL646C;
+						DevelopmentTeam = GH4YBKBN58;
 					};
 				};
 			};
@@ -988,6 +993,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4D853D131DD3903D00D7B62B /* touch_handler.c in Sources */,
 				A6A8365E1D4CABF800A48B19 /* lcode.c in Sources */,
 				A67C62901D90E1B900138CD2 /* extension.c in Sources */,
 				A6A836901D4CBEE600A48B19 /* unzip.c in Sources */,
@@ -1230,7 +1236,7 @@
 				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				DEVELOPMENT_TEAM = ASNTZL646C;
+				DEVELOPMENT_TEAM = GH4YBKBN58;
 				ENABLE_BITCODE = NO;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -1253,7 +1259,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "../../../libs/freetype-2.6.2/ios/libs";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.levelmax.yuusha-ios";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.levelmax.-";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				VALID_ARCHS = "arm64 armv7 armv7s";
 			};
@@ -1265,7 +1271,7 @@
 				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				DEVELOPMENT_TEAM = ASNTZL646C;
+				DEVELOPMENT_TEAM = GH4YBKBN58;
 				ENABLE_BITCODE = NO;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					SEAL_USE_FSWRITE,
@@ -1286,7 +1292,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "../../../libs/freetype-2.6.2/ios/libs";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.levelmax.yuusha-ios";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.levelmax.-";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				VALID_ARCHS = "arm64 armv7 armv7s";
 			};
