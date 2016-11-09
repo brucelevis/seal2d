@@ -74,7 +74,7 @@ void touch_handler_visit(struct touch_handler* self, struct touch_event* event)
 
         case TOUCH_MOVE: {
             for (int i = 0; i < self->n_touched; ++i) {
-                sprite_touch(self->__visiting[i], event);
+                sprite_touch(self->__touched[i], event);
             }
             break;
         }
@@ -83,7 +83,7 @@ void touch_handler_visit(struct touch_handler* self, struct touch_event* event)
         case TOUCH_CANCEL:
         {
             for (int i = 0; i < self->n_touched; ++i) {
-                sprite_touch(self->__visiting[i], event);
+                sprite_touch(self->__touched[i], event);
             }
 
             touch_handler_cleanup(self);
