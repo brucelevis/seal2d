@@ -60,13 +60,15 @@ void touch_handler_visit(struct touch_handler* self, struct touch_event* event)
 {
     switch (event->type) {
         case TOUCH_BEGIN: {
-            for (int i = 0; i < self->n_visited; ++i) {
+            for (int i = self->n_visited-1; i >= 0; --i) {
                 struct sprite* target = self->__visiting[i];
-                self->__touched[i] = target;
-                ++self->n_touched;
-                sprite_touch(target, event);
-                if (target->swallow) {
-                    break;
+                if (target) {
+                    self->__touched[self->n_visited-(i+1)] = target;
+                    ++self->n_touched;
+                    sprite_touch(target, event);
+                    if (target->swallow) {
+                        break;
+                    }
                 }
             }
             break;

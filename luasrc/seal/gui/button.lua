@@ -22,15 +22,16 @@ local function validate(self)
 end
 
 local function init(self, text, atlas, size, nor, sel, dis)
-	local ns = sprite.new_scale9(atlas, nor)
-	local ss = sprite.new_scale9(atlas, sel)
-	local ds = sprite.new_scale9(atlas, dis)
+	local ns = sprite.new(atlas, nor)
+	local ss = sprite.new(atlas, sel)
+	local ds = sprite.new(atlas, dis)
 
 	local w, h = ns:get_size()
 	print(string.format("w, h = %s, %s", w, h))
 	if size then
 		w, h = size.w, size.h
 	end
+	print_r(getmetatable(self))
 
 	ns:set_size(w, h)
 	ss:set_size(w, h)
@@ -53,9 +54,18 @@ local function init(self, text, atlas, size, nor, sel, dis)
 	print("size = ", w, h)
 	self:set_size(w, h)
 	validate(self)
+
+
+	-- print(string.format("n = %d, s = %d, d = %d, self = %d",
+	-- 		ns:get_id(),
+	-- 		ss:get_id(),
+	-- 		ds:get_id(),
+	-- 		self:get_id()
+	-- 	))
 end
 
 function button:ctor(config)
+	print_r(config)
 	local atlas = assert(config.atlas)
 	local n = assert(config.n)
 	local s = config.s or n
@@ -69,8 +79,13 @@ function button:ctor(config)
 	self:register_handler(function(event, ...)
         local function on_touch(event, x, y)
             print(string.format("Touch (%s) (%d, %d)", event, x, y))
-            if event == consts.TOUCH_END then
+            if event == consts.TOUCH_BEGIN then
+            	self.state = 'selected'
+            	validate(self)
+           	elseif event == consts.TOUCH_END then
             	self.callback(self)
+            	self.state = 'normal'
+            	validate(self)
             end
         end
         if event == "touch" then

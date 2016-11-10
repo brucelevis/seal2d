@@ -369,7 +369,7 @@ static void sprite_init(struct sprite* self,
     self->anchor_x = self->anchor_y = 0.5f;
     self->width = width;
     self->height = height;
-    self->swallow = true;
+    self->swallow = false;
     self->color = C4B_COLOR(255, 255, 255, 255);
     self->visible = true;
     self->children = array_new(16);
@@ -836,8 +836,10 @@ void sprite_visit_touch(struct sprite* self, struct touch_handler* handler, stru
         }
     }
 
-    bool contains =sprite_contains(self, touch_event->x, touch_event->y);
-    if (touch_event->type == TOUCH_BEGIN && contains) {
+    bool contains = sprite_contains(self, touch_event->x, touch_event->y);
+    bool visible = self->visible;
+//    LOGP("__id = %d, contains = %s, visible = %s", self->__id, stringfy_bool(contains), stringfy_bool(visible));
+    if (touch_event->type == TOUCH_BEGIN && contains && visible) {
         touch_handler_push(handler, self);
     }
 }
