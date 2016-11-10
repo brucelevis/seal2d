@@ -17,6 +17,7 @@ local function attach_next_button(self)
 									d = "tan_disable.png",
 									callback = on_click_next,
 									size = {w = 120, h = 74},
+									text = 'next',
 								}
 	btn_next:set_pos(WINDOW_WIDTH/2, WINDOW_HEIGHT/2)
 	self:add_child(btn_next)

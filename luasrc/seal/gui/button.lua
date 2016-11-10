@@ -36,6 +36,14 @@ local function init(self, text, atlas, size, nor, sel, dis)
 	ss:set_size(w, h)
 	ds:set_size(w, h)
 
+	ns:set_anchor(0.5, 0.5)
+	ns:set_anchor(0.5, 0.5)
+	ns:set_anchor(0.5, 0.5)
+
+	-- ns:set_pos(w/2, h/2)
+	-- ss:set_pos(w/2, h/2)/
+	-- ds:set_pos(w/2, h/2)
+
 	self:add_child(ns)
 	self:add_child(ss)
 	self:add_child(ds)
