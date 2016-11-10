@@ -57,6 +57,11 @@ void glfw_mouse_pos_callback(GLFWwindow* window, double x, double y)
                                 false};
         seal_touch_event(&e);
     }
+    static char title_text[256] = "";
+    snprintf(title_text, 256, "%s:(%d, %d)",
+             GAME->config.app_name,
+             (int)x, (int)(GAME->config.window_height - y));
+    glfwSetWindowTitle(window, title_text);
 }
 
 void glfw_key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)

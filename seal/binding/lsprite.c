@@ -409,8 +409,8 @@ int lsprite_get_pos(lua_State* L)
 int lsprite_get_size(lua_State* L)
 {
     struct sprite* self = __self(L);
-    lua_pushnumber(L, self->width);
-    lua_pushnumber(L, self->height);
+    lua_pushnumber(L, self->w);
+    lua_pushnumber(L, self->h);
     return 2;
 }
 

@@ -16,6 +16,33 @@ local function load_srt(self)
     common.load_skeltons(self, "skeleton.png", sprites, 0, WINDOW_HEIGHT/2)
 end
 
+local function scene_graph(self)
+    local root = sprite.new("ui.png", "tan_normal.png")
+
+    local container = sprite.new_container()
+    container:set_pos(0, 0)
+    container:set_anchor(0, 0)
+    root:add_child(container)
+
+    local s1 = sprite.new("ui.png", "tan_selected.png")
+    s1:set_pos(0, 0)
+    s1:set_anchor(0, 0)
+    container:add_child(s1)
+
+    local ss1 = sprite.new("ui.png", "tan_disable.png")
+    ss1:set_pos(48, 48)
+    ss1:set_anchor(0.5, 0.5)
+    s1:add_child(ss1)
+
+    self:add_child(root)
+
+    root:set_pos(WINDOW_WIDTH/2, WINDOW_HEIGHT/2)
+
+    local action = require "action_core"
+    local rotate = action.scale_to(10.0 , 2, 2)
+    root:run_action(rotate)
+end
+
 local function load_anchor(self)
     local sprites = {
         {
@@ -224,6 +251,7 @@ end
 
 local test_cases = {
     {name = "srt test", load_func = load_srt},
+    {name = "scene graph test", load_func = scene_graph},
     {name = "anchor test", load_func = load_anchor},
     {name = "animation test", load_func = load_anim},
     {name = "clip test", load_func = load_clip},

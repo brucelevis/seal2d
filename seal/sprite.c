@@ -120,22 +120,22 @@ static void sprite_update_scale9(struct sprite* self)
     int width = frame->source_size.width;
     int height = frame->source_size.height;
 
-    float ox = -self->width * self->anchor_x;
-    float oy = self->height * self->anchor_y;
+    float ox = -self->w * self->anchor_x;
+    float oy = self->h * self->anchor_y;
 
     struct scale9_data* data = &(self->scale9_data);
 
     int l = inset->x;
     int c = inset->width;
     int r = width - (inset->x + inset->width);
-    int p = self->width - r;
-    float ps = (self->width - (l + r)) * 1.0f / c;
+    int p = self->w - r;
+    float ps = (self->h - (l + r)) * 1.0f / c;
 
     int t = inset->y;
     int m = inset->height;
     int b = height - (inset->y + inset->height);
-    int q = self->height - b;
-    float qs = (self->height - (t + b)) * 1.0f / m;
+    int q = self->h - b;
+    float qs = (self->h - (t + b)) * 1.0f / m;
 
     sprite_set_scale_x(data->tc, ps);
     sprite_set_scale_x(data->mc, ps);
@@ -198,11 +198,11 @@ static void sprite_update_transform(struct sprite* self)
             sprite_update_scale9(self);
         }
         else {
-            float w0 = self->width * (1-self->anchor_x);
-            float w1 = self->width * (0-self->anchor_x);
+            float w0 = self->ow * (1-self->anchor_x);
+            float w1 = self->ow * (0-self->anchor_x);
 
-            float h0 = self->height * (1-self->anchor_y);
-            float h1 = self->height * (0-self->anchor_y);
+            float h0 = self->oh * (1-self->anchor_y);
+            float h1 = self->oh * (0-self->anchor_y);
             float a = tmp.a;
             float b = tmp.b;
             float c = tmp.c;
@@ -225,8 +225,8 @@ static void sprite_update_transform(struct sprite* self)
             SET_VERTEX_POS(g->tr, x2, y2);
             SET_VERTEX_POS(g->tl, x3, y3);
 
-            self->width = fabs(x1 - x0);
-            self->height = fabs(y3 - y1);
+            self->w = fabs(x1 - x0);
+            self->h = fabs(y3 - y1);
         }
         self->world_srt = tmp;
     }
@@ -367,8 +367,10 @@ static void sprite_init(struct sprite* self,
     self->rotation = 0.0f;
     self->x = self->y = 0.0f;
     self->anchor_x = self->anchor_y = 0.5f;
-    self->width = width;
-    self->height = height;
+    self->w = width;
+    self->h = height;
+    self->ow = width;
+    self->oh = height;
     self->swallow = false;
     self->color = C4B_COLOR(255, 255, 255, 255);
     self->visible = true;
@@ -855,8 +857,8 @@ bool sprite_contains(struct sprite* self, float x, float y)
     struct rect world = {
         g->bl.position[0],
         g->bl.position[1],
-        self->width,
-        self->height,
+        self->w,
+        self->h,
     };
     return rect_contains(&world, x, y);
 }
@@ -875,7 +877,7 @@ static void sprite_draw_pic(struct sprite* self)
 static void sprite_draw_clip(struct sprite* self)
 {
     render_flush(R);
-    render_set_scissors(R, self->x, self->y, self->width, self->height);
+    render_set_scissors(R, self->x, self->y, self->w, self->h);
 }
 
 #if defined (SEAL_USE_SPINE)
@@ -1059,8 +1061,8 @@ void sprite_set_opacity(struct sprite* self, unsigned char opacity)
 
 void sprite_set_size(struct sprite* self, float width, float height)
 {
-    self->width = width;
-    self->height = height;
+    self->w = width;
+    self->h = height;
     self->dirty |= SPRITE_SRT_DIRTY;
 }
 

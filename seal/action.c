@@ -54,6 +54,17 @@ static bool action_move_update(struct action* self, struct sprite* sprite, float
     return action_interval_update(super, dt);
 }
 
+static bool action_rotate_update(struct action* self, struct sprite* sprite, float dt)
+{
+    struct action_rotate* rotate = &self->action_rotate;
+    struct action_interval* super = &rotate->__super;
+
+    float ratio = super->current / super->duration;
+    float rotation = (rotate->to - rotate->from) * ratio;
+    sprite_set_rotation(sprite, rotation);
+    return action_interval_update(super, dt);
+}
+
 static bool action_scale_update(struct action* self, struct sprite* sprite, float dt)
 {
     struct action_scale* scale = &self->action_sacle;
@@ -131,6 +142,7 @@ typedef bool (*ACTION_UPDATE_FUNC)(struct action*, struct sprite*, float);
 static bool(*action_update_func[ACTION_TYPE_MAX])(struct action*, struct sprite*, float) = {
     action_move_update,
     action_scale_update,
+    action_rotate_update,
     action_fade_update,
     action_ease_in_update,
     action_sequence_update,
@@ -173,6 +185,16 @@ struct action* move_to(float duration, float to_x, float to_y)
     internal->to_y = to_y;
     internal->from_x = internal->from_y = 0;
     return move;
+}
+
+struct action* rotate_to(float duration, float to)
+{
+    struct action* rotate = action_new(ACTION_ROTATE_TO);
+    struct action_rotate* internal = &rotate->action_rotate;
+
+    action_interval_init(&(rotate->action_move.__super), duration);
+    internal->to = to;
+    return rotate;
 }
 
 struct action* scale_to(float duration, float to_x, float to_y)
@@ -257,6 +279,14 @@ void action_play(struct action* self, struct sprite* target)
 
             scale->from_x = target->scale_x;
             scale->from_y = target->scale_y;
+            break;
+        }
+
+        case ACTION_ROTATE_TO:
+        {
+            struct action_rotate* rotate = &self->action_rotate;
+
+            rotate->from = target->rotation;
             break;
         }
 

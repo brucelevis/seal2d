@@ -166,7 +166,8 @@ struct sprite {
     float x, y;
     float scale_x, scale_y;
     float rotation;
-    float width, height;
+    float w, h;
+    float ow, oh;
     float anchor_x, anchor_y;
     struct affine local_srt;
     struct affine world_srt;
