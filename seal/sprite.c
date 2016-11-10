@@ -115,47 +115,45 @@ static void sprite_update_anim(struct sprite* self, float dt)
 
 static void sprite_update_scale9(struct sprite* self)
 {
-    if (self->type == SPRITE_TYPE_SCALE9) {
-        struct sprite_frame* frame = self->scale9_data.frame;
-        struct rect* inset = &(self->scale9_data.inset);
-        int width = frame->source_size.width;
-        int height = frame->source_size.height;
+    struct sprite_frame* frame = self->scale9_data.frame;
+    struct rect* inset = &(self->scale9_data.inset);
+    int width = frame->source_size.width;
+    int height = frame->source_size.height;
 
-        float ox = -self->width * self->anchor_x;
-        float oy = self->height * self->anchor_y;
+    float ox = -self->width * self->anchor_x;
+    float oy = self->height * self->anchor_y;
 
-        struct scale9_data* data = &(self->scale9_data);
+    struct scale9_data* data = &(self->scale9_data);
 
-        int l = inset->x;
-        int c = inset->width;
-        int r = width - (inset->x + inset->width);
-        int p = self->width - r;
-        float ps = (self->width - (l + r)) * 1.0f / c;
+    int l = inset->x;
+    int c = inset->width;
+    int r = width - (inset->x + inset->width);
+    int p = self->width - r;
+    float ps = (self->width - (l + r)) * 1.0f / c;
 
-        int t = inset->y;
-        int m = inset->height;
-        int b = height - (inset->y + inset->height);
-        int q = self->height - b;
-        float qs = (self->height - (t + b)) * 1.0f / m;
+    int t = inset->y;
+    int m = inset->height;
+    int b = height - (inset->y + inset->height);
+    int q = self->height - b;
+    float qs = (self->height - (t + b)) * 1.0f / m;
 
-        sprite_set_scale_x(data->tc, ps);
-        sprite_set_scale_x(data->mc, ps);
-        sprite_set_scale_x(data->bc, ps);
+    sprite_set_scale_x(data->tc, ps);
+    sprite_set_scale_x(data->mc, ps);
+    sprite_set_scale_x(data->bc, ps);
 
-        sprite_set_scale_y(data->ml, qs);
-        sprite_set_scale_y(data->mc, qs);
-        sprite_set_scale_y(data->mr, qs);
+    sprite_set_scale_y(data->ml, qs);
+    sprite_set_scale_y(data->mc, qs);
+    sprite_set_scale_y(data->mr, qs);
 
-        sprite_set_pos(data->tl, ox+0, oy+0);
-        sprite_set_pos(data->tc, ox+l, oy+0);
-        sprite_set_pos(data->tr, ox+p, oy+0);
-        sprite_set_pos(data->ml, ox+0, oy-t);
-        sprite_set_pos(data->mc, ox+l, oy-t);
-        sprite_set_pos(data->mr, ox+p, oy-t);
-        sprite_set_pos(data->bl, ox+0, oy-q);
-        sprite_set_pos(data->bc, ox+l, oy-q);
-        sprite_set_pos(data->br, ox+p, oy-q);
-    }
+    sprite_set_pos(data->tl, ox+0, oy+0);
+    sprite_set_pos(data->tc, ox+l, oy+0);
+    sprite_set_pos(data->tr, ox+p, oy+0);
+    sprite_set_pos(data->ml, ox+0, oy-t);
+    sprite_set_pos(data->mc, ox+l, oy-t);
+    sprite_set_pos(data->mr, ox+p, oy-t);
+    sprite_set_pos(data->bl, ox+0, oy-q);
+    sprite_set_pos(data->bc, ox+l, oy-q);
+    sprite_set_pos(data->br, ox+p, oy-q);
 }
 
 static void sprite_update_transform(struct sprite* self)

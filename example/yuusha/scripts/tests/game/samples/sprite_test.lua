@@ -178,7 +178,7 @@ local function load_scale9(self)
     local s2 = sprite.new_scale9("ui.png", "scale9_example.png")
     s2:set_pos(WINDOW_WIDTH/2, WINDOW_HEIGHT/2)
 
-    s2:set_size(200, 200)
+    s2:set_size(300, 300)
 
     self:add_child(s2)
 end

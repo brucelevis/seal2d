@@ -48,6 +48,7 @@ end
 local tests = {
     { name = "hello world", sameple_name = "hello_world" },
     { name = "sprite test", sameple_name = "sprite_test" },
+    { name = "gui test", sameple_name = "gui_test" },
 }
 
 local function draw_menu(self)

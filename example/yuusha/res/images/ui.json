@@ -2,7 +2,7 @@
 
 "glyph_character_a.png":
 {
-	"frame": {"x":204,"y":2,"w":26,"h":50},
+	"frame": {"x":204,"y":152,"w":26,"h":50},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":26,"h":50},
@@ -56,6 +56,30 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
 	"sourceSize": {"w":100,"h":100}
 },
+"tan_disable.png":
+{
+	"frame": {"x":204,"y":102,"w":48,"h":48},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":48,"h":48},
+	"sourceSize": {"w":48,"h":48}
+},
+"tan_normal.png":
+{
+	"frame": {"x":204,"y":52,"w":48,"h":48},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":48,"h":48},
+	"sourceSize": {"w":48,"h":48}
+},
+"tan_selected.png":
+{
+	"frame": {"x":204,"y":2,"w":48,"h":48},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":48,"h":48},
+	"sourceSize": {"w":48,"h":48}
+},
 "test_trimed.png":
 {
 	"frame": {"x":2,"y":204,"w":100,"h":100},
@@ -71,6 +95,6 @@
 	"format": "RGBA8888",
 	"size": {"w":256,"h":512},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:3f53a1615106f7a506085e296c7c605c:1/1$"
+	"smartupdate": "$TexturePacker:SmartUpdate:4cb7fe5de3d6d5d20be7d7024743ec72:1/1$"
 }
 }

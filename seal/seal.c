@@ -364,8 +364,6 @@ void seal_event(int event_type,
 
 void seal_touch_event(struct touch_event* touch_event)
 {
-    LOGP("touch: %d - (%d, %d)", touch_event->type, touch_event->x, touch_event->y);
-
     struct touch_handler* handler = GAME->touch_handler;
     // push all the sprites which `contained touch_event' into handler's queue
     sprite_visit_touch(GAME->root, handler, touch_event);
