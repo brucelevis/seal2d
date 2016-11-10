@@ -107,8 +107,8 @@ void seal_dump_memory() {
 
     list_for_each_entry(iter, struct alloc_entry, head, list) {
         total = total + iter->size;
-        printf("Alloc file = [%s], line = [%d], pointer = [%p] \n", iter->file, iter->line, iter->p);
+        LOGP("Alloc file = [%s], line = [%d], pointer = [%p] \n", iter->file, iter->line, iter->p);
     }
 
-    printf("total allocated memory in [%ld] bytes, [%.2f] MB \n", total, ((float)total)/(1024*1024));
+    LOGP("total allocated memory in [%ld] bytes, [%.2f] MB \n", total, ((float)total)/(1024*1024));
 }

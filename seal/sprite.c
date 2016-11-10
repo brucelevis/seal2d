@@ -800,6 +800,7 @@ void sprite_remove_child(struct sprite* self, struct sprite* child)
 {
     // here we should release the memory??? yes.
     if (child) {
+        sprite_remove_all_child(child);
         scheduler_stop_target(GAME->scheduler, child);
         // we only remove the child, but we don't move the array
         array_remove(self->children, child);
@@ -815,6 +816,7 @@ void sprite_remove_all_child(struct sprite* self)
     for (int i = n-1; i >= 0; --i) {
         sprite_remove_child(self, array_at(children, i));
     }
+//    LOGP("after remove all child children = %d", array_size(children));
 }
 
 static int touch_event_set_func(lua_State* L, void* ud)

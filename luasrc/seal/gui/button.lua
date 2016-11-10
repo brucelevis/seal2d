@@ -27,11 +27,11 @@ local function init(self, text, atlas, size, nor, sel, dis)
 	local ds = sprite.new(atlas, dis)
 
 	local w, h = ns:get_size()
-	print(string.format("w, h = %s, %s", w, h))
 	if size then
 		w, h = size.w, size.h
 	end
-	print_r(getmetatable(self))
+
+	print(string.format("w, h = %s, %s", w, h))
 
 	ns:set_size(w, h)
 	ss:set_size(w, h)
@@ -42,7 +42,7 @@ local function init(self, text, atlas, size, nor, sel, dis)
 	ns:set_anchor(0.5, 0.5)
 
 	-- ns:set_pos(w/2, h/2)
-	-- ss:set_pos(w/2, h/2)/
+	-- ss:set_pos(w/2, h/2)
 	-- ds:set_pos(w/2, h/2)
 
 	self:add_child(ns)

@@ -325,8 +325,8 @@ void seal_update()
     struct timeval now;
     gettimeofday(&now, NULL);
 
-    float dt = ((now.tv_sec - GAME->__last_update.tv_sec) +
-                   (now.tv_usec - GAME->__last_update.tv_usec))/1000000.0f;
+    float dt = (now.tv_sec - GAME->__last_update.tv_sec) +
+               (now.tv_usec - GAME->__last_update.tv_usec)/1000000.0f;
 
     GAME->__last_update = now;
 

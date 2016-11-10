@@ -39,8 +39,9 @@ local function scene_graph(self)
     root:set_pos(WINDOW_WIDTH/2, WINDOW_HEIGHT/2)
 
     local action = require "action_core"
-    local rotate = action.scale_to(10.0 , 2, 2)
-    root:run_action(rotate)
+    local scale = action.scale_to(1.0 , 2, 2)
+    local rotate = action.rotate_to(1.0, 360)
+    root:run_action(action.sequence({scale, rotate}))
 end
 
 local function load_anchor(self)

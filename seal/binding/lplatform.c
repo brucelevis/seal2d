@@ -54,65 +54,17 @@ int lplatform_print_hook(lua_State* L)
 {
     #if defined (SDK_DEBUG_LOG)
         // use #ifdef to prevent -wunsed
-        const char    * msg     = lua_tostring(L, 1);
+        const char* msg = lua_tostring(L, 1);
         LOGP_LUA("%s", msg);
     #endif
 
 	return 0;
 }
 
-
-static int lplatform_lua_loader(lua_State* L)
+int lplatform_cmem(lua_State* L)
 {
-    const char* name = luaL_checkstring(L, 1);
-
-    char copy[64] = "";
-    strncpy(copy, name, 64);
-    char* dot = strstr(name, ".");
-    // replace the dot to slash, seal.util to seal/util for instance.
-    // the copied name is used for file loading.
-    if(dot) {
-        copy[dot - name] = '/';  //replace the dot with splash for file search
-    }
-
-
-    lua_getglobal(L, "package");
-    lua_getfield(L, -1, "path");
-
-    const char* search_path = lua_tostring(L, -1);
-    char* p = NULL;
-    char full_path[64] = "";
-    char prefix[64] = "";
-    size_t size = 0;
-    // we were try to find the files in the package.path
-    for (p = strtok((char*)search_path, ";"); p != NULL; p = strtok(NULL, ";"))
-    {
-        char* f = strstr(p, "?.lua");
-        // we found the file we want
-        if (f) {
-            strncpy(prefix, p, f - p);
-            snprintf(full_path, 64, "%s%s.lua", prefix, copy);
-            LOGP("full_path is : %s\n", full_path);
-
-            unsigned char* buff = fs_read(full_path, &size, 1);
-            if (buff) {
-                // load the file, name it `copy'
-                luaL_loadbuffer(L, (const char*)buff, size, copy);
-                return 0;
-            }
-
-            memset(full_path, 0, 64);
-            memset(prefix, 0, 64);
-        }
-    }
-
-#if defined PLAT_ANDROID
-    // if no file found, we try to load it from the Assets.
-
-    // WC - TODO
+    seal_dump_memory();
     return 0;
-#endif
-    return 1;
 }
 
 int luaopen_seal_platform(lua_State* L)
@@ -129,7 +81,7 @@ int luaopen_seal_platform(lua_State* L)
         { "get_sandbox_root_path", lplatform_get_sandbox_dir },
         { "get_platform", lplatform_get_platform },
         { "__print", lplatform_print_hook },
-        { "__loader", lplatform_lua_loader},
+        { "__cmem", lplatform_cmem },
         { NULL, NULL },
     };
 

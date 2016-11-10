@@ -33,12 +33,12 @@ void action_interval_init(struct action_interval* self, float duration)
 
 bool action_interval_update(struct action_interval* self, float dt)
 {
-    float next = self->current + dt;
-    if (next > self->duration) {
+    self->current += dt;
+    if (self->current > self->duration) {
+        self->current = self->duration;
         action_stop((struct action*)&self); // this conversion is safe. :)
         return true;
     }
-    self->current = next;
     return false;
 }
 
@@ -47,11 +47,14 @@ static bool action_move_update(struct action* self, struct sprite* sprite, float
     struct action_move* move = &self->action_move;
     struct action_interval* super = &move->__super;
 
+    bool finished = action_interval_update(super, dt);
+
     float ratio = super->current / super->duration;
     float x = (move->to_x - move->from_x) * ratio;
     float y = (move->to_y - move->from_y) * ratio;
     sprite_set_pos(sprite, move->from_x + x, move->from_y + y);
-    return action_interval_update(super, dt);
+
+    return finished;
 }
 
 static bool action_rotate_update(struct action* self, struct sprite* sprite, float dt)
@@ -59,10 +62,13 @@ static bool action_rotate_update(struct action* self, struct sprite* sprite, flo
     struct action_rotate* rotate = &self->action_rotate;
     struct action_interval* super = &rotate->__super;
 
+    bool finished = action_interval_update(super, dt);
+
     float ratio = super->current / super->duration;
     float rotation = (rotate->to - rotate->from) * ratio;
     sprite_set_rotation(sprite, rotation);
-    return action_interval_update(super, dt);
+
+    return finished;
 }
 
 static bool action_scale_update(struct action* self, struct sprite* sprite, float dt)
@@ -70,13 +76,15 @@ static bool action_scale_update(struct action* self, struct sprite* sprite, floa
     struct action_scale* scale = &self->action_sacle;
     struct action_interval* super = &scale->__super;
 
+    bool finished = action_interval_update(super, dt);
+
     float ratio = super->current / super->duration;
     float x = (scale->to_x - scale->from_x) * ratio;
     float y = (scale->to_y - scale->from_y) * ratio;
     sprite_set_scale_x(sprite, scale->from_x + x);
     sprite_set_scale_y(sprite, scale->from_y + y);
 
-    return action_interval_update(super, dt);
+    return finished;
 }
 
 static bool action_fade_update(struct action* self, struct sprite* sprite, float dt)
@@ -84,11 +92,13 @@ static bool action_fade_update(struct action* self, struct sprite* sprite, float
     struct action_fade_to* fade = &self->action_fade_to;
     struct action_interval* super = &fade->__super;
 
+    bool finished = action_interval_update(super, dt);
+
     float ratio = super->current / super->duration;
     unsigned char opacity = (fade->to - fade->from) * ratio;
     sprite_set_opacity(sprite, fade->from + opacity);
 
-    return action_interval_update(super, dt);
+    return finished;
 }
 
 static bool action_ease_in_update(struct action* self, struct sprite* sprite, float dt)
@@ -96,10 +106,12 @@ static bool action_ease_in_update(struct action* self, struct sprite* sprite, fl
     struct action_ease_in* ease_in = &self->action_ease_in;
     struct action_interval* super = &ease_in->__super;
 
+    bool finished = action_interval_update(super, dt);
+
     float time = powf(super->current, ease_in->rate);
     action_update(ease_in->wrapped, sprite, time);
 
-    return action_interval_update(super, dt);
+    return finished;
 }
 
 static bool action_sequence_update(struct action* self, struct sprite* sprite, float dt)
@@ -160,9 +172,26 @@ bool action_update(struct action* self, struct sprite* sprite, float dt)
     return update_func(self, sprite, dt);
 }
 
-void action_free(struct action* action)
+void action_free(struct action* self)
 {
-    s_free(action);
+    switch (self->type) {
+        case ACTION_SEQUENCE:
+        {
+            struct action_sequence* seq = &self->action_sequence;
+            for (int i = 0; i < seq->running_index; ++i) {
+                action_free(seq->sequence[i]);
+            }
+            break;
+        }
+        case ACTION_EASE_IN:
+        {
+            action_free(self->action_ease_in.wrapped);
+            break;
+        }
+        default:
+            break;
+    }
+    s_free(self);
 }
 
 static unsigned long action_id_counter = 0;
@@ -234,12 +263,17 @@ struct action* ease_in(struct action* action, float rate)
 
 struct action* sequence(struct action* actions[], int n)
 {
+    s_assert(n <= ACTION_SEQUENCE_MAX);
     struct action* sequence = action_new(ACTION_SEQUENCE);
     struct action_sequence* internal = &sequence->action_sequence;
-    for (int i = 0; i < n; ++i)
-    {
+    for (int i = 0; i < n; ++i) {
         internal->sequence[i] = actions[i];
     }
+
+    for (int i = n; i < ACTION_SEQUENCE_MAX; ++i) {
+        internal->sequence[i] = NULL;
+    }
+
     internal->n = n;
     internal->running_index = -1;
 

@@ -49,6 +49,9 @@ local tests = {
     { name = "hello world", sameple_name = "hello_world" },
     { name = "sprite test", sameple_name = "sprite_test" },
     { name = "gui test", sameple_name = "gui_test" },
+    { name = "dump cmem", sameple_name = function()
+                                            require("platform_core").__cmem()
+                                         end}
 }
 
 local function draw_menu(self)
@@ -70,8 +73,12 @@ local function draw_menu(self)
         for i = 1, #tests do
             local t = tests[i]
             if (menu.nk_button_label(t.name, menu.NK_BUTTON_DEFAULT)) then
-            	local node = require("tests.game.samples." .. t.sameple_name)
-                self:switch(node.new())
+                if type(t.sameple_name) == 'string' then
+            	   local node = require("tests.game.samples." .. t.sameple_name)
+                    self:switch(node.new())
+                elseif type(t.sameple_name) == 'function' then
+                    t.sameple_name()
+                end
             end
         end
     end

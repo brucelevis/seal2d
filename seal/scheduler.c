@@ -112,6 +112,7 @@ void scheduler_update(struct scheduler* self, float dt)
             printf("free action = %p, id = %ld\n", e->action, e->action->__id);
             hashmapRemove(self->entries, e->action);
             action_free(e->action);
+            s_free(e);
         }
         array_clear(self->__entries_to_remove, false);
         printf("after remove n = %d, total_action = %ld\n", n, hashmapSize(self->entries));
