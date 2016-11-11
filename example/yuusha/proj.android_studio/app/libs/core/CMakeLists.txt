@@ -94,6 +94,7 @@ SET(
     ${CORE_DIR}/shader.c
     ${CORE_DIR}/spine_anim.c
     ${CORE_DIR}/sprite.c
+    ${CORE_DIR}/touch_handler.c
     ${CORE_DIR}/texture.c
     ${CORE_DIR}/ttf_font.c
     ${CORE_DIR}/window.c
