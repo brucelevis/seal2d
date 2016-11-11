@@ -45,23 +45,23 @@ int seal_call(lua_State *L, int n, int r)
         case LUA_OK:
             break;
         case LUA_ERRRUN:
-            fprintf(stderr, "!LUA_ERRRUN : %s\n", lua_tostring(L,-1));
+            LOGP_LUA("!LUA_ERRRUN : %s\n", lua_tostring(L,-1));
             s_assert(0);
             break;
         case LUA_ERRMEM:
-            fprintf(stderr, "!LUA_ERRMEM : %s\n", lua_tostring(L,-1));
+            LOGP_LUA("!LUA_ERRMEM : %s\n", lua_tostring(L,-1));
              s_assert(0);
             break;
         case LUA_ERRERR:
-            fprintf(stderr, "!LUA_ERRERR : %s\n", lua_tostring(L,-1));
+            LOGP_LUA("!LUA_ERRERR : %s\n", lua_tostring(L,-1));
              s_assert(0);
             break;
         case LUA_ERRGCMM:
-            fprintf(stderr, "!LUA_ERRGCMM : %s\n", lua_tostring(L,-1));
+            LOGP_LUA("!LUA_ERRGCMM : %s\n", lua_tostring(L,-1));
              s_assert(0);
             break;
         default:
-            fprintf(stderr, "!Unknown Lua error: %d\n", err);
+            LOGP_LUA("!Unknown Lua error: %d\n", err);
             s_assert(0);
             break;
     }
@@ -89,13 +89,13 @@ int load_game_scripts(lua_State* L, const char* zipfile)
     size_t size = 0;
     unsigned char* filedata = fs_read(zipfile, &size, 0);
     if (!filedata) {
-        fprintf(stderr, "unable to read zipfile = %s\n", zipfile);
+        LOGP("unable to read zipfile = %s\n", zipfile);
         return 1;
     }
 
     unzFile unzfile = unzOpenBuffer(filedata, size);
     if(!unzfile) {
-        fprintf(stderr, "open zip from buffer failed.\n");
+        LOGP("open zip from buffer failed.\n");
         return 1;
     }
 
@@ -105,7 +105,7 @@ int load_game_scripts(lua_State* L, const char* zipfile)
     char filename[1024] = "";
     int err = unzGoToFirstFile(unzfile);
     if (err) {
-        fprintf(stderr, "go to first file failed");
+        LOGP("go to first file failed");
         return 1;
     }
 
@@ -115,8 +115,7 @@ int load_game_scripts(lua_State* L, const char* zipfile)
         err = unzGetCurrentFileInfo(unzfile, &info, filename,
                                     1024, NULL, 0, NULL, 0);
         if (err) {
-            fprintf(stderr, "get current file info failed,"
-                              "filename = %s\n", filename);
+            LOGP("get current file info failed," "filename = %s\n", filename);
             succeed = false;
             break;
         }
@@ -132,14 +131,14 @@ int load_game_scripts(lua_State* L, const char* zipfile)
                                                     (unsigned int)size);
         if(readed != size) {
             succeed = false;
-            fprintf(stderr, "read zip file failed? error size,"
+            LOGP("read zip file failed? error size,"
                             "required = %ld, readed = %d, filename = %s\n",
                             size, readed, filename);
             goto error;
         }
         err = luaL_loadbuffer(L, (const char*)buffer, size, filename);
         if(err) {
-            fprintf(stderr, "error loadbuffer, filename = %s\n", filename);
+            LOGP("error loadbuffer, filename = %s\n", filename);
             goto error;
         }
         lua_setfield(L, -2, filename);
@@ -221,41 +220,36 @@ void seal_init_graphics(int w, int h)
 //    ttf_init_module();
 //    font = ttf_font_new("res/fonts/SourceCodePro-Regular.ttf", 32);  //TODO: load this in Lua.
 //    GAME->font = font;
-
-    // the bootloader
-    seal_load_file("scripts/bootloader.lua");
-    seal_load_string("main()");
 }
 
 void seal_load_string(const char* script_data)
 {
     if(luaL_dostring(GAME->lstate, script_data)) {
-        fprintf(stderr, "run start script Failed. %s\n",
-                lua_tostring(GAME->lstate, -1));
+        LOGP("run start script Failed. %s\n", lua_tostring(GAME->lstate, -1));
+        lua_pop(GAME->lstate, 1);
     }
 }
 
 void seal_load_file(const char* script_path)
 {
 #if defined PLAT_DESKTOP
-    char* buff = fs_reads(script_path);
+    const char* buff = fs_reads(script_path);
 
     if (luaL_loadbuffer(GAME->lstate, buff, strlen(buff), script_path)) {
-        fprintf(stderr, "load start script Failed. %s \n",
-            lua_tostring(GAME->lstate, -1));
+        LOGP("load start script Failed. %s \n", lua_tostring(GAME->lstate, -1));
         lua_pop(GAME->lstate, 1);
     }
     else {
         if (lua_pcall(GAME->lstate, 0, LUA_MULTRET, 0)) {
-            fprintf(stderr, "run start script Failed. %s \n",
-                lua_tostring(GAME->lstate, -1));
+            LOGP("run start script Failed. %s \n", lua_tostring(GAME->lstate, -1));
+            lua_pop(GAME->lstate, 1);
         }
     }
 
     s_free(buff);
 
     //if(luaL_dofile(GAME->lstate, script_path)) {
-    //    fprintf(stderr, "run start script Failed. %s \n",
+    //    LOGP("run start script Failed. %s \n",
     //            lua_tostring(GAME->lstate, -1));
     //}
 
@@ -265,8 +259,20 @@ void seal_load_file(const char* script_path)
     s_free(script_file_data);
 
 #elif defined PLAT_ANDROID
+    size_t buff_len = 0;
+    const char* buff = fs_read(script_path, &buff_len, 0);
+    if (luaL_loadbuffer(GAME->lstate, buff, buff_len, script_path)) {
+        LOGP_LUA("load start script Failed. %s \n", lua_tostring(GAME->lstate, -1));
+        lua_pop(GAME->lstate, 1);
+    }
+    else {
+        if (lua_pcall(GAME->lstate, 0, LUA_MULTRET, TRACE_BACK_FUNC_INDEX)) {
+            LOGP("run script[%s] Failed. %s \n", script_path, lua_tostring(GAME->lstate, -1));
+            lua_pop(GAME->lstate, 1);
+        }
+    }
 
-    // WC - TODO
+    s_free(buff);
 
 #endif
 
@@ -277,7 +283,7 @@ static int traceback (lua_State *L)
     const char *msg = lua_tostring(L, 1);
     if (msg) {
         luaL_traceback(L, L, msg, 1);
-        LOGP("%s:%s", msg, lua_tostring(L, -1));
+        LOGP_LUA("%s:%s", msg, lua_tostring(L, -1));
     } else if (!lua_isnoneornil(L, 1)) {
         if (!luaL_callmeta(L, 1, "__tostring")) {
             lua_pushliteral(L, "(no error message)");
@@ -295,6 +301,11 @@ static int on_seal_game_start(lua_State* L, void* ud)
 void seal_start_game()
 {
     gettimeofday(&GAME->__last_update, NULL);
+
+    // the bootloader
+    seal_load_file("scripts/bootloader.lua");
+    seal_load_string("main()");
+
 
     lua_State *L = GAME->lstate;
     assert(lua_gettop(L) == 0);

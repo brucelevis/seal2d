@@ -28,25 +28,25 @@ void stackDump (lua_State *L)
         switch (t) {
 
             case LUA_TSTRING:  /* strings */
-                printf("`%s'", lua_tostring(L, i));
+                LOGP_LUA("`%s'", lua_tostring(L, i));
                 break;
 
             case LUA_TBOOLEAN:  /* booleans */
-                printf(lua_toboolean(L, i) ? "true" : "false");
+                LOGP_LUA(lua_toboolean(L, i) ? "true" : "false");
                 break;
 
             case LUA_TNUMBER:  /* numbers */
-                printf("%g", lua_tonumber(L, i));
+                LOGP_LUA("%g", lua_tonumber(L, i));
                 break;
 
             default:  /* other values */
-                printf("%s", lua_typename(L, t));
+                LOGP_LUA("%s", lua_typename(L, t));
                 break;
 
         }
-        printf("    ");  /* put a separator */
+        LOGP_LUA("    ");  /* put a separator */
     }
-    printf("\n");  /* end the listing */
+    LOGP_LUA("\n");  /* end the listing */
 }
 
 void setfiled_f(lua_State *L, const char* key, float f)

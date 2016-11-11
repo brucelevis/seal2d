@@ -50,20 +50,42 @@ int lplatform_get_platform(lua_State* L)
 }
 
 
-int lplatform_print_hook(lua_State* L)
-{
-    #if defined (SDK_DEBUG_LOG)
-        // use #ifdef to prevent -wunsed
-        const char* msg = lua_tostring(L, 1);
-        LOGP_LUA("%s", msg);
-    #endif
-
-	return 0;
-}
-
 int lplatform_cmem(lua_State* L)
 {
     seal_dump_memory();
+    return 0;
+}
+
+int lplatform_get_string_for_print(lua_State * L, char* out)
+{
+    int n = lua_gettop(L);  /* number of arguments */
+    int i;
+
+    lua_getglobal(L, "tostring");
+    for (i=1; i<=n; i++) {
+        const char *s;
+        lua_pushvalue(L, -1);  /* function to be called */
+        lua_pushvalue(L, i);   /* value to print */
+        lua_call(L, 1, 1);
+        size_t sz;
+        s = lua_tolstring(L, -1, &sz);  /* get result */
+        if (s == NULL)
+            return luaL_error(L, LUA_QL("tostring") " must return a string to "
+                    LUA_QL("print"));
+        if (i>1) strcat(out, "\t");
+        strncat(out, s, sz);
+        lua_pop(L, 1);  /* pop result */
+    }
+    return 0;
+}
+
+int lplatform_lua_print(lua_State * L)
+{
+#if defined (SDK_DEBUG_LOG)
+    char buff[10240] = { 0 };
+    lplatform_get_string_for_print(L, buff);
+    LOGP_LUA("%s", buff);
+#endif
     return 0;
 }
 
@@ -80,7 +102,7 @@ int luaopen_seal_platform(lua_State* L)
     #endif
         { "get_sandbox_root_path", lplatform_get_sandbox_dir },
         { "get_platform", lplatform_get_platform },
-        { "__print", lplatform_print_hook },
+        { "__print", lplatform_lua_print },
         { "__cmem", lplatform_cmem },
         { NULL, NULL },
     };

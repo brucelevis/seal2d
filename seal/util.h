@@ -43,8 +43,4 @@
     #define s_assert(e) (0)
 #endif
 
-
-#define LOGP(...) ((void) printf ("SEAL2D: " __VA_ARGS__)); printf ("\n")
-#define LOGP_LUA(format, msg) LOGP(format, msg)
-
 #endif
