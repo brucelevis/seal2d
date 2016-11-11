@@ -297,6 +297,13 @@ int lsprite_run_action(lua_State* L)
     return 0;
 }
 
+int lsprite_stop_all_actions(lua_State* L)
+{
+    struct sprite* self = __self(L);
+    sprite_stop_all_actions(self);
+    return 0;
+}
+
 int lsprite_set_anim(lua_State* L)
 {
     struct sprite* self = __self(L);

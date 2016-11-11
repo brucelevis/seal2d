@@ -870,6 +870,11 @@ void sprite_run_action(struct sprite* self, struct action* action)
     scheduler_schedule(GAME->scheduler, self, action);
 }
 
+void sprite_stop_all_actions(struct sprite* self)
+{
+    scheduler_stop_target(GAME->scheduler, self);
+}
+
 static void sprite_draw_pic(struct sprite* self)
 {
     render_switch(R, RENDER_TYPE_SPRITE);
