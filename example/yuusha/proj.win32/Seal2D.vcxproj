@@ -272,7 +272,7 @@
     <ClCompile Include="..\..\..\seal\touch_handler.c" />
     <ClCompile Include="..\..\..\seal\ttf_font.c" />
     <ClCompile Include="..\..\..\seal\window.c" />
-    <ClCompile Include="Seal2D.c" />
+    <ClCompile Include="native.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\libs\lua-5.3.2\src\lapi.h" />

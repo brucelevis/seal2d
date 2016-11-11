@@ -427,11 +427,11 @@
     <ClCompile Include="..\..\..\seal\platform\fs.c">
       <Filter>Engine\seal\platform</Filter>
     </ClCompile>
-    <ClCompile Include="Seal2D.c">
-      <Filter>App</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\seal\touch_handler.c">
       <Filter>Engine\seal</Filter>
+    </ClCompile>
+    <ClCompile Include="native.c">
+      <Filter>App</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
