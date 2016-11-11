@@ -1304,6 +1304,7 @@
 					SDK_DEBUG_LOG,
 					SEAL_USE_SPINE,
 					LUA_COMPAT_LOADERS,
+					SEAL_USE_VAO,
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1337,6 +1338,7 @@
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					SEAL_USE_FSWRITE,
 					SEAL_USE_SPINE,
+					SEAL_USE_VAO,
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",

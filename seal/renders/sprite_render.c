@@ -22,7 +22,9 @@ void sprite_render_func_flush(struct render* R)
 {
     struct sprite_render_context* context = render_get_context(R, RENDER_TYPE_SPRITE);
 
+#if defined (SEAL_USE_VAO)
     glBindVertexArray(context->buffer->vao);
+#endif
 
     glBindBuffer(GL_ARRAY_BUFFER, context->buffer->vbo);
     glBufferData(GL_ARRAY_BUFFER, VERTEX_SIZE*context->n_objects * 4, context->buffer->data, GL_DYNAMIC_DRAW);
@@ -133,9 +135,11 @@ void sprite_render_func_init(struct render* R)
     struct sprite_render_context* context = STRUCT_NEW(sprite_render_context);
     struct vertex_buffer* buffer = STRUCT_NEW(vertex_buffer);
 
+#if defined (SEAL_USE_VAO)
     // init the vao
     glGenVertexArrays(1, &buffer->vao);
     glBindVertexArray(buffer->vao);
+#endif
 
     // init the vbo
     glGenBuffers(1, &buffer->vbo);

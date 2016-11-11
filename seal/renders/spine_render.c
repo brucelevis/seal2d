@@ -8,9 +8,11 @@ void spine_render_func_init(struct render* R)
     struct spine_render_context* context = STRUCT_NEW(spine_render_context);
     struct vertex_buffer* buffer = STRUCT_NEW(vertex_buffer);
 
+#if defined (SEAL_USE_VAO)
     // init the vao
     glGenVertexArrays(1, &buffer->vao);
     glBindVertexArray(buffer->vao);
+#endif
 
     glGenBuffers(1, &buffer->vbo);
     glBindBuffer(GL_ARRAY_BUFFER, buffer->vao);
@@ -45,7 +47,10 @@ void spine_render_destroy(struct render* R)
 
     struct vertex_buffer* buffer = context->buffer;
     glDeleteBuffers(1, &buffer->vbo);
+
+#if defined (SEAL_USE_VAO)
     glDeleteVertexArrays(1, &buffer->vao);
+#endif
     s_free(context->buffer);
 
     s_free(context);
@@ -157,8 +162,9 @@ void spine_render_func_flush(struct render* R)
 {
     struct spine_render_context* ctx = render_get_context(R, RENDER_TYPE_SPINE);
 
-
+#if defined (SEAL_USE_VAO)
     glBindVertexArray(ctx->buffer->vao);
+#endif
 
     glBindBuffer(GL_ARRAY_BUFFER, ctx->buffer->vbo);
     glBufferData(GL_ARRAY_BUFFER, VERTEX_SIZE*ctx->__super.n_objects * 6,

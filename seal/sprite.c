@@ -647,6 +647,7 @@ void sprite_free(struct sprite* self)
             if (self->bmfont_data.text) {
                 s_free(self->bmfont_data.text);
             }
+            break;
         }
 
     #if defined (SEAL_USE_SPINE)
@@ -781,8 +782,6 @@ void sprite_add_child(struct sprite* self, struct sprite* child, int zorder)
 {
     s_assert(child && child != self);
 
-    // TODO: when we add the child, search the first NULL position.
-    // TODO: consider the ZORDER
     array_push_back(self->children, child);
     child->zorder = zorder;
     child->parent = self;
@@ -793,18 +792,18 @@ void sprite_add_child(struct sprite* self, struct sprite* child, int zorder)
 void sprite_remove_from_parent(struct sprite* self)
 {
     s_assert(self->parent);
-    sprite_remove_child(self->parent, self);
+    scheduler_stop_target(GAME->scheduler, self);
+    // we only remove the child, but we don't move the array
+    array_remove(self->parent->children, self);
+    sprite_remove_all_child(self);
+    sprite_free(self);
 }
 
 void sprite_remove_child(struct sprite* self, struct sprite* child)
 {
     // here we should release the memory??? yes.
     if (child) {
-        sprite_remove_all_child(child);
-        scheduler_stop_target(GAME->scheduler, child);
-        // we only remove the child, but we don't move the array
-        array_remove(self->children, child);
-        sprite_free(child);
+        sprite_remove_from_parent(child);
     }
 }
 

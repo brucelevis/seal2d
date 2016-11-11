@@ -70,7 +70,9 @@ void primitive_render_func_flush(struct render* R)
 
     GLuint loc_pos = context->state.loc.position;
     GLuint loc_color = context->state.loc.color;
+#if defined (SEAL_USE_VAO)
     glBindVertexArray(context->vao);
+#endif
 
     glEnableVertexAttribArray(loc_pos);
     glEnableVertexAttribArray(loc_color);
@@ -201,8 +203,11 @@ void primitive_render_func_end(struct render* R)
 void primitive_render_func_init(struct render* R)
 {
     struct primitive_render_context* context = STRUCT_NEW(primitive_render_context);
+
+#if defined (SEAL_USE_VAO)
     glGenVertexArrays(1, &context->vao);
     glBindVertexArray(context->vao);
+#endif
 
     glGenBuffers(1, &context->vbo);
 

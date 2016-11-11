@@ -10,6 +10,7 @@ function hello_world:ctor()
 	self:add_child(label)
 
 	print("construct hello world finished, self = ", self)
+	require("platform_core").__cmem()
 end
 
 return hello_world

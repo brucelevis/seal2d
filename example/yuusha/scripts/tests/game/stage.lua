@@ -23,25 +23,20 @@ function stage:ctor()
 end
 
 function stage:switch(new)
-	print("#1 call switch to new", new)
     if self.current ~= new then
-    	print("#2 not equal")
         if self.current and self.current.on_exit then
             self.current:on_exit()
         end
 
         if self.current then -- current may not exist for the first time.
-        	print("#3 remove current")
             self.current:remove_from_parent()
         end
 
         self:add_child(new)
-        print("#4 add new")
         if new.on_enter then
             new:on_enter()
         end
     	self.current = new
-    	print("#5 replace fin")
     end
 end
 
