@@ -32,7 +32,7 @@ void stackDump (lua_State *L)
                 break;
 
             case LUA_TBOOLEAN:  /* booleans */
-                LOGP_LUA(lua_toboolean(L, i) ? "true" : "false");
+                LOGP_LUA("%s", lua_toboolean(L, i) ? "true" : "false");
                 break;
 
             case LUA_TNUMBER:  /* numbers */
