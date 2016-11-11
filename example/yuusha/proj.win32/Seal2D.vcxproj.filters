@@ -430,6 +430,9 @@
     <ClCompile Include="Seal2D.c">
       <Filter>App</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\seal\touch_handler.c">
+      <Filter>Engine\seal</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\seal\bmfont.h">
@@ -795,10 +798,8 @@
     <ClInclude Include="..\..\..\libs\lua-socket\src\wsocket.h">
       <Filter>Engine\Libs\lua-socket</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="..\..\..\seal\platform\fs.m">
-      <Filter>Engine\seal\platform</Filter>
-    </None>
+    <ClInclude Include="..\..\..\seal\touch_handler.h">
+      <Filter>Engine\seal</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

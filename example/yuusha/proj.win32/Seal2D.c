@@ -183,8 +183,12 @@ int main(int argc, char *argv[])
         window_height,
         game->config.app_name);
     game->window->ctx = window;
-
-    seal_init_graphics();
+    int fb_width, fb_height;
+    glfwGetFramebufferSize(window, &fb_width, &fb_height);
+    game->config.scale_factor = fb_width / window_width;
+    game->config.fb_width = fb_width;
+    game->config.fb_height = fb_height;
+    seal_init_graphics(window_width, window_height);
     seal_start_game();
 
     while (!glfwWindowShouldClose(window)) {
@@ -193,6 +197,7 @@ int main(int argc, char *argv[])
 
         seal_update();
         seal_draw();
+        glViewport(0, 0, game->config.fb_width, game->config.fb_height);
         glfwSwapBuffers(window);
 
         long current = gettime();
