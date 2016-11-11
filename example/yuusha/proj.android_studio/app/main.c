@@ -134,9 +134,15 @@ static int engine_init_display(struct engine* engine) {
     //glShadeModel(GL_SMOOTH);
     //glDisable(GL_DEPTH_TEST);
 
-    seal_load_game_config();
+    struct game* game = seal_load_game_config();
 
-    seal_init_graphics(w, h);
+    int window_width = game->config.window_width;
+    int window_height = game->config.window_height;
+    game->config.scale_factor = w / window_width;
+    game->config.fb_width = w;
+    game->config.fb_height = h;
+
+    seal_init_graphics(window_width, window_height);
     seal_start_game();
 
     return 0;

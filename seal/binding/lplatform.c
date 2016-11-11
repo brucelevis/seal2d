@@ -14,9 +14,10 @@ int lplatform_write_s(lua_State* L)
 int lplatform_read_s(lua_State* L)
 {
     const char* path = luaL_checkstring(L, -1);
-    const char* data = fs_reads(path);
+    size_t len = 0;
+    const char* data = fs_read(path, &len, 0);
     if (data) {
-        lua_pushstring(L, data);
+        lua_pushlstring(L, data, len);
         s_free((void*)data);
         return 1;
     }
@@ -89,6 +90,18 @@ int lplatform_lua_print(lua_State * L)
     return 0;
 }
 
+int lplatform_lua_loadfile(lua_State * L)
+{
+    const char* script_path = luaL_checkstring(L, 1);
+
+    size_t buff_len = 0;
+    const char* buff = fs_read(script_path, &buff_len, 0);
+    luaL_loadbuffer(L, buff, buff_len, script_path);
+    s_free(buff);
+
+    return 1;
+}
+
 int luaopen_seal_platform(lua_State* L)
 {
 #ifdef luaL_checkversion
@@ -104,6 +117,7 @@ int luaopen_seal_platform(lua_State* L)
         { "get_platform", lplatform_get_platform },
         { "__print", lplatform_lua_print },
         { "__cmem", lplatform_cmem },
+        { "loadfile", lplatform_lua_loadfile },
         { NULL, NULL },
     };
 

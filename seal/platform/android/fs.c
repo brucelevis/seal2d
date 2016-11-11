@@ -8,12 +8,10 @@
 AAssetManager* fs_assetmanager = NULL;
 
 char writable_path[256] = {0};
-const int relative_path_len = 3;
+const int relative_path_len = 1;
 
 char* relative_path[] = {
-        "",
-        "../../",
-        "../../../../luasrc/"
+        "scripts/",
 };
 
 int fs_exists(const char* filename)
@@ -61,8 +59,15 @@ const char* fs_full_path(const char* filename)
     }
 
     // check apk
-    if (fs_exists(filename) == 0) {
-        return filename;
+
+    for (i = 0; i < relative_path_len; ++i) {
+        memset(full_path, 0, 256);
+        strcat(full_path, relative_path[i]);
+        strcat(full_path, filename);
+
+        if (fs_exists(full_path) == 0) {
+            return full_path;
+        }
     }
 
     return filename;
@@ -83,7 +88,7 @@ unsigned char* fs_read(const char* path, size_t* osize, int extra_byte)
     }
 
     // in apk
-    if (strcmp(full_path, path) == 0) {
+    if (full_path[0] != '/') {
         AAsset* asset = AAssetManager_open(fs_assetmanager, full_path, AASSET_MODE_UNKNOWN);
         off_t size = 0;
         int readsize = 0;

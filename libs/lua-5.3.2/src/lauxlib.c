@@ -1009,7 +1009,8 @@ LUALIB_API lua_State *luaL_newstate (void) {
 
 LUALIB_API void luaL_checkversion_ (lua_State *L, lua_Number ver, size_t sz) {
   const lua_Number *v = lua_version(L);
-  if (sz != LUAL_NUMSIZES)  /* check numeric types */
+  size_t ntsz = LUAL_NUMSIZES;
+  if (sz != ntsz)  /* check numeric types */
     luaL_error(L, "core and library have incompatible numeric types");
   if (v != lua_version(NULL))
     luaL_error(L, "multiple Lua VMs detected");
