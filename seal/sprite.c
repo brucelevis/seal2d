@@ -677,11 +677,15 @@ void sprite_free(struct sprite* self)
 
         case SPRITE_TYPE_SCALE9:
         {
+            // TODO: sprite frame do not free
+            // sprites already removed as child
+
+            /*
             struct scale9_data* data = &(self->scale9_data);
             for (int i = 0; i < 9; ++i){
                 sprite_frame_free(data->sprites[i]->sprite_data.frame);
                 data->sprites[i]->sprite_data.frame = NULL;
-            }
+            }*/
             break;
         }
 
@@ -785,7 +789,7 @@ void sprite_set_text(struct sprite* self, const char* label)
             text = s_malloc(label_count + 1);
 
         } else if (label_count > strlen(text) ) {
-            text = s_realloc(text, label_count);
+            text = s_realloc(text, label_count + 1);
         }
         strcpy(text, label);
         self->bmfont_data.text = text;
