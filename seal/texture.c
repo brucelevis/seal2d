@@ -78,14 +78,14 @@ void texture_cache_unload(struct texture_cache* self, const char* key)
         hashmapPut(self->cache, (void*)key, NULL);
         texture_unload(tex);
     } else {
-        fprintf(stderr, "texture %s has already been removed", key);
+        LOGP("texture %s has already been removed", key);
     }
 }
 
 struct texture* texture_load_from_png(const char* file_path)
 {
     if(!file_path) {
-        fprintf(stderr, "texure, texture_load_from_png, file_path is nil?");
+        LOGP("texure, texture_load_from_png, file_path is nil?");
         return NULL;
     }
 
@@ -103,7 +103,7 @@ struct texture* texture_load_from_png(const char* file_path)
                              origin_data, file_size);
     s_free(origin_data);
     if(error) {
-        fprintf(stderr, "error %u: %s\n", error, lodepng_error_text(error));
+        LOGP("error %u: %s", error, lodepng_error_text(error));
         return NULL;
     }
 

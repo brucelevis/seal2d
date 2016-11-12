@@ -1089,14 +1089,14 @@ void sprite_dump_children(struct sprite* self)
     for (int i = 0; i < array_size(children); ++i) {
         struct sprite* s = array_at(children, i);
         if (s) {
-            printf("[sprite] : addr(%p)"
+            LOGP("[sprite] : addr(%p)"
                    "__id(%d) \n"
-                   "children(%lu) \n",
+                   "children(%lu)",
                     s,
                     s->__id,
                     s->children != NULL ? array_size(s->children) : 0);
         } else {
-            printf("[sprite] : NULL\n");
+            LOGP("[sprite] : NULL");
         }
     }
 }

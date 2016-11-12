@@ -72,7 +72,7 @@ static bool scheduler_stop_target_foreach(void* key, void* value, void* context)
     struct scheduler* self = (struct scheduler*)context;
     struct schedule_entry* entry = value;
     if (entry->target == self->__removing_target) {
-        LOGP("try to remove target = %p for entry = %p\n", self->__removing_target, entry);
+        LOGP("try to remove target = %p for entry = %p", self->__removing_target, entry);
         array_push_back(self->__entries_to_remove, entry);
     }
     return true;
@@ -110,13 +110,13 @@ void scheduler_update(struct scheduler* self, float dt)
     if (n > 0) {
         for (int i = 0; i < n; ++i) {
             struct schedule_entry* e = array_at(to_remove, i);
-            printf("free action = %p, id = %ld\n", e->action, e->action->__id);
+            LOGP("free action = %p, id = %ld", e->action, e->action->__id);
             hashmapRemove(self->entries, e->action);
             action_free(e->action);
             s_free(e);
         }
         array_clear(self->__entries_to_remove, false);
-        printf("after remove n = %d, total_action = %ld\n", n, hashmapSize(self->entries));
+        LOGP("after remove n = %d, total_action = %ld", n, hashmapSize(self->entries));
     }
 }
 

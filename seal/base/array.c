@@ -57,13 +57,13 @@ struct array* array_copy(struct array* self) {
     memcpy(a->data, self->data, self->n * sizeof(DATA_TYPE));
 
 
-    printf("the origin data is: \n");
+    LOGP("the origin data is: ");
     for (int i = 0; i < self->n; ++i) {
         printf("0x%x ", array_at(self, i));
     }
 
     char info[256] = "";
-    printf("\n the other is :\n");
+    LOGP("\nthe other is :");
     for (int i = 0; i < self->n; ++i) {
         printf("0x%x ", array_at(a, i));
     }
@@ -71,7 +71,7 @@ struct array* array_copy(struct array* self) {
     for (int i = 0; i < self->n; ++i) {
         struct sprite_frame* f = array_at(a, i);
         sprite_frame_tostring(f, (char*)info);
-        printf("frame = %s\n", info);
+        LOGP("frame = %s", info);
     }
 
     return a;
@@ -162,10 +162,10 @@ void* array_data(struct array* self) {
 }
 
 void array_debug_print(struct array* self) {
-    printf("array: data address = %p, n = %ld, cap = %ld\n", self->data, self->n, self->cap);
-    printf("array: data is:\n");
+    LOGP("array: data address = %p, n = %ld, cap = %ld", self->data, self->n, self->cap);
+    LOGP("array: data is:");
     for (int i = 0; i < self->n; ++i) {
         printf("%p ", self->data[i]);
     }
-    printf("\n");
+    LOGP("");
 }

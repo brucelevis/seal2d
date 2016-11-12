@@ -37,7 +37,7 @@
 
 #ifdef DEBUG
     #define s_assert(e) ((void)((e)|| \
-        (fprintf(stderr, "%s:%d: Assertion failed: %s\n", \
+        (LOGP("%s:%d: Assertion failed: %s", \
             __FILE__, (int)__LINE__, #e), abort(), 0)))
 #else
     #define s_assert(e) (0)

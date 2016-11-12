@@ -433,6 +433,9 @@
     <ClCompile Include="native.c">
       <Filter>App</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\seal\binding\lscheduler.c">
+      <Filter>Engine\seal\binding</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\seal\bmfont.h">

@@ -13,7 +13,7 @@
 
 static void _glfw_error_cb(int error, const char* desc)
 {
-    fprintf(stderr, "glfw: %s\n", desc);
+    LOGP("glfw: %s", desc);
 }
 
 void set_title(GLFWwindow* window, float dt)
@@ -38,10 +38,10 @@ static int glew_dynamic_binding()
     // If the current opengl driver doesn't have framebuffers methods, check if an extension exists
     if (glGenFramebuffers == NULL)
     {
-        fprintf(stderr, "OpenGL: glGenFramebuffers is nullptr, try to detect an extension\n");
+        LOGP("OpenGL: glGenFramebuffers is nullptr, try to detect an extension");
         if (strstr(gl_extensions, "ARB_framebuffer_object"))
         {
-            fprintf(stderr, "OpenGL: ARB_framebuffer_object is supported\n");
+            LOGP("OpenGL: ARB_framebuffer_object is supported");
 
             glIsRenderbuffer = (PFNGLISRENDERBUFFERPROC)wglGetProcAddress("glIsRenderbuffer");
             glBindRenderbuffer = (PFNGLBINDRENDERBUFFERPROC)wglGetProcAddress("glBindRenderbuffer");
@@ -64,7 +64,7 @@ static int glew_dynamic_binding()
         else
             if (strstr(gl_extensions, "EXT_framebuffer_object"))
             {
-                fprintf(stderr, "OpenGL: EXT_framebuffer_object is supported\n");
+                LOGP("OpenGL: EXT_framebuffer_object is supported");
                 glIsRenderbuffer = (PFNGLISRENDERBUFFERPROC)wglGetProcAddress("glIsRenderbufferEXT");
                 glBindRenderbuffer = (PFNGLBINDRENDERBUFFERPROC)wglGetProcAddress("glBindRenderbufferEXT");
                 glDeleteRenderbuffers = (PFNGLDELETERENDERBUFFERSPROC)wglGetProcAddress("glDeleteRenderbuffersEXT");
@@ -85,8 +85,8 @@ static int glew_dynamic_binding()
             }
             else
             {
-                fprintf(stderr, "OpenGL: No framebuffers extension is supported\n");
-                fprintf(stderr, "OpenGL: Any call to Fbo will crash!\n");
+                LOGP("OpenGL: No framebuffers extension is supported");
+                LOGP("OpenGL: Any call to Fbo will crash!");
                 return 0;
             }
     }
@@ -104,16 +104,16 @@ int init_glew()
 
     if (GLEW_ARB_vertex_shader && GLEW_ARB_fragment_shader)
     {
-        fprintf(stderr, "Ready for GLSL");
+        LOGP("Ready for GLSL");
     }
     else
     {
-        fprintf(stderr, "Not totally ready :(\n");
+        LOGP("Not totally ready :(");
     }
 
     if (glewIsSupported("GL_VERSION_2_0"))
     {
-        fprintf(stderr, "Ready for OpenGL 2.0\n");
+        LOGP("Ready for OpenGL 2.0");
     }
     else
     {
@@ -135,7 +135,7 @@ GLFWwindow* init_glfw(int window_width, int window_height, const char* title)
     glfwSetErrorCallback(_glfw_error_cb);
 
     if (!glfwInit()) {
-        fprintf(stderr, "glfwInit failed.\n");
+        LOGP("glfwInit failed.");
         exit(-1);
     }
 
@@ -146,7 +146,7 @@ GLFWwindow* init_glfw(int window_width, int window_height, const char* title)
 
     window = glfwCreateWindow(window_width, window_height, title, NULL, NULL);
     if (!window) {
-        fprintf(stderr, "Error, glfwCreateWindow failed.\n");
+        LOGP("Error, glfwCreateWindow failed.");
         glfwTerminate();
         exit(-1);
     }

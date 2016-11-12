@@ -55,7 +55,7 @@ static void primitive_render_batch_reset(struct primitive_render_batch* self)
 static void dump_primitive_vertex(struct primitive_vertex* vertex, int count)
 {
     for (int i = 0; i < count; ++i) {
-        printf("pos = {%.2f, %.2f}, color = {%d, %d, %d, %d}\n",
+        LOGP("pos = {%.2f, %.2f}, color = {%d, %d, %d, %d}",
                vertex[i].position[0], vertex[i].position[1],
                vertex[i].color[0], vertex[i].color[1], vertex[i].color[2], vertex[i].color[3]);
     }

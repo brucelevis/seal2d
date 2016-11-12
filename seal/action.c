@@ -293,7 +293,7 @@ void action_play(struct action* self, struct sprite* target)
     if (state == ACTION_STATE_READY || state == ACTION_STATE_STOPPED) {
         self->state = ACTION_STATE_RUNNING;
     } else {
-        fprintf(stderr, "invalid state to play. state = %d\n", state);
+        LOGP("invalid state to play. state = %d", state);
         return;
     }
 

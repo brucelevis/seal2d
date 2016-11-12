@@ -120,6 +120,6 @@ void lua_handler_exe_func(struct lua_handler* self,
         }
     } else {
         // it's ok that there's no handler for certain object. :)
-        // fprintf(stderr, "no handler for object (%p)\n", object);
+        // LOGP("no handler for object (%p)", object);
     }
 }

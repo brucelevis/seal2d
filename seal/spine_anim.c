@@ -69,7 +69,7 @@ struct spine_anim* spine_anim_new(const char* atlas_path,
     // step 1: load atlas
     spAtlas* atlas = spAtlas_createFromFile(atlas_path, NULL);
     if (!atlas) {
-        fprintf(stderr, "error loading spine atlas file = %s.", atlas_path);
+        LOGP("error loading spine atlas file = %s.", atlas_path);
         return NULL;
     }
 
@@ -80,7 +80,7 @@ struct spine_anim* spine_anim_new(const char* atlas_path,
     spSkeletonData* sk_data =
         spSkeletonJson_readSkeletonDataFile(json, spine_data_path);
     if (!sk_data || json->error) {
-        fprintf(stderr, "error reading skeleton json, error = %s", json->error);
+        LOGP("error reading skeleton json, error = %s", json->error);
         spSkeletonJson_dispose(json);
         return NULL;
     }

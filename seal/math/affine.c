@@ -30,7 +30,7 @@ struct affine* af_alloc()
 {
     struct affine* af = (struct affine*)s_malloc(sizeof(struct affine));
     if(!af) {
-        fprintf(stderr, "malloc affine failed for oom.");
+        LOGP("malloc affine failed for oom.");
         return NULL;
     }
     af_identify(af);

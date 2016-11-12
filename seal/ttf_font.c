@@ -47,7 +47,7 @@ void ttf_init_module()
     if (!library) {
         FT_Error err = FT_Init_FreeType(&library);
         if (err) {
-            fprintf(stderr, "ttf_init init freetype library error: %d\n", err);
+            LOGP("ttf_init init freetype library error: %d", err);
         }
     }
 }
@@ -59,14 +59,14 @@ static FT_Face ttf_load_face(const char* path, size_t font_size)
     size_t file_size = 0;
     unsigned char* ft_data = s_read(path, &file_size, 0);
     if(!ft_data) {
-        fprintf(stderr, "load ttf file data failed, path = %s\n", path);
+        LOGP("load ttf file data failed, path = %s", path);
         return NULL;
     }
     FT_Face face = NULL;
 
     FT_Error err = FT_New_Memory_Face(library, ft_data, file_size, 0, &face);
     if(err) {
-        fprintf(stderr, "load font face failed with error = %d\n", err);
+        LOGP("load font face failed with error = %d", err);
         return NULL;
     }
 
@@ -74,28 +74,28 @@ static FT_Face ttf_load_face(const char* path, size_t font_size)
 
 
 #ifdef TTF_LOG
-    printf("face loaded: %s \n", path);
-    printf("\tnum_faces = %ld\n", face->num_faces);
-    printf("\tnum_glyphs = %ld\n", face->num_glyphs);
-    printf("\tunits_per_EM = %d\n", face->units_per_EM);
-    printf("\tnum_fixed_sizes = %d\n", face->num_fixed_sizes);
+    LOGP("face loaded: %s", path);
+    LOGP("\tnum_faces = %ld", face->num_faces);
+    LOGP("\tnum_glyphs = %ld", face->num_glyphs);
+    LOGP("\tunits_per_EM = %d", face->units_per_EM);
+    LOGP("\tnum_fixed_sizes = %d", face->num_fixed_sizes);
     for (int i = 0; i < face->num_fixed_sizes; ++i) {
         FT_Bitmap_Size size = face->available_sizes[i];
-        printf("available_sizes[%d] = {width = %d, height = %d, size = %ld, x_ppem = %ld, y_ppem = %ld}\n",
+        LOGP("available_sizes[%d] = {width = %d, height = %d, size = %ld, x_ppem = %ld, y_ppem = %ld}",
                i, size.width, size.height, size.size, size.x_ppem, size.y_ppem );
     }
 
 
     FT_Size_Metrics metrics = face->size->metrics;
 
-    printf("\tsize metrics = \n\t\t{\n\t\t\tx_ppem = %d,\n"
+    LOGP("\tsize metrics = \n\t\t{\n\t\t\tx_ppem = %d,\n"
                              "\t\t\t y_ppem = %d,\n"
                              "\t\t\t x_scale = %ld,\n"
                              "\t\t\t y_scale = %ld,\n"
                              "\t\t\t ascender = %ld,\n"
                              "\t\t\t descender = %ld,\n"
                              "\t\t\t height = %ld,\n"
-                             "\t\t\t max_advance = %ld\n\t\t}\n",
+                             "\t\t\t max_advance = %ld\n\t\t}",
                                 metrics.x_ppem, metrics.y_ppem, metrics.x_scale, metrics.y_scale,
                                 metrics.ascender, metrics.descender, metrics.height, metrics.max_advance);
 
@@ -124,7 +124,7 @@ struct ttf_font* ttf_font_new(const char* path, size_t font_size)
 
     FT_Error err = FT_Load_Char(face, uni_char, FT_LOAD_NO_BITMAP);
     if(err) {
-        fprintf(stderr, "ttf_font_new load char error: %d\n", err);
+        LOGP("ttf_font_new load char error: %d", err);
         return NULL;
     }
 
@@ -134,19 +134,19 @@ struct ttf_font* ttf_font_new(const char* path, size_t font_size)
 
     err = FT_Render_Glyph(slot, FT_RENDER_MODE_NORMAL);
     if (err) {
-        fprintf(stderr, "ttf_font_new render glyph error: %d\n", err);
+        LOGP("ttf_font_new render glyph error: %d", err);
         return NULL;
     }
 
 #ifdef TTF_LOG
-    printf("\n\tglyph metrics for char(\'%c\' - unicode[%lu]) = \n\t\t{\n\t\t\t width = %ld,\n"
+    LOGP("\n\tglyph metrics for char(\'%c\' - unicode[%lu]) = \n\t\t{\n\t\t\t width = %ld,\n"
            "\t\t\t height = %ld,\n"
            "\t\t\t horiBearingX = %ld,\n"
            "\t\t\t horiBearingY = %ld,\n"
            "\t\t\t horiAdvance = %ld,\n"
            "\t\t\t vertBearingX = %ld,\n"
            "\t\t\t vertBearingY = %ld,\n"
-           "\t\t\t vertAdvance = %ld,\n\t\t}\n",
+           "\t\t\t vertAdvance = %ld,\n\t\t}",
            (char)uni_char, uni_char, glyph_metrics.width, glyph_metrics.height, glyph_metrics.horiBearingX,
            glyph_metrics.horiBearingY, glyph_metrics.horiAdvance, glyph_metrics.vertBearingX,
            glyph_metrics.vertBearingY, glyph_metrics.vertAdvance);
@@ -156,19 +156,19 @@ struct ttf_font* ttf_font_new(const char* path, size_t font_size)
     format[1] = (face->glyph->format >> 16) & 0xff;
     format[2] = (face->glyph->format >> 8) & 0xff;
     format[3] = (face->glyph->format) & 0xff;
-    printf("\t face glyph format = \'%s\'\n", format);
+    LOGP("\t face glyph format = \'%s\'", format);
 #endif
 
     FT_Bitmap bitmap = slot->bitmap;
 
 #ifdef TTF_LOG
-    printf("\t bitmap = \n\t\t{\n"
+    LOGP("\t bitmap = \n\t\t{\n"
            "\t\t\t rows = %u\n"
            "\t\t\t width = %u\n"
            "\t\t\t pitch = %d\n"
            "\t\t\t num_grays = %d\n"
            "\t\t\t buffer = %p\n"
-           "\t\t\t pixel_mode = %d\n\n\t\t}\n",
+           "\t\t\t pixel_mode = %d\n\n\t\t}",
            bitmap.rows, bitmap.width, bitmap.pitch, bitmap.num_grays,
            bitmap.buffer, bitmap.pixel_mode );
 
@@ -191,7 +191,7 @@ struct ttf_font* ttf_font_new(const char* path, size_t font_size)
     int asent = (int)(face->size->metrics.ascender >> 6);
     int offset_x = slot->bitmap_left;
     int offset_y = asent - slot->bitmap_top;
-    printf("offset = (%d, %d), target size = (%d, %d)\n", offset_x, offset_y, target_w, target_h);
+    LOGP("offset = (%d, %d), target size = (%d, %d)", offset_x, offset_y, target_w, target_h);
 #endif
 
 
