@@ -41,10 +41,10 @@ function stage:switch(new)
 end
 
 local tests = {
-    { name = "hello world", sameple_name = "hello_world" },
-    { name = "sprite test", sameple_name = "sprite_test" },
-    { name = "gui test", sameple_name = "gui_test" },
-    { name = "dump cmem", sameple_name = function(self)
+    { name = "hello world", sample_name = "hello_world" },
+    { name = "sprite test", sample_name = "sprite_test" },
+    { name = "gui test", sample_name = "gui_test" },
+    { name = "dump cmem", sample_name = function(self)
                                             self.current = nil
                                             self:cleanup()
                                             collectgarbage()
@@ -56,7 +56,7 @@ local function draw_menu(self)
     local nuk_node = require "seal.nuk_node"
     local menu = self.menu
 
-    menu.nk_set_button_border_color(255, 0, 0, 255)
+    menu.nk_set_button_border_color(0, 255, 0, 255)
 
     if (menu:nk_begin("tests",
         {x = WINDOW_WIDTH - 200, y = 50, w = 200, h = WINDOW_HEIGHT - 200/2},
@@ -73,11 +73,11 @@ local function draw_menu(self)
         for i = 1, #tests do
             local t = tests[i]
             if (menu.nk_button_label(t.name, menu.NK_BUTTON_DEFAULT)) then
-                if type(t.sameple_name) == 'string' then
-                   local node = require("tests.game.samples." .. t.sameple_name)
+                if type(t.sample_name) == 'string' then
+                   local node = require("tests.game.samples." .. t.sample_name)
                     self:switch(node.new())
-                elseif type(t.sameple_name) == 'function' then
-                    t.sameple_name(self)
+                elseif type(t.sample_name) == 'function' then
+                    t.sample_name(self)
                 end
             end
         end
