@@ -2,11 +2,11 @@ local sprite = require "seal.sprite"
 local sprite_frame = require "seal.sprite_frame"
 
 local stage = class("stage", function()
-		return sprite.new_container()
-	end)
+        return sprite.new_container()
+    end)
 
 function stage:ctor()
-	sprite_frame.load_from_json("res/images/ui.json")
+    sprite_frame.load_from_json("res/images/ui.json")
     sprite_frame.load_from_json("res/images/anim_pirate.json")
     sprite_frame.load_from_json("res/images/skeleton.json")
 
@@ -36,7 +36,7 @@ function stage:switch(new)
         if new.on_enter then
             new:on_enter()
         end
-    	self.current = new
+        self.current = new
     end
 end
 
@@ -56,7 +56,7 @@ local function draw_menu(self)
     local nuk_node = require "seal.nuk_node"
     local menu = self.menu
 
-    menu.nk_set_button_border_color(0, 255, 0, 255)
+    menu.nk_set_button_border_color(255, 0, 0, 255)
 
     if (menu:nk_begin("tests",
         {x = WINDOW_WIDTH - 200, y = 50, w = 200, h = WINDOW_HEIGHT - 200/2},
@@ -74,7 +74,7 @@ local function draw_menu(self)
             local t = tests[i]
             if (menu.nk_button_label(t.name, menu.NK_BUTTON_DEFAULT)) then
                 if type(t.sameple_name) == 'string' then
-            	   local node = require("tests.game.samples." .. t.sameple_name)
+                   local node = require("tests.game.samples." .. t.sameple_name)
                     self:switch(node.new())
                 elseif type(t.sameple_name) == 'function' then
                     t.sameple_name(self)
@@ -86,18 +86,18 @@ local function draw_menu(self)
 end
 
 local function draw_current(self)
-	if self.current and self.current.draw then
-		self.current:draw()
-	end
+    if self.current and self.current.draw then
+        self.current:draw()
+    end
 end
 
 function stage:draw()
-	if device.is_pc() then
+    if device.is_pc() then
         local nuk_node = require "seal.nuk_node"
-		nuk_node.draw_start()
-    	draw_menu(self)
-    	draw_current(self)
-    	nuk_node.draw_end()
+        nuk_node.draw_start()
+        draw_menu(self)
+        draw_current(self)
+        nuk_node.draw_end()
 
     else
 
