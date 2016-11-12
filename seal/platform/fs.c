@@ -26,7 +26,6 @@
 #include "../seal.h"
 
 char writable_path[256] = {0};
-const int relative_path_len = 3;
 
 char* relative_path[] = {
     "",
@@ -35,6 +34,7 @@ char* relative_path[] = {
     "../../Resources/scripts/",
     "../../../../luasrc/"
 };
+const int relative_path_len = sizeof(relative_path) / sizeof(char*);
 
 int fs_exists(const char* filename)
 {
