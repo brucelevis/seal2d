@@ -505,6 +505,7 @@ int luaopen_seal_sprite(lua_State* L)
         { "register_handler", lsprite_register_handler },
         { "clean_handler", lsprite_clean_handler },
         { "run_action", lsprite_run_action },
+        { "stop_all_actions", lsprite_stop_all_actions },
         { "set_anim", lsprite_set_anim },
     #if defined (SEAL_USE_SPINE)
         { "set_spine_anim", lsprite_set_spine_anim },

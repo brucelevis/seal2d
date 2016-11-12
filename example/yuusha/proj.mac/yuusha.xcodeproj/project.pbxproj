@@ -153,6 +153,7 @@
 		A6E74CAF1CCA1D2A009392C8 /* ioapi.c in Sources */ = {isa = PBXBuildFile; fileRef = A6E74CAB1CCA1D2A009392C8 /* ioapi.c */; };
 		A6E74CB01CCA1D2A009392C8 /* unzip.c in Sources */ = {isa = PBXBuildFile; fileRef = A6E74CAD1CCA1D2A009392C8 /* unzip.c */; };
 		A6E74CB31CCA2271009392C8 /* ioapi_mem.c in Sources */ = {isa = PBXBuildFile; fileRef = A6E74CB11CCA2271009392C8 /* ioapi_mem.c */; };
+		B20D7A661DD6C958001555E5 /* lscheduler.c in Sources */ = {isa = PBXBuildFile; fileRef = B20D7A651DD6C958001555E5 /* lscheduler.c */; };
 		B63A0F3A1D0B99F300CE6B7F /* lnuklear.c in Sources */ = {isa = PBXBuildFile; fileRef = B63A0F391D0B99F300CE6B7F /* lnuklear.c */; };
 /* End PBXBuildFile section */
 
@@ -446,6 +447,7 @@
 		A6E74CAE1CCA1D2A009392C8 /* unzip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = unzip.h; path = "../../../libs/lua-zlib/unzip.h"; sourceTree = "<group>"; };
 		A6E74CB11CCA2271009392C8 /* ioapi_mem.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = ioapi_mem.c; path = "../../../libs/lua-zlib/ioapi_mem.c"; sourceTree = "<group>"; };
 		A6E74CB21CCA2271009392C8 /* ioapi_mem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ioapi_mem.h; path = "../../../libs/lua-zlib/ioapi_mem.h"; sourceTree = "<group>"; };
+		B20D7A651DD6C958001555E5 /* lscheduler.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = lscheduler.c; sourceTree = "<group>"; };
 		B60387F31D0B027000A27714 /* nuklear.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = nuklear.h; sourceTree = "<group>"; };
 		B60387F41D0B043700A27714 /* nuklear_glfw_gl3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = nuklear_glfw_gl3.h; sourceTree = "<group>"; };
 		B63A0F391D0B99F300CE6B7F /* lnuklear.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = lnuklear.c; sourceTree = "<group>"; };
@@ -888,6 +890,7 @@
 		4DE642B61C5B3BCA003EBBC0 /* binding */ = {
 			isa = PBXGroup;
 			children = (
+				B20D7A651DD6C958001555E5 /* lscheduler.c */,
 				4DE642B81C5B3BCA003EBBC0 /* lopen.c */,
 				4DE642B91C5B3BCA003EBBC0 /* lopen.h */,
 				4DE642BD1C5B3BCA003EBBC0 /* lseal_core.c */,
@@ -1106,6 +1109,7 @@
 				A6291AF81D2CB05600B39E63 /* lua_handler.c in Sources */,
 				4DDA8E2E1C4F5AE700ED5325 /* lbaselib.c in Sources */,
 				4DDA8E481C4F5AE700ED5325 /* ltm.c in Sources */,
+				B20D7A661DD6C958001555E5 /* lscheduler.c in Sources */,
 				4DDA8E331C4F5AE700ED5325 /* ldblib.c in Sources */,
 				4DCBEF791D7B3F4A009C05EC /* MeshAttachment.c in Sources */,
 				4DDA8E2F1C4F5AE700ED5325 /* lbitlib.c in Sources */,

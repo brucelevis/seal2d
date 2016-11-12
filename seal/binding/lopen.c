@@ -7,6 +7,7 @@ extern int luaopen_seal_platform(lua_State* L);
 extern int luaopen_seal_texture(lua_State* L);
 extern int luaopen_seal_sprite(lua_State* L);
 extern int luaopen_seal_action(lua_State* L);
+extern int luaopen_seal_scheduler(lua_State* L);
 
 // third part part.
 #if defined (SEAL_USE_LUASOCKET)
@@ -141,6 +142,7 @@ void luaopen_lua_extensions(lua_State *L)
         { "texure_core", luaopen_seal_texture },
         { "sprite_core", luaopen_seal_sprite },
         { "action_core", luaopen_seal_action },
+        { "scheduler_core", luaopen_seal_scheduler },
 
     #if defined (SEAL_USE_LUASOCKET)
         { "socket.core", luaopen_socket_core },

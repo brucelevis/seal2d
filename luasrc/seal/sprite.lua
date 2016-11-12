@@ -10,6 +10,7 @@ local sprite = {
     register_handler = core.register_handler,
     clean_handler = core.clean_handler,
     run_action = core.run_action,
+    stop_all_actions = core.stop_all_actions,
     set_anim = core.set_anim,
     set_spine_anim = core.set_spine_anim,
     set_anim_interval = core.set_anim_interval,

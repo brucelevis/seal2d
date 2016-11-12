@@ -10,23 +10,23 @@ local function attach_next_button(self)
 		print("call on_click_next")
 	end
 
-	-- local btn_next = button.new {
-	-- 								atlas = "ui.png",
-	-- 								n = "tan_normal.png",
-	-- 								s = "tan_selected.png",
-	-- 								d = "tan_disable.png",
-	-- 								callback = on_click_next,
-	-- 								size = {w = 120, h = 74},
-	-- 								text = 'next',
-	-- 							}
-	-- btn_next:set_pos(WINDOW_WIDTH/2, WINDOW_HEIGHT/2)
-	-- self:add_child(btn_next)
+	local btn_next = button.new {
+									atlas = "ui.png",
+									n = "tan_normal.png",
+									s = "tan_selected.png",
+									d = "tan_disable.png",
+									callback = on_click_next,
+									size = {w = 120, h = 74},
+									text = 'next',
+								}
+	btn_next:set_pos(WINDOW_WIDTH/2, WINDOW_HEIGHT/2)
+	self:add_child(btn_next)
 
 	local scroll_view = require "seal.gui.scroll_view"
 	local new_scroll = scroll_view.new {
     									}
- --    local s = sprite.new_bmfont_label("hello scroll view", "res/fonts/animated.txt")
- --    s:set_bbox_visible(true)
+	-- local s = sprite.new_bmfont_label("hello scroll view", "res/fonts/animated.txt")
+	-- s:set_bbox_visible(true)
 	-- new_scroll:add_content(s)
 
 	local s = sprite.new("ui.png", "smile_middle.png")

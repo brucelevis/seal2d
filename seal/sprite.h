@@ -213,6 +213,7 @@ void sprite_visit(struct sprite* self, float dt);
 bool sprite_contains(struct sprite* self, float x, float y);
 
 void sprite_run_action(struct sprite* self, struct action* action);
+void sprite_stop_all_actions(struct sprite* self);
 void sprite_set_sprite_frame(struct sprite* self, struct sprite_frame* frame);
 void sprite_set_anim(struct sprite* self, struct anim* anim);
 #if defined (SEAL_USE_SPINE)

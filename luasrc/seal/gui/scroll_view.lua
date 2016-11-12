@@ -1,5 +1,7 @@
 local sprite = require "seal.sprite"
 local consts = require "seal.consts"
+local action = require "action_core"
+local timer = require "seal.timer"
 
 local scroll_view = class("scroll_view", function()
         return sprite.new_container()
@@ -51,11 +53,6 @@ function scroll_view:ctor(conf)
     container:set_bbox_visible(true)
     self:add_child(container)
 
-    -- local s = sprite.new("ui.png", "smile_middle.png")
-    -- s:set_bbox_visible(true)
-    -- s:set_pos(100,200)
-    -- container:add_child(s)
-
     local child_union = sprite.new_container()
     child_union:set_anchor(0, 0)
     container.child_union = child_union
@@ -68,14 +65,13 @@ function scroll_view:ctor(conf)
 
     self:register_handler(function(event, ...)
         local function on_touch(event, x, y)
-            print(string.format("Touch (%s) (%d, %d)", event, x, y))
             local w = self.container.w
             local h = self.container.h
             local ox, oy = self.container:get_anchor()
 
             if not(x > ox and x < ox + w and
                    y > oy and y < oy + h) then
-                return
+                self:touch_end(x - ox, y - oy)
             end
 
             if (not self.b_x) or (not self.b_y) then
@@ -128,14 +124,17 @@ function scroll_view:touch_move(x, y)
 end
 
 function scroll_view:touch_end(touch,event)
-    -- if self.funcNum == nil  then
-    --     self.funcNum = cc.Director:getInstance():getScheduler():scheduleScriptFunc(closure(self,self.afterEnd),0,false)
-    -- end
+    if self.update == nil  then
+        self.update = timer.new({interval = 0,
+                                 loop = 0,
+                                 callback = function() self:after_end() end,
+                                })
+    end
     self.b_x = nil
     self.b_y = nil
 end
 
-function scroll_view:afterEnd()
+function scroll_view:after_end()
 
     local pre_x, pre_y = self.container.child_union:get_pos()
 
@@ -156,18 +155,18 @@ function scroll_view:afterEnd()
        new_Y > Y_max + self.container.h * 0.3 or new_Y < -self.container.h * 0.3 or
        new_X < X_max - self.container.w * 0.3  or new_X > self.container.h * 0.3 then
 
-        cc.Director:getInstance():getScheduler():unscheduleScriptEntry(self.funcNum)--TODO
-        self.funcNum = nil
+        self.update:stop()
+        self.update = nil
         if new_Y > Y_max then
-            local action = action:move_to(0.4, 0, Y_max)
+            local action = action.move_to(0.4, 0, Y_max)
             self.container.child_union:stop_all_actions()
             self.container.child_union:run_action(action)
         elseif new_X < X_max then
-            local action = action:move_to(0.4, X_max, 0)
+            local action = action.move_to(0.4, X_max, 0)
             self.container.child_union:stop_all_actions()
             self.container.child_union:run_action(action)
         elseif new_Y < 0 or new_X > 0 then
-            local action = cc.MoveTo:create(0.4, 0, 0)
+            local action = action.move_to(0.4, 0, 0)
             self.container.child_union:stop_all_actions()
             self.container.child_union:run_action(action)
         end
