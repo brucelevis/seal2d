@@ -816,7 +816,6 @@ void sprite_remove_child(struct sprite* self, struct sprite* child)
 
 void sprite_remove_all_child(struct sprite* self)
 {
-    scheduler_stop_target(GAME->scheduler, self);
     struct array* children = self->children;
     int n = array_size(children);
     for (int i = n-1; i >= 0; --i) {
