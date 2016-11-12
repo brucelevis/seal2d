@@ -397,6 +397,14 @@ int lsprite_set_color(lua_State* L)
     return 0;
 }
 
+int lsprite_get_scale(lua_State* L)
+{
+    struct sprite* self = __self(L);
+    lua_pushnumber(L, self->scale_x);
+    lua_pushnumber(L, self->scale_y);
+    return 2;
+}
+
 int lsprite_get_id(lua_State* L)
 {
     struct sprite* self = __self(L);
@@ -518,6 +526,8 @@ int luaopen_seal_sprite(lua_State* L)
         { "set_scale", lsprite_set_scale },
         { "set_color", lsprite_set_color },
         { "set_size", lsprite_set_size },
+
+        { "get_scale", lsprite_get_scale },
         { "get_id", lsprite_get_id },
         { "get_pos", lsprite_get_pos },
         { "get_size", lsprite_get_size },

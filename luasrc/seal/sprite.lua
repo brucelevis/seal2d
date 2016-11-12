@@ -21,6 +21,7 @@ local sprite = {
     set_scale = core.set_scale,
     set_color = core.set_color,
     set_size = core.set_size,
+    get_scale = core.get_scale,
     get_pos = core.get_pos,
     get_size = core.get_size,
     get_anchor = core.get_anchor,

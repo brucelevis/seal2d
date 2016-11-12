@@ -96,6 +96,10 @@ function stage:draw()
     	draw_menu(self)
     	draw_current(self)
     	nuk_node.draw_end()
+
+    else 
+        
+
     end
 
 end

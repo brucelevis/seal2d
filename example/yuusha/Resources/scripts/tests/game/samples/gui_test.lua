@@ -10,6 +10,26 @@ local function attach_next_button(self)
 		print("call on_click_next")
 	end
 
+-----------------------------------  test simple mode
+	if ENGINE_MODE == 1 then
+		local s = sprite.new("ui.png", "smile_middle.png")
+		s:set_pos(WINDOW_WIDTH/2, WINDOW_HEIGHT/4)
+		self:add_child(s)
+
+		s:touch_moved(function(sender, x, y, sx, sy)
+			local cx, cy = sender:get_pos()
+			sender:set_pos(cx + sx, cy + sy)
+		end)
+
+		s:effect_click(function(sender, x, y)
+			
+		end)
+
+		local label = sprite.new_bmfont_label("click me or drag.", "res/fonts/animated.txt")
+		s:add_child(label)
+	end
+------------------------------------
+
 	local btn_next = button.new {
 									atlas = "ui.png",
 									n = "tan_normal.png",
