@@ -56,6 +56,8 @@ local function draw_menu(self)
     local nuk_node = require "seal.nuk_node"
     local menu = self.menu
 
+    menu.nk_set_button_border_color(0, 255, 0, 255)
+
     if (menu:nk_begin("tests",
         {x = WINDOW_WIDTH - 200, y = 50, w = 200, h = WINDOW_HEIGHT - 200/2},
             nuk_node.NK_WINDOW_BORDER      |
@@ -97,8 +99,8 @@ function stage:draw()
     	draw_current(self)
     	nuk_node.draw_end()
 
-    else 
-        
+    else
+
 
     end
 

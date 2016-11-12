@@ -27,7 +27,7 @@ void nuk_init(void* winctx)
 {
 #ifdef PLAT_DESKTOP
     if (!ctx) {
-        ctx = nk_glfw3_init(winctx, NK_GLFW3_DEFAULT);
+        ctx = nk_glfw3_init(winctx, NK_GLFW3_INSTALL_CALLBACKS);
         struct nk_font_atlas *atlas;
         nk_glfw3_font_stash_begin(&atlas);
         nk_font_atlas_add_from_file(atlas,
@@ -132,6 +132,15 @@ int lnk_property_int(lua_State* L)
     return 0;
 }
 
+int lnk_set_button_border_color(lua_State* L)
+{
+    ctx->style.button.border_color.r = luaL_checkinteger(L, 1);
+    ctx->style.button.border_color.g = luaL_checkinteger(L, 2);
+    ctx->style.button.border_color.b = luaL_checkinteger(L, 3);
+    ctx->style.button.border_color.a = luaL_checkinteger(L, 4);
+
+    return 0;
+}
 
 // we support only 1 nk_node.
 int luaopen_nuklear_core(lua_State* L)
@@ -152,6 +161,7 @@ int luaopen_nuklear_core(lua_State* L)
         { "nk_layout_row_dynamic", lnk_layout_row_dynamic },
         { "nk_option_label", lnk_option_label },
         { "nk_property_int", lnk_property_int },
+        { "nk_set_button_border_color", lnk_set_button_border_color },
         { NULL, NULL },
     };
 
