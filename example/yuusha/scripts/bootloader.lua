@@ -5,11 +5,26 @@ local function hook()
     if platform.get_platform() == 'android' then
         __print = print
         print = platform.__print
+
+        local function load_env(filename)
+            local f, err = platform.loadfile(filename)
+            if f == nil then
+                return err
+            end
+            return f
+        end
+
+        package.searchers[2] = function( name )
+            local path = string.gsub(name, '%.', '/')
+            path = path .. ".lua"
+            return load_env(path)
+        end
+
     end
 
-    local loaders = package.loaders or {}
-    table.insert(loaders, platform.__loader)
-    package.loaders = loaders
+    -- local loaders = package.loaders or {}
+    -- table.insert(loaders, platform.__loader)
+    -- package.loaders = loaders
 
     -- uncomment this would trigger lplatform_lua_loader
     -- local not_exist = require "not_exist_file"
@@ -56,9 +71,7 @@ local function pmain()
             package.path = package.path .. ";" .. root .. path
         end
     elseif plat == 'android' then
-        for _, path in ipairs(script_search_path) do
-            package.path = package.path .. ";" .. path
-        end
+
     else
         assert(false, "other platform should write the load function.")
     end
@@ -73,9 +86,9 @@ local function pmain()
         end
         _G[mod_name] = mod
     end
+    hook()
 
     inject("util", require "seal.util")
-        hook()
 
     inject("device", require "seal.device")
     inject("sprite", require "seal.sprite")

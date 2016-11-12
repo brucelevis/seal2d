@@ -433,6 +433,9 @@
     <ClCompile Include="native.c">
       <Filter>App</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\libs\nuklear\nk-gl.c">
+      <Filter>Engine\Libs\nuklear</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\seal\bmfont.h">
@@ -800,6 +803,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\seal\touch_handler.h">
       <Filter>Engine\seal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\libs\nuklear\nk-gl.h">
+      <Filter>Engine\Libs\nuklear</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

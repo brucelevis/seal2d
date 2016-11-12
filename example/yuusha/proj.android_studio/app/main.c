@@ -34,6 +34,7 @@
 #include "seal.h"
 
 extern AAssetManager* fs_assetmanager;
+extern struct game* GAME;
 
 /**
 * 我们的保存状态数据。
@@ -81,6 +82,11 @@ static int engine_init_display(struct engine* engine) {
             EGL_RED_SIZE, 8,
             EGL_NONE
     };
+    const EGLint select_gles2[] = {
+            EGL_CONTEXT_CLIENT_VERSION, 2,
+            EGL_NONE
+    };
+
     EGLint w, h, format;
     EGLint numConfigs;
     EGLConfig config;
@@ -105,7 +111,7 @@ static int engine_init_display(struct engine* engine) {
     ANativeWindow_setBuffersGeometry(engine->app->window, 0, 0, format);
 
     surface = eglCreateWindowSurface(display, config, engine->app->window, NULL);
-    context = eglCreateContext(display, config, NULL, NULL);
+    context = eglCreateContext(display, config, NULL, select_gles2);
 
     if (eglMakeCurrent(display, surface, surface, context) == EGL_FALSE) {
         LOGW("Unable to eglMakeCurrent");
@@ -142,8 +148,10 @@ static int engine_init_display(struct engine* engine) {
     game->config.fb_width = w;
     game->config.fb_height = h;
 
-    seal_init_graphics(window_width, window_height);
+    seal_init_graphics(GAME->config.window_width, GAME->config.window_height);
     seal_start_game();
+
+    glViewport(0, 0, GAME->config.fb_width, GAME->config.fb_height);
 
     return 0;
 }
@@ -300,9 +308,9 @@ void android_main(struct android_app* state) {
                     ASensorEvent event;
                     while (ASensorEventQueue_getEvents(engine.sensorEventQueue,
                                                        &event, 1) > 0) {
-                        LOGI("accelerometer: x=%f y=%f z=%f",
-                             event.acceleration.x, event.acceleration.y,
-                             event.acceleration.z);
+//                        LOGI("accelerometer: x=%f y=%f z=%f",
+//                             event.acceleration.x, event.acceleration.y,
+//                             event.acceleration.z);
                     }
                 }
             }

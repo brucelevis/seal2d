@@ -176,7 +176,7 @@ void check_gl_error(const char* file, int line)
 {
     GLenum err = GL_NO_ERROR;
     if((err = glGetError()) != GL_NO_ERROR) {
-        fprintf(stderr, "gl error: %04x. file = %s, line = %d\n", err, file, line);
+        LOGP("gl error: %04x. file = %s, line = %d\n", err, file, line);
     }
 }
 
@@ -196,7 +196,7 @@ static GLuint create_program(GLuint vs, GLuint fs)
 
         GLchar strInfoLog[4096] = "";
         glGetProgramInfoLog(program, infoLogLength, NULL, strInfoLog);
-        fprintf(stderr, "Linker failure: %s\n", strInfoLog);
+        LOGP("Linker failure: %s\n", strInfoLog);
     }
     glDetachShader(program, vs);
     glDetachShader(program, fs);
@@ -208,6 +208,7 @@ static GLuint create_program(GLuint vs, GLuint fs)
 static GLuint create_shader(GLenum shader_type, const char* shader_data)
 {
     GLuint shader = glCreateShader(shader_type);
+
     glShaderSource(shader, 1, &shader_data, NULL);
     glCompileShader(shader);
     GLint status;
@@ -227,7 +228,7 @@ static GLuint create_shader(GLenum shader_type, const char* shader_data)
             default: strShaderType = "unkown"; break;
         }
 
-        fprintf(stderr, "Compile failure in %s shader:\n%s\n shader_src = %s",
+        LOGP("Compile failure in %s shader:\n%s\n shader_src = %s",
                 strShaderType, strInfoLog, shader_data);
     }
 

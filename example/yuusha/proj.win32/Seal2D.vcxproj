@@ -204,6 +204,7 @@
     <ClCompile Include="..\..\..\libs\lua-zlib\lua_zlib.c" />
     <ClCompile Include="..\..\..\libs\lua-zlib\unzip.c" />
     <ClCompile Include="..\..\..\libs\nanovg\src\nanovg.c" />
+    <ClCompile Include="..\..\..\libs\nuklear\nk-gl.c" />
     <ClCompile Include="..\..\..\libs\spine\src\spine\Animation.c" />
     <ClCompile Include="..\..\..\libs\spine\src\spine\AnimationState.c" />
     <ClCompile Include="..\..\..\libs\spine\src\spine\AnimationStateData.c" />
@@ -328,6 +329,7 @@
     <ClInclude Include="..\..\..\libs\nanovg\src\nanovg_gl_utils.h" />
     <ClInclude Include="..\..\..\libs\nanovg\src\stb_image.h" />
     <ClInclude Include="..\..\..\libs\nanovg\src\stb_truetype.h" />
+    <ClInclude Include="..\..\..\libs\nuklear\nk-gl.h" />
     <ClInclude Include="..\..\..\libs\nuklear\nuklear.h" />
     <ClInclude Include="..\..\..\libs\nuklear\nuklear_glfw_gl3.h" />
     <ClInclude Include="..\..\..\libs\spine\include\spine\Animation.h" />
