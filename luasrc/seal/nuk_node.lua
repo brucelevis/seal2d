@@ -27,6 +27,10 @@ local meta = {
                 return core_filed
             end
         end
+    end,
+
+    __gc = function(t)
+        nuk_core.nuk_free_panel(t.__panel)
     end
 }
 

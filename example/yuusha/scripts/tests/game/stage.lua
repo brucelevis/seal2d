@@ -47,6 +47,7 @@ local tests = {
     { name = "dump cmem", sameple_name = function(self)
                                             self.current = nil
                                             self:cleanup()
+                                            collectgarbage()
                                             require("platform_core").__cmem()
                                          end}
 }
