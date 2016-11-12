@@ -174,9 +174,6 @@ local function load_spine(self)
 end
 
 local function load_zorder(self)
-    print("run sprite_zorder_test" ..
-          "same result should be given even we add the children randomly")
-
     local zorders = {100, 0, -1, 0, 1}
     local offset_x = 30
     local pos = {
@@ -214,7 +211,6 @@ local function load_touch_test(self)
     }
     local root_event_handler = function(event, ...)
         local function on_touch(event, x, y)
-            print(string.format("Touch (%s) (%d, %d)", event, x, y))
             root_label:set_text(string.format("%s: (%d, %d)",
                                  touch_event_text[event+1], x, y))
         end
@@ -243,11 +239,11 @@ function sprite_test:ctor()
 end
 
 function sprite_test:on_enter()
-	print("sprite_test on_enter")
+
 end
 
 function sprite_test:on_exit()
-	print("sprite_test on_exit")
+
 end
 
 local test_cases = {
@@ -256,7 +252,7 @@ local test_cases = {
     {name = "anchor test", load_func = load_anchor},
     {name = "animation test", load_func = load_anim},
     {name = "clip test", load_func = load_clip},
-    {name = "spine test", load_func = load_spine },
+    -- {name = "spine test", load_func = load_spine },
     {name = "glyph test", load_func = load_glyph },
     {name = "zorder test", load_func = load_zorder},
     {name = "scale9 test", load_func = load_scale9},

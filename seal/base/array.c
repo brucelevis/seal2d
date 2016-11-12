@@ -55,25 +55,7 @@ struct array* array_copy(struct array* self) {
     a->data = (DATA_TYPE*)s_malloc(sizeof(DATA_TYPE) * (a->cap));
 
     memcpy(a->data, self->data, self->n * sizeof(DATA_TYPE));
-
-
-    LOGP("the origin data is: ");
-    for (int i = 0; i < self->n; ++i) {
-        printf("0x%x ", array_at(self, i));
-    }
-
-    char info[256] = "";
-    LOGP("\nthe other is :");
-    for (int i = 0; i < self->n; ++i) {
-        printf("0x%x ", array_at(a, i));
-    }
-
-    for (int i = 0; i < self->n; ++i) {
-        struct sprite_frame* f = array_at(a, i);
-        sprite_frame_tostring(f, (char*)info);
-        LOGP("frame = %s", info);
-    }
-
+    
     return a;
 }
 

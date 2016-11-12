@@ -178,7 +178,7 @@ void action_free(struct action* self)
         case ACTION_SEQUENCE:
         {
             struct action_sequence* seq = &self->action_sequence;
-            for (int i = 0; i < seq->running_index; ++i) {
+            for (int i = 0; i < seq->n; ++i) {
                 action_free(seq->sequence[i]);
             }
             break;

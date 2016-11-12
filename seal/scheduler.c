@@ -65,15 +65,20 @@ void scheduler_schedule(struct scheduler* self,
     hashmapPut(self->entries, sprite, entry);
 }
 
+static void scheduler_remove_entry(struct scheduler* self,
+                                   struct schedule_entry* entry)
+{
+    hashmapRemove(self->entries, entry->target);
+    action_free(entry->action);
+    s_free(entry);
+}
+
 void scheduler_stop_target(struct scheduler* self,
                            struct sprite* sprite)
 {
-    LOGP("stop target = sprite_id = %d", sprite->__id);
-
-    struct schedule_entry* e = hashmapGet(self->entries, sprite);
-    if(e) {
-        action_free(e->action);
-        hashmapRemove(self->entries, sprite);
+    struct schedule_entry* entry = hashmapGet(self->entries, sprite);
+    if(entry) {
+        scheduler_remove_entry(self, entry);
     }
 }
 
@@ -83,8 +88,7 @@ static bool scheduler_entries_update(void* key, void* value, void* context)
     struct scheduler* self = (struct scheduler*)context;
     struct action* act = entry->action;
     if(action_update(act, entry->target, self->dt)) {
-        hashmapRemove(self->entries, entry->target);
-        action_free(entry->action);
+        scheduler_remove_entry(self, entry);
     }
 
     return true;
