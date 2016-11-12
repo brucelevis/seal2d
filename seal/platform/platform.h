@@ -125,11 +125,11 @@ int strncasecmp(char *s1, char *s2, register int n);
 
 #if !defined(PLAT_ANDROID)
 #if defined (SDK_DEBUG_LOG)
-    #define LOGI(format, ...)       ((void) printf ("SEAL2D: " format "\n", ##__VA_ARGS__));
-    #define LOGW(format, ...)       ((void) printf ("SEAL2D: " format "\n", ##__VA_ARGS__));
-    #define LOGV(format, ...)       ((void) printf ("SEAL2D: " format "\n", ##__VA_ARGS__));
-    #define LOGP(format, ...)       ((void) printf ("SEAL2D: " format "\n", ##__VA_ARGS__));
-    #define LOGP_LUA(format, ...)   ((void) printf ("SEAL2D(LUA): " format "\n", ##__VA_ARGS__));
+    #define LOGI(format, ...)       ((void) printf ("SEAL2D: " format "\n", ##__VA_ARGS__))
+    #define LOGW(format, ...)       ((void) printf ("SEAL2D: " format "\n", ##__VA_ARGS__))
+    #define LOGV(format, ...)       ((void) printf ("SEAL2D: " format "\n", ##__VA_ARGS__))
+    #define LOGP(format, ...)       ((void) printf ("SEAL2D: " format "\n", ##__VA_ARGS__))
+    #define LOGP_LUA(format, ...)   ((void) printf ("SEAL2D(LUA): " format "\n", ##__VA_ARGS__))
 #else
     #define LOGI(...) ((void*)0)
     #define LOGW(...) ((void*)0)
