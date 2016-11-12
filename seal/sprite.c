@@ -306,6 +306,13 @@ struct sprite_frame* sprite_frame_new(const char* key)
     return f;
 }
 
+static struct sprite_frame* sprite_frame_new_raw()
+{
+    struct sprite_frame* f = STRUCT_NEW(sprite_frame);
+    memset(f, 0, sizeof(struct sprite_frame));
+    return f;
+}
+
 void sprite_frame_free(struct sprite_frame* self)
 {
     s_free(self->key);
@@ -563,7 +570,7 @@ static struct sprite* sprite_new_scale9_item(struct sprite* self,
                                              GLuint tex_id,
                                              const char* tag)
 {
-    struct sprite_frame* frame = sprite_frame_new("");
+    struct sprite_frame* frame = sprite_frame_new_raw();
     frame->frame_rect.x = x;
     frame->frame_rect.y = y;
     frame->frame_rect.width = width;
@@ -672,7 +679,7 @@ void sprite_free(struct sprite* self)
         {
             struct scale9_data* data = &(self->scale9_data);
             for (int i = 0; i < 9; ++i){
-                s_free(data->sprites[i]->sprite_data.frame);
+                sprite_frame_free(data->sprites[i]->sprite_data.frame);
                 data->sprites[i]->sprite_data.frame = NULL;
             }
             break;
