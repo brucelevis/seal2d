@@ -13,20 +13,25 @@ local function attach_next_button(self)
 -----------------------------------  test simple mode
 	if ENGINE_MODE == 1 then
 		local s = sprite.new_attr{
-			parent = self,
-			atlas='ui.png', texture='smile_middle.png',
-			x = WINDOW_WIDTH/2, y = WINDOW_HEIGHT/4,
-
-			moved = function(sender, x, y, sx, sy)
+			parent 	= self,
+			atlas	='ui.png', 
+			texture	='smile_middle.png',
+			x 		= WINDOW_WIDTH/2, 
+			y 		= WINDOW_HEIGHT/4,
+			moved 	= function(sender, x, y, sx, sy)
 				local cx, cy = sender:get_pos()
 				sender:set_pos(cx + sx, cy + sy)
 			end,
-			
 			effect_click = function(sender, x, y)
-			
+				print("click me")
 			end,
 
+			-- children
 			{ fnt = 'res/fonts/animated.txt', text = 'click me or drag.' },
+			{ x = -50, sx = 0.5, sy = 0.5, atlas ='ui.png', texture	='smile_middle.png', },
+			{ x = 50, sx = 0.5, sy = 0.5, atlas ='ui.png', texture	='smile_middle.png', },
+			{ x = 0, y = -50, sx = 0.5, sy = 0.5, atlas ='ui.png', texture	='smile_middle.png', },
+			{ x = 0, y = 50, sx = 0.5, sy = 0.5, atlas ='ui.png', texture	='smile_middle.png', },
 		}
 	end
 ------------------------------------
