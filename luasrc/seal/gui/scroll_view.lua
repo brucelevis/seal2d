@@ -135,7 +135,6 @@ function scroll_view:touch_end(touch,event)
 end
 
 function scroll_view:after_end()
-
     local pre_x, pre_y = self.container.child_union:get_pos()
 
     local new_Y = pre_y + self.d_y

@@ -44,14 +44,12 @@ struct scheduler* scheduler_new()
     s->time_scale = 1.0f;
 
     s->__removing_target = NULL;
-    s->__entries_to_remove = array_new(16);
     return s;
 }
 
 void scheduler_free(struct scheduler* self)
 {
     hashmapFree(self->entries);
-    array_free(self->__entries_to_remove);
     s_free(self);
 }
 
@@ -64,27 +62,19 @@ void scheduler_schedule(struct scheduler* self,
     struct schedule_entry* entry = STRUCT_NEW(schedule_entry);
     entry->action = action;
     entry->target = sprite;
-    hashmapPut(self->entries, entry->action, entry);
-}
-
-static bool scheduler_stop_target_foreach(void* key, void* value, void* context)
-{
-    struct scheduler* self = (struct scheduler*)context;
-    struct schedule_entry* entry = value;
-    if (entry->target == self->__removing_target) {
-        LOGP("try to remove target = %p for entry = %p", self->__removing_target, entry);
-        array_push_back(self->__entries_to_remove, entry);
-    }
-    return true;
+    hashmapPut(self->entries, sprite, entry);
 }
 
 void scheduler_stop_target(struct scheduler* self,
                            struct sprite* sprite)
 {
-    // TODO: we could easily improve here by import another hash-map which
-    // make sprite as the key before we do the actual iteration
-    self->__removing_target = sprite;
-    hashmapForEach(self->entries, scheduler_stop_target_foreach, self);
+    LOGP("stop target = sprite_id = %d", sprite->__id);
+
+    struct schedule_entry* e = hashmapGet(self->entries, sprite);
+    if(e) {
+        action_free(e->action);
+        hashmapRemove(self->entries, sprite);
+    }
 }
 
 static bool scheduler_entries_update(void* key, void* value, void* context)
@@ -93,31 +83,17 @@ static bool scheduler_entries_update(void* key, void* value, void* context)
     struct scheduler* self = (struct scheduler*)context;
     struct action* act = entry->action;
     if(action_update(act, entry->target, self->dt)) {
-        array_push_back(self->__entries_to_remove, entry);
+        hashmapRemove(self->entries, entry->target);
+        action_free(entry->action);
     }
 
     return true;
 }
 
-
 void scheduler_update(struct scheduler* self, float dt)
 {
     self->dt = dt * self->time_scale;
     hashmapForEach(self->entries, scheduler_entries_update, self);
-
-    struct array* to_remove = self->__entries_to_remove;
-    int n = array_size(to_remove);
-    if (n > 0) {
-        for (int i = 0; i < n; ++i) {
-            struct schedule_entry* e = array_at(to_remove, i);
-            LOGP("free action = %p, id = %ld", e->action, e->action->__id);
-            hashmapRemove(self->entries, e->action);
-            action_free(e->action);
-            s_free(e);
-        }
-        array_clear(self->__entries_to_remove, false);
-        LOGP("after remove n = %d, total_action = %ld", n, hashmapSize(self->entries));
-    }
 }
 
 void scheduler_pause(struct scheduler* self)

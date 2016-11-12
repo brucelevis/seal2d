@@ -78,7 +78,6 @@ function button:ctor(config)
 
 	self:register_handler(function(event, ...)
         local function on_touch(event, x, y)
-            print(string.format("Touch (%s) (%d, %d)", event, x, y))
             if event == consts.TOUCH_BEGIN then
             	self.state = 'selected'
             	validate(self)

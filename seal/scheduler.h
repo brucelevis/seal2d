@@ -17,12 +17,12 @@ struct schedule_entry {
 };
 
 struct scheduler {
-    struct Hashmap* entries;
+    struct Hashmap* entries; // key:sprite, value:entry
     float dt;
     float time_scale;
 
     struct sprite* __removing_target;
-    struct array* __entries_to_remove;
+//    struct Hashmap* __entries_to_remove;
 };
 
 struct scheduler* scheduler_new();
