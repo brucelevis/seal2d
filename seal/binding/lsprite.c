@@ -393,8 +393,15 @@ int lsprite_set_color(lua_State* L)
     lua_Integer g = lua_tonumber(L, 3);
     lua_Integer b = lua_tonumber(L, 4);
     lua_Integer a = lua_tonumber(L, 5);
-    sprite_set_color(self, C4B_COLOR(r,g,b,a));
+    sprite_set_color(self, C4B_COLOR(r, g, b, a));
     return 0;
+}
+
+int lsprite_get_color(lua_State* L)
+{
+    struct sprite* self = __self(L);
+    lua_pushnumber(L, self->color);
+    return 1;
 }
 
 int lsprite_get_scale(lua_State* L)
@@ -409,6 +416,13 @@ int lsprite_get_id(lua_State* L)
 {
     struct sprite* self = __self(L);
     lua_pushnumber(L, self->__id);
+    return 1;
+}
+
+int lsprite_get_rotation(lua_State* L)
+{
+    struct sprite* self = __self(L);
+    lua_pushnumber(L, self->rotation);
     return 1;
 }
 
@@ -527,6 +541,8 @@ int luaopen_seal_sprite(lua_State* L)
         { "set_color", lsprite_set_color },
         { "set_size", lsprite_set_size },
 
+        { "get_color", lsprite_get_color },
+        { "get_rotation", lsprite_get_rotation },
         { "get_scale", lsprite_get_scale },
         { "get_id", lsprite_get_id },
         { "get_pos", lsprite_get_pos },

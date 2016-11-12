@@ -5,12 +5,11 @@ local sprite = {
     get_frame_from_cache = core.get_frame_from_cache,
     load_sprite_frame = core.load_sprite_frame,
     unload_sprite_frame = core.unload_sprite_frame,
-    set_frame_texture_id = core.set_frame_texture_id,
-    set_text = core.set_text,
     register_handler = core.register_handler,
     clean_handler = core.clean_handler,
     run_action = core.run_action,
     stop_all_actions = core.stop_all_actions,
+
     set_anim = core.set_anim,
     set_spine_anim = core.set_spine_anim,
     set_anim_interval = core.set_anim_interval,
@@ -21,11 +20,17 @@ local sprite = {
     set_scale = core.set_scale,
     set_color = core.set_color,
     set_size = core.set_size,
+
+    set_frame_texture_id = core.set_frame_texture_id,
+    set_text = core.set_text,
+    get_rotation = core.get_rotation,
     get_scale = core.get_scale,
     get_pos = core.get_pos,
     get_size = core.get_size,
     get_anchor = core.get_anchor,
     get_glyph = core.get_glyph,
+    get_color = core.get_color,
+
     add_child = core.add_child,
     remove_from_parent = core.remove_from_parent,
     remove_all_child = core.remove_all_child
