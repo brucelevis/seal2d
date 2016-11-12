@@ -40,6 +40,7 @@ SET(
     ${CORE_DIR}/binding/lseal_core.c
     ${CORE_DIR}/binding/lsprite.c
     ${CORE_DIR}/binding/ltexture.c
+    ${CORE_DIR}/binding/lscheduler.c
 )
 
 SET(

@@ -57,6 +57,7 @@ local function pmain()
     elseif plat == 'win' then
         local script_search_path = {
             "?.lua",
+            "../../Resources/scripts/?.lua",
             "../../scripts/?.lua",
             "../../../../luasrc/?.lua",
             "../../../../luasrc/seal/?.lua",

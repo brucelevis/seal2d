@@ -31,6 +31,8 @@ const int relative_path_len = 3;
 char* relative_path[] = {
     "",
     "../../",
+    "../../Resources/",
+    "../../Resources/scripts/",
     "../../../../luasrc/"
 };
 
