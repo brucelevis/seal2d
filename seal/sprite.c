@@ -678,9 +678,16 @@ void sprite_free(struct sprite* self)
             break;
         }
 
+        case SPRITE_TYPE_CONTAINER:
+        {
+            int i = 0;
+            break;
+        }
+
         default:
             break;
     }
+    array_free(self->children);
     s_free(self);
 }
 

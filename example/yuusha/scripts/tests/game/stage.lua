@@ -44,7 +44,9 @@ local tests = {
     { name = "hello world", sameple_name = "hello_world" },
     { name = "sprite test", sameple_name = "sprite_test" },
     { name = "gui test", sameple_name = "gui_test" },
-    { name = "dump cmem", sameple_name = function()
+    { name = "dump cmem", sameple_name = function(self)
+                                            self.current = nil
+                                            self:cleanup()
                                             require("platform_core").__cmem()
                                          end}
 }
@@ -72,7 +74,7 @@ local function draw_menu(self)
             	   local node = require("tests.game.samples." .. t.sameple_name)
                     self:switch(node.new())
                 elseif type(t.sameple_name) == 'function' then
-                    t.sameple_name()
+                    t.sameple_name(self)
                 end
             end
         end

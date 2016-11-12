@@ -9,8 +9,8 @@ function hello_world:ctor()
 	label:set_pos(WINDOW_WIDTH/2 - label:get_size()/2, WINDOW_HEIGHT/2)
 	self:add_child(label)
 
-	print("construct hello world finished, self = ", self)
-	require("platform_core").__cmem()
+	-- print("construct hello world finished, self = ", self)
+	-- require("platform_core").__cmem()
 end
 
 return hello_world
