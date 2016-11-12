@@ -1,5 +1,5 @@
 dirs=$(shell ls -l | grep ^d | awk '{print $$9}')
-dst_dir=../../res/images
+dst_dir=../../Resources/res/images
 tp=/Applications/TexturePacker.app/Contents/MacOS/Texturepacker
 .PHONY: all $(dirs)
 

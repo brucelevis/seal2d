@@ -1,6 +1,6 @@
 .PHONY: all
 
-dst_dir=../../res/unpack
+dst_dir=../../Resources/res/unpack
 all:
 	mkdir -p $(dst_dir)
 	cp * $(dst_dir)

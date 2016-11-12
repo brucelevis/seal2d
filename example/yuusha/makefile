@@ -12,4 +12,4 @@ run:
 	./proj.mac/build/Release/$(project_name)
 
 clean:
-	rm -rf res/*
+	rm -rf Resources/res
