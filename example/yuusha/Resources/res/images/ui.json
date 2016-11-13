@@ -2,11 +2,27 @@
 
 "glyph_character_a.png":
 {
-	"frame": {"x":204,"y":152,"w":26,"h":50},
+	"frame": {"x":206,"y":256,"w":26,"h":50},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":26,"h":50},
 	"sourceSize": {"w":26,"h":50}
+},
+"rect-full.png":
+{
+	"frame": {"x":204,"y":54,"w":50,"h":50},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":50,"h":50},
+	"sourceSize": {"w":50,"h":50}
+},
+"rect.png":
+{
+	"frame": {"x":204,"y":2,"w":50,"h":50},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":50,"h":50},
+	"sourceSize": {"w":50,"h":50}
 },
 "scale9_example.png":
 {
@@ -18,7 +34,7 @@
 },
 "smile_middle.png":
 {
-	"frame": {"x":104,"y":408,"w":100,"h":100},
+	"frame": {"x":104,"y":410,"w":100,"h":100},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
@@ -26,7 +42,7 @@
 },
 "smile_middle_zorder_-1.png":
 {
-	"frame": {"x":104,"y":306,"w":100,"h":100},
+	"frame": {"x":104,"y":308,"w":100,"h":100},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
@@ -50,7 +66,7 @@
 },
 "smile_middle_zorder_100.png":
 {
-	"frame": {"x":104,"y":204,"w":100,"h":100},
+	"frame": {"x":104,"y":206,"w":100,"h":100},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":100},
@@ -58,7 +74,7 @@
 },
 "tan_disable.png":
 {
-	"frame": {"x":204,"y":102,"w":48,"h":48},
+	"frame": {"x":206,"y":206,"w":48,"h":48},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":48,"h":48},
@@ -66,7 +82,7 @@
 },
 "tan_normal.png":
 {
-	"frame": {"x":204,"y":52,"w":48,"h":48},
+	"frame": {"x":204,"y":156,"w":48,"h":48},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":48,"h":48},
@@ -74,7 +90,7 @@
 },
 "tan_selected.png":
 {
-	"frame": {"x":204,"y":2,"w":48,"h":48},
+	"frame": {"x":204,"y":106,"w":48,"h":48},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":48,"h":48},
@@ -95,6 +111,6 @@
 	"format": "RGBA8888",
 	"size": {"w":256,"h":512},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:4cb7fe5de3d6d5d20be7d7024743ec72:1/1$"
+	"smartupdate": "$TexturePacker:SmartUpdate:5d3ea4f57d727ed7f2c59e40985ba79a:1/1$"
 }
 }
