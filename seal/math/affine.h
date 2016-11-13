@@ -19,13 +19,13 @@ void af_identify(struct affine* af);
 void af_srt(struct affine* af,
             float x, float y,
             float scale_x, float scale_y,
-            float rotation);
+            float rotation_x, float rotation_y);
 
 void af_copy(struct affine* af, struct affine* other);
 
 void af_set_translate(struct affine* af, float x, float y);
 void af_set_scale(struct affine* af, float scale_x, float scale_y);
-void af_set_rotation(struct affine* af, float rotate);
+void af_set_rotation(struct affine* af, float rotate_x, float rotate_y);
 
 void af_concat(struct affine* m1, struct affine* m2);
 

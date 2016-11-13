@@ -176,7 +176,7 @@ static void sprite_update_transform(struct sprite* self)
     // but for simpler implemention, we have use SRT_DIRTY right now. :)
     if (self->dirty & SPRITE_SRT_DIRTY) {
         struct affine* local = &self->local_srt;
-        af_srt(local, self->x, self->y, self->scale_x, self->scale_y, self->rotation);
+        af_srt(local, self->x, self->y, self->scale_x, self->scale_y, self->rotation, self->rotation);
 
         struct affine tmp;
         af_identify(&tmp);

@@ -56,7 +56,7 @@ void af_identify(struct affine* af)
 void af_srt(struct affine* af,
             float x, float y,
             float scale_x, float scale_y,
-            float rotation)
+            float rotation_x, float rotation_y)
 {
     struct affine scale_matrix;
     struct affine rotation_matrix;
@@ -64,7 +64,7 @@ void af_srt(struct affine* af,
     af_identify(&rotation_matrix);
 
     af_set_scale(&scale_matrix, scale_x, scale_y);
-    af_set_rotation(&rotation_matrix, rotation);
+    af_set_rotation(&rotation_matrix, rotation_x, rotation_y);
 
     af_copy(af, &scale_matrix);
     af_concat(af, &rotation_matrix);
@@ -90,10 +90,10 @@ void af_set_scale(struct affine* af, float scale_x, float scale_y)
     af->d = scale_y;
 }
 
-void af_set_rotation(struct affine* af, float rotate)
+void af_set_rotation(struct affine* af, float rotate_x, float rotate_y)
 {
-    float sin = sinf(rotate*M_PI/180.0f);
-    float cos = cosf(rotate*M_PI/180.0f);
+    float sin = sinf(rotate_x*M_PI/180.0f);
+    float cos = cosf(rotate_y*M_PI/180.0f);
     af->a = cos;
     af->b = -sin;
     af->c = sin;
