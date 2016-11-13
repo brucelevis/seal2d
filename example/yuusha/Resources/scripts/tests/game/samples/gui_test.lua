@@ -18,7 +18,8 @@ local function attach_next_button(self)
         local menu = nil
         menu = sprite.new_attr{
             parent = self,
-            x = WINDOW_WIDTH/2, y = WINDOW_HEIGHT/2,            
+            x = WINDOW_WIDTH/2, y = WINDOW_HEIGHT/2,    
+            ui_rect = true, w = 150, h = 500, fc = {204, 204, 204, 255},   
             { 
                 scale9 = true, w = 150, h = 25, x = 0, y = 237.5, 
                 color ={233, 80, 90, 255}, atlas="ui.png", texture="rect-full.png", 
@@ -26,17 +27,17 @@ local function attach_next_button(self)
                     local cx, cy = menu:get_pos()
                     menu:set_pos(cx + sx, cy + sy)
                 end,
-                { fnt = 'res/fonts/animated.txt', text = 'tests:', x = -70, y = -13, sx = 0.8, sy = 0.8 },
+                { fnt = 'res/fonts/animated.txt', text = 'tests:', y = 5, scale = 0.8 },
             },
             {
                 scroll = true,
                 x = -75, y = -250,
                 view_size = { w = 150, h = 475 },
-                { ui_button = true, w = 125, h = 25, { fnt = 'res/fonts/animated.txt', text = 'tests:'} }, 
-                { ui_button = true, w = 125, h = 25, { fnt = 'res/fonts/animated.txt', text = 'tests:'} }, 
-                { ui_button = true, w = 125, h = 25, { fnt = 'res/fonts/animated.txt', text = 'tests:'} }, 
-                { ui_button = true, w = 125, h = 25, { fnt = 'res/fonts/animated.txt', text = 'tests:'} }, 
-                { ui_button = true, w = 125, h = 25, { fnt = 'res/fonts/animated.txt', text = 'tests:'} }, 
+                { ui_button = true, w = 125, h = 25, { y = 4, fnt = 'res/fonts/animated.txt', scale = 0.8, text = 'tests:'} }, 
+                { ui_button = true, w = 125, h = 25, { y = 4, fnt = 'res/fonts/animated.txt', scale = 0.8, text = 'tests:'} }, 
+                { ui_button = true, w = 125, h = 25, { y = 4, fnt = 'res/fonts/animated.txt', scale = 0.8, text = 'tests:'} }, 
+                { ui_button = true, w = 125, h = 25, { y = 4, fnt = 'res/fonts/animated.txt', scale = 0.8, text = 'tests:'} }, 
+                { ui_button = true, w = 125, h = 25, { y = 4, fnt = 'res/fonts/animated.txt', scale = 0.8, text = 'tests:'} }, 
             },
             { ui_rect = true, w = 150, h = 500, oc = {0, 0, 0, 255}, }
         } 

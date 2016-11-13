@@ -234,8 +234,12 @@ local function load_touch_test(self)
     self:add_child(root)
 end
 
-function sprite_test:ctor()
-    self.bar = nuk_node.new()
+function sprite_test:ctor(parent)
+    self:create_menu(parent)
+
+    if device.is_pc() then
+        self.bar = nuk_node.new()
+    end
 end
 
 function sprite_test:on_enter()
@@ -243,7 +247,9 @@ function sprite_test:on_enter()
 end
 
 function sprite_test:on_exit()
-
+    if self.menu then 
+        self.menu:remove_from_parent()
+    end
 end
 
 local test_cases = {
@@ -285,6 +291,48 @@ function sprite_test:draw()
         end
     end
     bar.nk_end()
+end
+
+function sprite_test:create_menu(parent)
+    if ENGINE_MODE == 1 and not self.menu_inited then
+        self.menu_inited = true 
+
+        local ui_rect = require "seal.gui.simple.ui_rect"
+        local ui_button = require "seal.gui.simple.ui_button"
+
+        local menues = {}
+        for i = 1, #test_cases do
+            local t = test_cases[i]
+            menues[i] = {  
+                ui_button = true, w = 140, h = 25, 
+                { 
+                    y = 4, fnt = 'res/fonts/animated.txt', scale = 0.8, text = t.name,
+                },
+                effect_click = function()
+                    self:cleanup()
+                    t.load_func(self)
+                end
+            }
+        end
+
+        local menu = nil
+        menu = sprite.new_attr{
+            parent = parent,  
+            x =  WINDOW_WIDTH / 2, y = 25,
+            ui_rect = true, w = WINDOW_WIDTH, h = 50, fc = {204, 204, 204, 255},   
+            {
+                scroll = true,
+                direction = 2,
+                x = -WINDOW_WIDTH / 2, y = -25,
+                view_size = { w = WINDOW_WIDTH, h = 50 },
+                table.unpack(menues)
+            },
+            { ui_rect = true, w = WINDOW_WIDTH, h = 50, oc = {0, 0, 0, 255}, }
+        } 
+
+        self.menu = menu
+        return menu
+    end
 end
 
 return sprite_test

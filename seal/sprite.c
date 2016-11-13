@@ -1117,6 +1117,22 @@ void sprite_set_size(struct sprite* self, float width, float height)
 {
     self->w = width;
     self->h = height;
+    
+    if (self->type == SPRITE_TYPE_BMFONT_LABEL) {
+        // adjust anchor point
+        float ax = width * self->anchor_x;
+        float ay = height * self->anchor_y;
+
+        struct array* children = self->children;
+        for (int i = 0;i < array_size(children); ++i) {
+            struct sprite* child = (struct sprite*)array_at(children, i);
+            if (child) { // NULL indicates that the child has been removed
+                         // recursively visit the children.
+                sprite_set_pos(child, child->x - ax, child->y - ay);
+            }
+        }
+    }
+
     self->dirty |= SPRITE_SRT_DIRTY;
 }
 

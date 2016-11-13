@@ -191,9 +191,6 @@ function scroll_view:set_bg(spr, rect)
 end
 
 function scroll_view:add_content(content_node)
-
-    print(content_node)
-
     self.contents[#self.contents + 1] = content_node
 
     local my_w, my_h = content_node:get_size()
