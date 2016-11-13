@@ -58,6 +58,7 @@ void touch_handler_push(struct touch_handler* self, struct sprite* sprite)
 
 void touch_handler_visit(struct touch_handler* self, struct touch_event* event)
 {
+    s_assert(self->n_visited < MAX_TOUCH_SEQ);
     switch (event->type) {
         case TOUCH_BEGIN: {
             for (int i = self->n_visited-1; i >= 0; --i) {
