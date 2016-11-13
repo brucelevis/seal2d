@@ -152,10 +152,10 @@ void af_transfer_rect(struct affine* af, int*x, int* y, int* w, int* h)
     af_transfer_vec2(af, &blx, &bly);
     af_transfer_vec2(af, &brx, &bry);
 
-    float minX = min(min(tlx, trx), min(blx, brx));
-    float maxX = max(max(tlx, trx), max(blx, brx));
-    float minY = min(min(tly, try), min(bly, bry));
-    float maxY = max(max(tly, try), max(bly, bry));
+    float minX = MIN(MIN(tlx, trx), MIN(blx, brx));
+    float maxX = MAX(MAX(tlx, trx), MAX(blx, brx));
+    float minY = MIN(MIN(tly, try), MIN(bly, bry));
+    float maxY = MAX(MAX(tly, try), MAX(bly, bry));
 
     *x = minX;
     *y = minY;
