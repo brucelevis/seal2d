@@ -112,7 +112,9 @@ function stage:create_menu()
                 },
                 effect_click = function()
                     if type(t.sample_name) == 'string' then
-                        local node = require("tests.game.samples." .. t.sample_name)
+                        local path = "tests.game.samples." .. t.sample_name
+                        package.loaded[path] = nil
+                        local node = require(path)
                         self:switch(node.new(self))
                     elseif type(t.sample_name) == 'function' then
                         t.sample_name(self)

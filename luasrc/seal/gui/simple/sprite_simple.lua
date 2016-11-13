@@ -160,6 +160,15 @@ function sprite.new_attr(attr)
         sp = ui_rect.new(attr.w, attr.h, attr.fc, attr.oc) 
     elseif attr.ui_button then
         sp = ui_button.new(attr.w, attr.h) 
+    elseif attr.loadingbar then
+        sp = ui_loadingbar.new(attr.w, attr.h) 
+    elseif attr.slider then
+        sp = ui_slider.new(attr.w, attr.h) 
+        if attr.on_changed then 
+            sp:on_changed(attr.on_changed)
+        end
+    elseif attr.clip then
+        sp = sprite.new_clip({x = 0, y = 0, w = attr.w, h = attr.h})
     elseif attr.scroll then
         sp = scroll_view.new(attr)
     else

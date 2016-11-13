@@ -297,9 +297,6 @@ function sprite_test:create_menu(parent)
     if ENGINE_MODE == 1 and not self.menu_inited then
         self.menu_inited = true 
 
-        local ui_rect = require "seal.gui.simple.ui_rect"
-        local ui_button = require "seal.gui.simple.ui_button"
-
         local menues = {}
         for i = 1, #test_cases do
             local t = test_cases[i]

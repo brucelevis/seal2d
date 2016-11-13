@@ -241,10 +241,10 @@ int lsprite_new_scale9(lua_State* L)
     struct sprite_frame* frame = lua_touserdata(L, 1);
 
     struct rect r;
-    r.x = (int)getfield_i(L, "x");
-    r.y = (int)getfield_i(L, "y");
-    r.width = (int)getfield_i(L, "w");
-    r.height = (int)getfield_i(L, "h");
+    lua_getfield(L, 2, "x"); r.x = (int)lua_tonumber(L, -1); lua_pop(L, 1);
+    lua_getfield(L, 2, "y"); r.y = (int)lua_tonumber(L, -1); lua_pop(L, 1);
+    lua_getfield(L, 2, "w"); r.width = (int)lua_tonumber(L, -1); lua_pop(L, 1);
+    lua_getfield(L, 2, "h"); r.height = (int)lua_tonumber(L, -1); lua_pop(L, 1);
 
     struct sprite* sprite = sprite_new_scale9(frame, &r);
     lua_pushlightuserdata(L, sprite);
@@ -397,6 +397,26 @@ int lsprite_set_color(lua_State* L)
     return 0;
 }
 
+//static void sprite_set_glyph(struct sprite* self, struct rect* rect, struct uv* uv, GLuint tex_id);
+int lsprite_set_glyph(lua_State* L)
+{
+    struct sprite* self = __self(L);
+
+    struct rect r;
+    lua_rawgeti(L, 2, 1); r.x = lua_tonumber(L, -1); lua_pop(L, 1);
+    lua_rawgeti(L, 2, 2); r.y = lua_tonumber(L, -1); lua_pop(L, 1);
+    lua_rawgeti(L, 2, 3); r.width = lua_tonumber(L, -1); lua_pop(L, 1);
+    lua_rawgeti(L, 2, 4); r.height = lua_tonumber(L, -1); lua_pop(L, 1);
+
+    struct uv uv;
+    lua_rawgeti(L, 3, 1); uv.u = lua_tonumber(L, -1); lua_pop(L, 1);
+    lua_rawgeti(L, 3, 2); uv.v = lua_tonumber(L, -1); lua_pop(L, 1);
+    lua_rawgeti(L, 3, 3); uv.w = lua_tonumber(L, -1); lua_pop(L, 1);
+    lua_rawgeti(L, 3, 4); uv.h = lua_tonumber(L, -1); lua_pop(L, 1);
+    
+    sprite_set_glyph(self, &r, &uv, 0);
+}
+
 int lsprite_get_color(lua_State* L)
 {
     struct sprite* self = __self(L);
@@ -540,6 +560,7 @@ int luaopen_seal_sprite(lua_State* L)
         { "set_scale", lsprite_set_scale },
         { "set_color", lsprite_set_color },
         { "set_size", lsprite_set_size },
+        { "set_glyph", lsprite_set_glyph },
 
         { "get_color", lsprite_get_color },
         { "get_rotation", lsprite_get_rotation },

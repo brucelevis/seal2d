@@ -12,8 +12,24 @@ local function attach_next_button(self)
 
 -----------------------------------  test simple mode
     if ENGINE_MODE == 1 then
-        local ui_rect = require "seal.gui.simple.ui_rect"
-        local ui_button = require "seal.gui.simple.ui_button"
+
+
+        local loadingbar = sprite.new_attr{
+            parent = self, loadingbar = true,
+            w = 200, h = 25, x = 200, y = 200,
+            { fnt = 'res/fonts/animated.txt', text = 'loadingbar:', y = 40 },
+        }
+
+        local slider = sprite.new_attr{
+            parent = self, slider = true,
+            w = 200, h = 25, x = 200, y = 300,
+            { fnt = 'res/fonts/animated.txt', text = 'slider(drag):', y = 40 },
+            on_changed = function(sender, per)
+                loadingbar:set_percent(per)
+            end
+        }
+
+        slider:set_percent(30)
 
         local menu = nil
         menu = sprite.new_attr{
@@ -39,8 +55,9 @@ local function attach_next_button(self)
                 { ui_button = true, w = 125, h = 25, { y = 4, fnt = 'res/fonts/animated.txt', scale = 0.8, text = 'tests:'} }, 
                 { ui_button = true, w = 125, h = 25, { y = 4, fnt = 'res/fonts/animated.txt', scale = 0.8, text = 'tests:'} }, 
             },
-            { ui_rect = true, w = 150, h = 500, oc = {0, 0, 0, 255}, }
+            { ui_rect = true, w = 150, h = 500, oc = {0, 0, 0, 255}, },
         } 
+
         return 
     end
 ------------------------------------

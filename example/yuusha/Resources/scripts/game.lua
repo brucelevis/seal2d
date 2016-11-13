@@ -1,7 +1,7 @@
 local consts = require "seal.consts"
 
 if ENGINE_MODE == 1 then
-    require "seal.gui.simple.sprite_simple"
+    require "seal.gui.simple.ui_init"
 end
 
 local game = {}

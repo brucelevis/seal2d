@@ -393,7 +393,7 @@ static void sprite_init(struct sprite* self,
     af_identify(&self->world_srt);
 }
 
-static void sprite_set_glyph(struct sprite* self, struct rect* rect,
+void sprite_set_glyph(struct sprite* self, struct rect* rect,
                       struct uv* uv, GLuint tex_id)
 {
     struct glyph* g = &(self->sprite_data.glyph);

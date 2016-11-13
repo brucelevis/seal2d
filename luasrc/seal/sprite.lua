@@ -20,9 +20,11 @@ local sprite = {
     set_scale = core.set_scale,
     set_color = core.set_color,
     set_size = core.set_size,
+    set_glyph = core.set_glyph,
 
     set_frame_texture_id = core.set_frame_texture_id,
     set_text = core.set_text,
+
     get_rotation = core.get_rotation,
     get_scale = core.get_scale,
     get_pos = core.get_pos,
@@ -43,6 +45,7 @@ function sprite.new(...)
     setmetatable(self, meta)
     local __frame = sprite_frame.get(...)
     self.__cobj = core.new(__frame)
+
     return self
 end
 
@@ -88,7 +91,7 @@ function sprite.new_scale9(texture_name, frame_name, rect)
     local r = rect
     if not r then -- estimate the rect if not provied.
         local w, h = core.get_sprite_frame_size(frame)
-        r = {x = w/2, y = h/2, w = w/10, h = h/10}
+        r = {x = w/3, y = h/3, w = w/3, h = h/3}
     end
     self.__cobj = core.new_scale9(frame, r)
     return self
@@ -130,7 +133,7 @@ function sprite:set_bbox_visible(visible)
             local line = sprite.new_primitive("L", {
                                             vertex = lines[i],
                                             width = 2.0,
-                                            color = {30, 0, 0, 255}} )
+                                            color = {255, 255, 255, 255}} )
             self:add_child(line)
             bbox_lines[#bbox_lines+1] = line
         end
@@ -140,6 +143,15 @@ function sprite:set_bbox_visible(visible)
     for _, line in pairs(self.__bbox_lines) do
         line:set_visible(visible)
     end
+end
+
+function sprite:set_tex_rect(x, y, w, h)
+    -- bl br tr tl 
+    local glyph = { self:get_glyph() }
+
+    -- todo: set texture rect 
+    -- now, uv will back to 0 - 1 
+
 end
 
 return sprite

@@ -242,6 +242,8 @@ void sprite_remove_all_child(struct sprite* self);
 // for label
 void sprite_set_text(struct sprite* self, const char* label);
 
+void sprite_set_glyph(struct sprite* self, struct rect* rect,
+    struct uv* uv, GLuint tex_id);
 struct glyph* sprite_get_glyph(struct sprite* self);
 
 // for debug usage
