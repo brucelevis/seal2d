@@ -32,10 +32,10 @@ end
 function ui_slider:set_percent(per)
     local per = self:__set_percent(per)
 
-    local w = (self.w - BALL_WIDTH) * per / 100
+    local w = (self.w - BALL_WIDTH + 4) * per / 100
 
     local x, y = self.ball:get_pos()
-    self.ball:set_pos(w-self.w/2 + BALL_WIDTH / 2, y)
+    self.ball:set_pos(w-self.w/2 + BALL_WIDTH / 2 - 2, y)
 
     if self.changed_handle then 
         self:changed_handle(per)
