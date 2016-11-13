@@ -115,6 +115,7 @@ struct primitive_data {
     // for primitive
     int primitive_type;
     struct primitive_vertex* primitive_vertex;
+    struct primitive_vertex* primitive_vertex_origin;
 
     // for primitive-rect
     unsigned int rect_flag;

@@ -31,5 +31,8 @@ void af_concat(struct affine* m1, struct affine* m2);
 
 void af_tostring(struct affine* af, char* buff);
 
+void af_transfer_vec2(struct affine* af, float*x, float* y);
+void af_transfer_rect(struct affine* af, int*x, int* y, int* w, int* h);
+void af_transfer_invert(struct affine* af, struct affine* out);
 
 #endif

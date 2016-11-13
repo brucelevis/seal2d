@@ -59,11 +59,14 @@ static bool hash_equal(void* a, void* b)
 }
 
 
-static void transform_vertex(struct primitive_vertex* v,
+static void transform_vertex(struct primitive_vertex* vo,
+                             struct primitive_vertex* vi,
                              struct affine* transform)
 {
-    v->position[0] += transform->x;
-    v->position[1] += transform->y;
+    float x = vi->position[0], y = vi->position[1];
+    af_transfer_vec2(transform, &x, &y);
+    vo->position[0] = x;
+    vo->position[1] = y;
 }
 
 static void sprite_update_primitive_line_transform(struct sprite* self,
@@ -71,6 +74,7 @@ static void sprite_update_primitive_line_transform(struct sprite* self,
 {
     for (int i = 0; i < 2; ++i) {
         transform_vertex(&self->primitive_data.primitive_vertex[i],
+                         &self->primitive_data.primitive_vertex_origin[i],
                          transform);
     }
 }
@@ -80,6 +84,7 @@ static void sprite_update_primitive_rect_transform(struct sprite* self,
 {
     for (int i = 0; i < 4; ++i) {
         transform_vertex(&self->primitive_data.primitive_vertex[i],
+                         &self->primitive_data.primitive_vertex_origin[i],
                          transform);
     }
 }
@@ -197,12 +202,12 @@ static void sprite_update_transform(struct sprite* self)
         else if (self->type == SPRITE_TYPE_SCALE9) {
             sprite_update_scale9(self);
         }
-        else {
-            float w0 = self->ow * (1-self->anchor_x);
-            float w1 = self->ow * (0-self->anchor_x);
+        else if (self->type == SPRITE_TYPE_PIC) {
+            float w0 = self->w * (1-self->anchor_x);
+            float w1 = self->w * (0-self->anchor_x);
 
-            float h0 = self->oh * (1-self->anchor_y);
-            float h1 = self->oh * (0-self->anchor_y);
+            float h0 = self->h * (1-self->anchor_y);
+            float h1 = self->h * (0-self->anchor_y);
             float a = tmp.a;
             float b = tmp.b;
             float c = tmp.c;
@@ -225,8 +230,9 @@ static void sprite_update_transform(struct sprite* self)
             SET_VERTEX_POS(g->tr, x2, y2);
             SET_VERTEX_POS(g->tl, x3, y3);
 
-            self->w = fabs(x1 - x0);
-            self->h = fabs(y3 - y1);
+            // use custom width & height
+            //self->w = fabs(x1 - x0);
+            //self->h = fabs(y3 - y1);
         }
         self->world_srt = tmp;
     }
@@ -522,6 +528,12 @@ struct sprite* sprite_new_line(float* vertex, float width, color line_color)
     SET_VERTEX_COLOR_UINT(v[1], line_color);
 
     s->primitive_data.primitive_vertex = v;
+
+    struct primitive_vertex* v_origin = s_malloc(PRIMITIVE_VERTEX_SIZE * 4);
+    memcpy(v_origin, v, PRIMITIVE_VERTEX_SIZE * 4);
+
+    s->primitive_data.primitive_vertex = v;
+    s->primitive_data.primitive_vertex_origin = v_origin;
     return s;
 }
 
@@ -554,8 +566,13 @@ struct sprite* sprite_new_rect(struct rect* rect,
     SET_VERTEX_COLOR_UINT(v[1], fill_color);
     SET_VERTEX_COLOR_UINT(v[2], fill_color);
     SET_VERTEX_COLOR_UINT(v[3], fill_color);
+    
+    struct primitive_vertex* v_origin = s_malloc(PRIMITIVE_VERTEX_SIZE * 4);
+    memcpy(v_origin, v, PRIMITIVE_VERTEX_SIZE * 4);
 
     primitive_data->primitive_vertex = v;
+    primitive_data->primitive_vertex_origin = v_origin;
+
     primitive_data->rect_flag = rect_flag;
     primitive_data->fill_color = fill_color;
     primitive_data->outline_color = outline_color;
@@ -671,6 +688,9 @@ void sprite_free(struct sprite* self)
         {
             if (self->primitive_data.primitive_vertex) {
                 s_free(self->primitive_data.primitive_vertex);
+            }
+            if (self->primitive_data.primitive_vertex) {
+                s_free(self->primitive_data.primitive_vertex_origin);
             }
             break;
         }
@@ -871,13 +891,17 @@ void sprite_touch(struct sprite* self, struct touch_event* touch_event)
 
 bool sprite_contains(struct sprite* self, float x, float y)
 {
-    struct glyph* g = &self->sprite_data.glyph;
+    if (self->w < 1e-1 || self->h < 1e-1) return false;
+    //struct glyph* g = &self->sprite_data.glyph;
     struct rect world = {
-        g->bl.position[0],
-        g->bl.position[1],
+        0 - self->w * self->anchor_x,//g->bl.position[0],
+        0 - self->h * self->anchor_y,//g->bl.position[1],
         self->w,
         self->h,
     };
+
+    af_transfer_rect(&self->world_srt, &world.x, &world.y, &world.width, &world.height);
+
     return rect_contains(&world, x, y);
 }
 

@@ -12,12 +12,17 @@ local function attach_next_button(self)
 
 -----------------------------------  test simple mode
     if ENGINE_MODE == 1 then
+        local ui_rect = require "seal.gui.simple.ui_rect"
+
         local s = sprite.new_attr{
-            parent     = self,
-            atlas    ='ui.png',
-            texture    ='smile_middle.png',
+            parent    = self,
+            atlas     = 'ui.png',
+            texture   = 'smile_middle.png',
             x         = WINDOW_WIDTH/2,
             y         = WINDOW_HEIGHT/4,
+            w         = 100,
+            h         = 200,
+            rotation  = 90,
             moved     = function(sender, x, y, sx, sy)
                 local cx, cy = sender:get_pos()
                 sender:set_pos(cx + sx, cy + sy)
@@ -32,7 +37,9 @@ local function attach_next_button(self)
             { x = 50, sx = 0.5, sy = 0.5, atlas ='ui.png', texture    ='smile_middle.png', },
             { x = 0, y = -50, sx = 0.5, sy = 0.5, atlas ='ui.png', texture    ='smile_middle.png', },
             { x = 0, y = 50, sx = 0.5, sy = 0.5, atlas ='ui.png', texture    ='smile_middle.png', },
+            ui_rect.new(100, 200),
         }
+
     end
 ------------------------------------
 

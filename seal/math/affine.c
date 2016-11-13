@@ -126,3 +126,46 @@ void af_tostring(struct affine* af, char* buff)
     sprintf(buff, "{a = %.2f, b = %.2f, c = %.2f, d = %.2f, x = %.2f, y = %.2f}",
             af->a, af->b, af->c, af->d, af->x, af->y);
 }
+
+void af_transfer_vec2(struct affine* af, float*x, float* y)
+{
+    float ix = *x, iy = *y;
+    *x = (float)((double)af->a * ix + (double)af->c * iy + af->x);
+    *y = (float)((double)af->b * ix + (double)af->d * iy + af->y);
+}
+
+void af_transfer_rect(struct affine* af, int*x, int* y, int* w, int* h)
+{
+    float ix = *x, iy = *y, iw = *w, ih = *h;
+    float top = iy;
+    float left = ix;
+    float right = left + iw;
+    float bottom = top + ih;
+
+    float tlx = left, tly = top;
+    float trx = right, try = top;
+    float blx = left, bly = bottom;
+    float brx = right, bry = bottom;
+
+    af_transfer_vec2(af, &tlx, &tly);
+    af_transfer_vec2(af, &trx, &try);
+    af_transfer_vec2(af, &blx, &bly);
+    af_transfer_vec2(af, &brx, &bry);
+
+    float minX = min(min(tlx, trx), min(blx, brx));
+    float maxX = max(max(tlx, trx), max(blx, brx));
+    float minY = min(min(tly, try), min(bly, bry));
+    float maxY = max(max(tly, try), max(bly, bry));
+
+    *x = minX;
+    *y = minY;
+    *w = maxX - minX;
+    *h = maxY - minY;
+}
+
+void af_transfer_invert(struct affine* af, struct affine* out)
+{
+    float d = 1.0f / (af->a * af->d - af->b * af->c);
+    af_srt(out, d * af->d, -d * af->b, -d * af->c, d * af->a,
+        d * (af->c * af->y - af->d * af->x), d * (af->b * af->x - af->a * af->y));
+}

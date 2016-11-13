@@ -12,7 +12,7 @@ function util.class(name, super)
 
     elseif type(super) == 'function' then
         __class.new = function(...)
-            local obj = super()
+            local obj = super(...)
             for k,v in pairs(__class) do
                 obj[k] = v
             end

@@ -157,7 +157,7 @@ function sprite.new_attr(attr)
     sprite_apply_attribute(sp, attr)
     
     for idx, attr in ipairs(attr) do 
-        local child = sprite.new_attr(attr)
+        local child = attr.__cobj and attr or sprite.new_attr(attr)
         sp:add_child(child)
     end
 
@@ -180,7 +180,7 @@ function sprite:apply_style(style)
     sprite_apply_attribute(self, style)
 
     for idx, attr in ipairs(style) do 
-        local child = sprite.new_attr(attr)
+        local child = attr.__cobj and attr or sprite.new_attr(attr)
         self:add_child(child)
     end
 
