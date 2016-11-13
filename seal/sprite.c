@@ -134,7 +134,7 @@ static void sprite_update_scale9(struct sprite* self)
     int c = inset->width;
     int r = width - (inset->x + inset->width);
     int p = self->w - r;
-    float ps = (self->h - (l + r)) * 1.0f / c;
+    float ps = (self->w - (l + r)) * 1.0f / c;
 
     int t = inset->y;
     int m = inset->height;
@@ -202,7 +202,7 @@ static void sprite_update_transform(struct sprite* self)
         else if (self->type == SPRITE_TYPE_SCALE9) {
             sprite_update_scale9(self);
         }
-        else if (self->type == SPRITE_TYPE_PIC) {
+        else {// if (self->type == SPRITE_TYPE_PIC) {
             float w0 = self->w * (1-self->anchor_x);
             float w1 = self->w * (0-self->anchor_x);
 
@@ -924,7 +924,14 @@ static void sprite_draw_pic(struct sprite* self)
 static void sprite_draw_clip(struct sprite* self)
 {
     render_flush(R);
-    render_set_scissors(R, self->x, self->y, self->w, self->h);
+
+    struct rect sr = {
+        self->x, self->y, self->w, self->h
+    };
+
+    af_transfer_rect(&self->world_srt, &sr.x, &sr.y, &sr.width, &sr.height);
+
+    render_set_scissors(R, sr.x, sr.y, sr.width, sr.height);
 }
 
 #if defined (SEAL_USE_SPINE)

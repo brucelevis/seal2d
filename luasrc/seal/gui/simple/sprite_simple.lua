@@ -1,4 +1,7 @@
 local action = require "action_core"
+local ui_rect = require "seal.gui.simple.ui_rect"
+local ui_button = require "seal.gui.simple.ui_button"
+local scroll_view = require "seal.gui.scroll_view"
 
 local touch_event_text = {
     "begin", "move", "end"
@@ -109,7 +112,7 @@ local function sprite_apply_attribute(self, attr)
         self:set_anchor(ax, ay)
     end
     if attr.color then 
-        self:set_color(attr.color)
+        self:set_color(table.unpack(attr.color))
     end
     if attr.rotation then 
         self:set_rotation(attr.rotation)
@@ -150,6 +153,12 @@ function sprite.new_attr(attr)
         sp = sprite.new_bmfont_label("", attr.fnt)
     elseif attr.json then 
         sp = sprite.new_spine(attr.atlas, attr.json, attr.scale or 1)
+    elseif attr.ui_rect then
+        sp = ui_rect.new(attr.w, attr.h, attr.fc, attr.oc) 
+    elseif attr.ui_button then
+        sp = ui_button.new(attr.w, attr.h) 
+    elseif attr.scroll then
+        sp = scroll_view.new(attr)
     else
         sp = sprite.new_container()
     end
@@ -157,8 +166,10 @@ function sprite.new_attr(attr)
     sprite_apply_attribute(sp, attr)
     
     for idx, attr in ipairs(attr) do 
-        local child = attr.__cobj and attr or sprite.new_attr(attr)
-        sp:add_child(child)
+        if attr then 
+            local child = attr.__cobj and attr or sprite.new_attr(attr)
+            sp:add_child(child)
+        end
     end
 
     return sp
@@ -180,8 +191,10 @@ function sprite:apply_style(style)
     sprite_apply_attribute(self, style)
 
     for idx, attr in ipairs(style) do 
-        local child = attr.__cobj and attr or sprite.new_attr(attr)
-        self:add_child(child)
+        if attr then 
+            local child = attr.__cobj and attr or sprite.new_attr(attr)
+            self:add_child(child)
+        end
     end
 
     return self

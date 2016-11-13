@@ -14,6 +14,7 @@ local scroll_dir = {
 }
 local SIZE = {w = 200, h = 300}
 local INTERSPACE = 0
+local GAP = 2
 local CALLBACK = function() print("no callback in scroll_view.") end
 
 function scroll_view:ctor(conf)
@@ -35,6 +36,8 @@ function scroll_view:ctor(conf)
     if conf.view_size then
         self.size = conf.view_size
     end
+    self:set_size(self.size.w, self.size.h)
+    self:set_anchor(0, 0)
 
     self.direction = scroll_dir.DIR_VERTICLE
     if conf.direction then
@@ -46,11 +49,16 @@ function scroll_view:ctor(conf)
         self.interspace = conf.interspace
     end
 
+    self.gap = GAP
+    if conf.gap then
+        self.gap = conf.gap
+    end
+
     self.callback = CALLBACK
 
     local container = sprite.new_clip({x = 0, y = 0, w = self.size.w, h = self.size.h})
     container:set_anchor(0, 0)
-    container:set_bbox_visible(true)
+    -- container:set_bbox_visible(true)
     self:add_child(container)
 
     local child_union = sprite.new_container()
@@ -69,10 +77,13 @@ function scroll_view:ctor(conf)
             local h = self.container.h
             local ox, oy = self.container:get_anchor()
 
-            if not(x > ox and x < ox + w and
-                   y > oy and y < oy + h) then
-                self:touch_end(x - ox, y - oy)
-            end
+            -- what's this ?
+            -- should get world position to do this like touch_cancle event 
+            -- or dispatcher touch_cancle event 
+            -- if not(x > ox and x < ox + w and
+            --        y > oy and y < oy + h) then
+            --     self:touch_end(x - ox, y - oy)
+            -- end
 
             if (not self.b_x) or (not self.b_y) then
                 self.b_x = x - ox
@@ -91,6 +102,8 @@ function scroll_view:ctor(conf)
             on_touch(...)
         end
     end)
+
+    self.add_child = self.add_content
 end
 
 function scroll_view:touch_begin(x, y)
@@ -178,6 +191,9 @@ function scroll_view:set_bg(spr, rect)
 end
 
 function scroll_view:add_content(content_node)
+
+    print(content_node)
+
     self.contents[#self.contents + 1] = content_node
 
     local my_w, my_h = content_node:get_size()
@@ -185,14 +201,14 @@ function scroll_view:add_content(content_node)
 
     if self.direction == scroll_dir.DIR_VERTICLE then
         self.now_w = self.container.w
-        self.now_h = self.now_h + my_h + self.not_first * self.interspace
+        self.now_h = self.now_h + my_h + self.not_first * self.interspace + self.gap
         local x = self.size.w / 2 + my_w * (my_anchor_x - 0.5)
         local y = self.size.h - self.now_h + my_h * my_anchor_y
         content_node:set_pos(x, y)
 
     elseif self.direction == scroll_dir.DIR_HORIZONTAL then
         self.now_h = self.container.h
-        self.now_w = self.now_w + my_w + self.not_first * self.interspace
+        self.now_w = self.now_w + my_w + self.not_first * self.interspace + self.gap
         local x = self.now_w - (1 - my_anchor_x) * my_w
         local y = self.size.h / 2 + my_h * (my_anchor_y - 0.5)
         content_node:set_pos(x, y)

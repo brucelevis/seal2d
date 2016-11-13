@@ -1,53 +1,35 @@
 local sprite = require "seal.sprite"
-local consts = require "seal.consts"
-local ui_rect = class("ui_rect", function()
-    local obj = sprite.new_container()
+
+local OUTLINE_DEFAULT_COLOR = { 0, 0, 0, 255 }
+local FILL_DEFAULT_COLOR = { 255, 255, 255, 255 }
+
+local ui_rect = class("ui_rect", function(w, h, fc, oc)
+    w = w or 100
+    h = h or 100
+
+    local attr = {}
+    if fc then 
+        attr[#attr+1] = { 
+            scale9 = true, 
+            w = w, h = h, 
+            color = fc, 
+            atlas="ui.png", texture="rect-full.png" 
+        } 
+    end
+    if oc then 
+        attr[#attr+1] = { 
+            scale9 = true, 
+            w = w, h = h, 
+            color = oc, 
+            atlas="ui.png", texture="rect.png" 
+        } 
+    end
+
+    local obj = sprite.new_attr(attr)
     return obj
 end)
 
-
-function ui_rect:ctor(w, h)
-    self:set_size(w, h)
-    self:init_rect()
-end
-
-function ui_rect:init_rect()
-    if not self.__bbox_lines then
-
-        local ax, ay = self:get_anchor()
-        local w, h = self:get_size()
-        local xoffset = -w * (ax)
-        local yoffset = -h * (ay)
-
-        --[[
-           p3-----p2
-            |     |
-            |     |
-           p0_____p1
-        ]]
-        local x0, y0 = 0 + xoffset, 0 + yoffset
-        local x1, y1 = w + xoffset, 0 + yoffset
-        local x2, y2 = w + xoffset, h + yoffset
-        local x3, y3 = 0 + xoffset, h + yoffset
-
-        local lines = {
-            {x0, y0, x1, y1},
-            {x1, y1, x2, y2},
-            {x2, y2, x3, y3},
-            {x3, y3, x0, y0}
-        }
-
-        local bbox_lines = {}
-        for i = 1, #lines do
-            local line = sprite.new_primitive("L", {
-                                            vertex = lines[i],
-                                            width = 2.0,
-                                            color = {255, 0, 0, 255}} )
-            self:add_child(line)
-            bbox_lines[#bbox_lines+1] = line
-        end
-        self.__bbox_lines = bbox_lines
-    end
+function ui_rect:ctor(w, h, fc, oc)
 end
 
 return ui_rect

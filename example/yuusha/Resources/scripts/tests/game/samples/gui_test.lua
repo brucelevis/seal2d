@@ -13,33 +13,34 @@ local function attach_next_button(self)
 -----------------------------------  test simple mode
     if ENGINE_MODE == 1 then
         local ui_rect = require "seal.gui.simple.ui_rect"
+        local ui_button = require "seal.gui.simple.ui_button"
 
-        local s = sprite.new_attr{
-            parent    = self,
-            atlas     = 'ui.png',
-            texture   = 'smile_middle.png',
-            x         = WINDOW_WIDTH/2,
-            y         = WINDOW_HEIGHT/4,
-            w         = 100,
-            h         = 200,
-            rotation  = 90,
-            moved     = function(sender, x, y, sx, sy)
-                local cx, cy = sender:get_pos()
-                sender:set_pos(cx + sx, cy + sy)
-            end,
-            effect_click = function(sender, x, y)
-                print("click me")
-            end,
-
-            -- children
-            { fnt = 'res/fonts/animated.txt', text = 'click me or drag.' },
-            { x = -50, sx = 0.5, sy = 0.5, atlas ='ui.png', texture    ='smile_middle.png', },
-            { x = 50, sx = 0.5, sy = 0.5, atlas ='ui.png', texture    ='smile_middle.png', },
-            { x = 0, y = -50, sx = 0.5, sy = 0.5, atlas ='ui.png', texture    ='smile_middle.png', },
-            { x = 0, y = 50, sx = 0.5, sy = 0.5, atlas ='ui.png', texture    ='smile_middle.png', },
-            ui_rect.new(100, 200),
-        }
-
+        local menu = nil
+        menu = sprite.new_attr{
+            parent = self,
+            x = WINDOW_WIDTH/2, y = WINDOW_HEIGHT/2,            
+            { 
+                scale9 = true, w = 150, h = 25, x = 0, y = 237.5, 
+                color ={233, 80, 90, 255}, atlas="ui.png", texture="rect-full.png", 
+                moved     = function(sender, x, y, sx, sy)
+                    local cx, cy = menu:get_pos()
+                    menu:set_pos(cx + sx, cy + sy)
+                end,
+                { fnt = 'res/fonts/animated.txt', text = 'tests:', x = -70, y = -13, sx = 0.8, sy = 0.8 },
+            },
+            {
+                scroll = true,
+                x = -75, y = -250,
+                view_size = { w = 150, h = 475 },
+                { ui_button = true, w = 125, h = 25, { fnt = 'res/fonts/animated.txt', text = 'tests:'} }, 
+                { ui_button = true, w = 125, h = 25, { fnt = 'res/fonts/animated.txt', text = 'tests:'} }, 
+                { ui_button = true, w = 125, h = 25, { fnt = 'res/fonts/animated.txt', text = 'tests:'} }, 
+                { ui_button = true, w = 125, h = 25, { fnt = 'res/fonts/animated.txt', text = 'tests:'} }, 
+                { ui_button = true, w = 125, h = 25, { fnt = 'res/fonts/animated.txt', text = 'tests:'} }, 
+            },
+            { ui_rect = true, w = 150, h = 500, oc = {0, 0, 0, 255}, }
+        } 
+        return 
     end
 ------------------------------------
 
@@ -64,23 +65,23 @@ local function attach_next_button(self)
 
     local s = sprite.new("ui.png", "smile_middle.png")
     s:set_bbox_visible(true)
-    new_scroll:add_content(s)
+    new_scroll:add_child(s)
 
     local s = sprite.new("ui.png", "smile_middle.png")
     s:set_bbox_visible(true)
-    new_scroll:add_content(s)
+    new_scroll:add_child(s)
 
     local s = sprite.new("ui.png", "smile_middle.png")
     s:set_bbox_visible(true)
-    new_scroll:add_content(s)
+    new_scroll:add_child(s)
 
     local s = sprite.new("ui.png", "smile_middle.png")
     s:set_bbox_visible(true)
-    new_scroll:add_content(s)
+    new_scroll:add_child(s)
 
     local s = sprite.new("ui.png", "smile_middle.png")
     s:set_bbox_visible(true)
-    new_scroll:add_content(s)
+    new_scroll:add_child(s)
 
     new_scroll:set_pos(0, 0)
     --new_scroll:set_bbox_visible(true)
