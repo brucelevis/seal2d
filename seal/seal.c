@@ -420,6 +420,7 @@ void seal_destroy()
 
     sprite_free(GAME->root);
     scheduler_free(GAME->scheduler);
+    touch_handler_free(GAME->touch_handler);
     s_free(GAME);
 }
 
