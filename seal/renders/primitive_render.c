@@ -40,7 +40,7 @@ void primitive_render_func_start(struct render* R)
     context->state.loc.color = glGetAttribLocation(context->state.program, "vertex_color" );
     context->state.loc.uv = INVALID_ATTR_LOCATION; // there is no uv in primitive render.
 
-    render_set_mvp(prog, GAME->global_camera->camer_mat->m);
+    render_set_mvp(prog, GAME->global_camera->camer_mat.m);
     CHECK_GL_ERROR;
 }
 

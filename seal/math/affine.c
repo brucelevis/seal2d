@@ -26,22 +26,6 @@
 
 #include "../seal.h"
 
-struct affine* af_alloc()
-{
-    struct affine* af = (struct affine*)s_malloc(sizeof(struct affine));
-    if(!af) {
-        LOGP("malloc affine failed for oom.");
-        return NULL;
-    }
-    af_identify(af);
-    return af;
-}
-
-void af_free(struct affine* af)
-{
-    s_free(af);
-}
-
 void af_identify(struct affine* af)
 {
     af->a = 1.0f;
@@ -73,9 +57,9 @@ void af_srt(struct affine* af,
     af->y += y;
 }
 
-void af_copy(struct affine* af, struct affine* other)
+void af_copy(struct affine* out, struct affine* in)
 {
-    memcpy(af, other, sizeof(struct affine));
+    memcpy(out, in, sizeof(struct affine));
 }
 
 void af_set_translate(struct affine* af, float x, float y)
@@ -121,12 +105,6 @@ void af_concat(struct affine* m1, struct affine* m2)
     m1->y = y;
 }
 
-void af_tostring(struct affine* af, char* buff)
-{
-    sprintf(buff, "{a = %.2f, b = %.2f, c = %.2f, d = %.2f, x = %.2f, y = %.2f}",
-            af->a, af->b, af->c, af->d, af->x, af->y);
-}
-
 void af_transfer_vec2(struct affine* af, float*x, float* y)
 {
     float ix = *x, iy = *y;
@@ -166,6 +144,38 @@ void af_transfer_rect(struct affine* af, int*x, int* y, int* w, int* h)
 void af_transfer_invert(struct affine* af, struct affine* out)
 {
     float d = 1.0f / (af->a * af->d - af->b * af->c);
-    af_srt(out, d * af->d, -d * af->b, -d * af->c, d * af->a,
-        d * (af->c * af->y - af->d * af->x), d * (af->b * af->x - af->a * af->y));
+    af_srt(out,
+           d * af->d,
+           -d * af->b,
+           -d * af->c,
+           d * af->a,
+           d * (af->c * af->y - af->d * af->x),
+           d * (af->b * af->x - af->a * af->y));
+}
+
+void af_to_mat4(struct affine* in, struct mat4* mat)
+{
+    float* m = mat->m;
+    m[0] = in->a;
+    m[1] = in->b;
+    m[2] = 0.0f;
+    m[3] = 0.0f;
+    m[4] = in->c;
+    m[5] = in->d;
+    m[6] = 0.0f;
+    m[7] = 0.0f;
+    m[8] = 0.0f;
+    m[9] = 0.0f;
+    m[10] = 1.0f;
+    m[11] = 0.0f;
+    m[12] = in->x;
+    m[13] = in->y;
+    m[14] = 0.0f;
+    m[15] = 1.0f;
+}
+
+void af_tostring(struct affine* af, char* buff)
+{
+    sprintf(buff, "{a = %.2f, b = %.2f, c = %.2f, d = %.2f, x = %.2f, y = %.2f}",
+            af->a, af->b, af->c, af->d, af->x, af->y);
 }

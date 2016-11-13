@@ -25,7 +25,7 @@
 
 
 #include "seal.h"
-#include "math/matrix.h"
+#include "math/mat4.h"
 
 #include "camera.h"
 
@@ -42,17 +42,12 @@ struct camera* camera_new(float width, float height)
     c->height = height;
     c->dirty = 0;
 
-    c->camer_mat = orth_matrix(-width/2,
-                               -height/2,
-                               width/2,
-                               height/2,
-                               -1.0f, 1.0f);
+    mat4_orth(&c->camer_mat, -width/2, -height/2, width/2, height/2, -1, 1);
     return c;
 }
 
 void camera_free(struct camera* c)
 {
-    matrix_free(c->camer_mat);
     s_free(c);
 }
 
@@ -78,7 +73,7 @@ void camera_update(struct camera* self)
         return;
     }
 
-    matrix_translate(self->camer_mat,
+    mat4_translate(&self->camer_mat,
                      -self->x/GAME->config.window_width*2,
                      -self->y/GAME->config.window_height*2,
                      1.0);

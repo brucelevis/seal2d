@@ -76,10 +76,6 @@ int main(int argc, char *argv[])
     int window_width = game->config.window_width;
     int window_height = game->config.window_height;
     
-    long interval = (1/60.0f) * 1000;
-    long dt = interval;
-    long last = 0;
-    
     GLFWwindow* window = init_glfw(window_width,
                                    window_height,
                                    game->config.app_name);
@@ -93,22 +89,14 @@ int main(int argc, char *argv[])
     seal_start_game();
 
     while (!glfwWindowShouldClose(window)) {
-        glfwPollEvents();
-        last = gettime();
-
         seal_update();
         seal_draw();
         glViewport(0, 0, game->config.fb_width, game->config.fb_height);
         glfwSwapBuffers(window);
 
-        long current = gettime();
-        dt = current - last;
-        
-        if (dt < interval) {
-            usleep( (useconds_t)(interval - dt)*1000);
-        }
+        glfwPollEvents();
     }
-    
+
     seal_destroy();
     
     exit_glfw(window);

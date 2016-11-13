@@ -77,7 +77,7 @@ void sprite_render_func_start(struct render* R)
     GLint texture_location = glGetUniformLocation(prog, "texture_0");
     glUniform1i(texture_location, 0);
 
-    render_set_mvp(prog, GAME->global_camera->camer_mat->m);
+    render_set_mvp(prog, GAME->global_camera->camer_mat.m);
     CHECK_GL_ERROR;
 }
 

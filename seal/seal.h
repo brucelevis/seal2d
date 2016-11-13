@@ -37,7 +37,7 @@
 #include "image/lodepng.h"
 #include "math/affine.h"
 #include "math/geo.h"
-#include "math/matrix.h"
+#include "math/mat4.h"
 #include "platform/fs.h"
 #include "platform/platform.h"
 #include "platform/render_opengl.h"

@@ -104,7 +104,7 @@ void render_set_mvp(GLuint program, float* mat)
 
 void render_set_scissors(struct render* self, int x, int y, int width, int height)
 {
-    s_assert(width > 0 && height > 0);
+    s_assert(width >= 0 && height >= 0);
 
     self->scissors.x = x;
     self->scissors.y = y;

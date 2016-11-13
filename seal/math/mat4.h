@@ -23,30 +23,29 @@
  * THE SOFTWARE.
  */
 
+#ifndef __seal__mat4__
+#define __seal__mat4__
 
-#ifndef __seal__camera__
-#define __seal__camera__
-
-#include "math/mat4.h"
-
-enum CAMERA_DIRTY_FLAG {
-    TRANSLATE_DIRTY = 1,
-    SCALE_DIRTY = 2,
+struct mat4 {
+    float m[16];
 };
 
-struct camera {
-    float x, y;
-    float scale_x, scale_y;
-    float width, height;
-    float scale;
-    struct mat4 camer_mat;
-    int dirty;
-};
+void mat4_identify(struct mat4* out);
+void mat4_load_translate(struct mat4* out, float x, float y, float z);
+void mat4_load_scale(struct mat4* out, float x, float y, float z);
 
-struct camera* camera_new(float width, float height);
-void camera_free(struct camera* c);
+void mat4_orth(struct mat4* out,
+               float left,  float bottom,
+               float right, float top,
+               float near,  float far);
 
-void camera_pos(struct camera* self, float x, float y);
-void camera_scale(struct camera* self, float sx, float sy);
-void camera_update(struct camera* self);
+void mat4_translate(struct mat4* out, float x, float y, float z);
+void mat4_scale(struct mat4* out, float x, float y, float z);
+void mat4_rotate_z(struct mat4* out, float rad);
+void mat4_multiply(struct mat4* out, struct mat4* l, struct mat4* r);
+void mat4_inverse(struct mat4* in, struct mat4* out);
+
+void mat4_free(struct mat4* self);
+void matrix_debug_print(struct mat4* self);
+
 #endif

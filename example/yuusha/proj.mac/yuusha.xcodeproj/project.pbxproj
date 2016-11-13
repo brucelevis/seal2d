@@ -126,7 +126,7 @@
 		4DDF63951C4E057B008A44CE /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4DDF63941C4E057B008A44CE /* Cocoa.framework */; };
 		4DE47B451C7ACBA5001D2F8C /* array.c in Sources */ = {isa = PBXBuildFile; fileRef = 4DE47B431C7ACBA5001D2F8C /* array.c */; };
 		4DE47B491C7AD8C8001D2F8C /* test_array.c in Sources */ = {isa = PBXBuildFile; fileRef = 4DE47B471C7AD8C8001D2F8C /* test_array.c */; };
-		4DE4D2041C7467E200410891 /* matrix.c in Sources */ = {isa = PBXBuildFile; fileRef = 4DE4D2021C7467E200410891 /* matrix.c */; };
+		4DE4D2041C7467E200410891 /* mat4.c in Sources */ = {isa = PBXBuildFile; fileRef = 4DE4D2021C7467E200410891 /* mat4.c */; };
 		4DE620FD1C7856AE0073C71A /* camera.c in Sources */ = {isa = PBXBuildFile; fileRef = 4DE620FC1C7856AE0073C71A /* camera.c */; };
 		4DE642C41C5B3BCA003EBBC0 /* lopen.c in Sources */ = {isa = PBXBuildFile; fileRef = 4DE642B81C5B3BCA003EBBC0 /* lopen.c */; };
 		4DE642C81C5B3BCA003EBBC0 /* lseal_core.c in Sources */ = {isa = PBXBuildFile; fileRef = 4DE642BD1C5B3BCA003EBBC0 /* lseal_core.c */; };
@@ -394,8 +394,8 @@
 		4DE47B471C7AD8C8001D2F8C /* test_array.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = test_array.c; sourceTree = "<group>"; };
 		4DE4D1B81C74059400410891 /* test.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = test.h; sourceTree = "<group>"; };
 		4DE4D2001C7461C700410891 /* camera.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = camera.h; sourceTree = "<group>"; };
-		4DE4D2021C7467E200410891 /* matrix.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = matrix.c; sourceTree = "<group>"; };
-		4DE4D2031C7467E200410891 /* matrix.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = matrix.h; sourceTree = "<group>"; };
+		4DE4D2021C7467E200410891 /* mat4.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = mat4.c; sourceTree = "<group>"; };
+		4DE4D2031C7467E200410891 /* mat4.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mat4.h; sourceTree = "<group>"; };
 		4DE620FC1C7856AE0073C71A /* camera.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = camera.c; sourceTree = "<group>"; };
 		4DE642B81C5B3BCA003EBBC0 /* lopen.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = lopen.c; sourceTree = "<group>"; };
 		4DE642B91C5B3BCA003EBBC0 /* lopen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lopen.h; sourceTree = "<group>"; };
@@ -900,8 +900,8 @@
 			children = (
 				4DE642BF1C5B3BCA003EBBC0 /* affine.c */,
 				4DE642C01C5B3BCA003EBBC0 /* affine.h */,
-				4DE4D2021C7467E200410891 /* matrix.c */,
-				4DE4D2031C7467E200410891 /* matrix.h */,
+				4DE4D2021C7467E200410891 /* mat4.c */,
+				4DE4D2031C7467E200410891 /* mat4.h */,
 				4D0B96CC1C7BFCD000C8C658 /* geo.c */,
 				4D0B96CD1C7BFCD000C8C658 /* geo.h */,
 			);
@@ -1143,7 +1143,7 @@
 				4DE642C41C5B3BCA003EBBC0 /* lopen.c in Sources */,
 				A611E7271CB662E0001C7E2C /* lplatform.c in Sources */,
 				4DCBEF701D7B3F4A009C05EC /* Bone.c in Sources */,
-				4DE4D2041C7467E200410891 /* matrix.c in Sources */,
+				4DE4D2041C7467E200410891 /* mat4.c in Sources */,
 				4D25D8741C95C06000448F88 /* except.c in Sources */,
 				4DDA8E4C1C4F5AE700ED5325 /* lutf8lib.c in Sources */,
 				4D25D8781C95C06000448F88 /* io.c in Sources */,

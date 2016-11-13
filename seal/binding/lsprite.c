@@ -415,6 +415,8 @@ int lsprite_set_glyph(lua_State* L)
     lua_rawgeti(L, 3, 4); uv.h = lua_tonumber(L, -1); lua_pop(L, 1);
     
     sprite_set_glyph(self, &r, &uv, 0);
+
+    return 0;
 }
 
 int lsprite_get_color(lua_State* L)
