@@ -385,7 +385,7 @@ void seal_touch_event(struct touch_event* touch_event)
 void seal_draw()
 {
     struct render* R = GAME->render;
-    render_clear(R, C4B_COLOR(255, 255, 255, 255));
+    render_clear(R, C4B_COLOR(0, 0, 0, 0));
 
     sprite_visit(GAME->root, GAME->global_dt);
 
