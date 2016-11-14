@@ -39,8 +39,8 @@ local function scene_graph(self)
     root:set_pos(WINDOW_WIDTH/2, WINDOW_HEIGHT/2)
 
     local action = require "action_core"
-    local scale = action.scale_to(1.0 , 2, 2)
-    local rotate = action.rotate_to(1.0, 360)
+    local scale = action.scale_to(1.0 , 5, 5)
+    local rotate = action.rotate_to(5.0, 360)
     root:run_action(action.sequence({scale, rotate}))
 end
 
@@ -247,7 +247,7 @@ function sprite_test:on_enter()
 end
 
 function sprite_test:on_exit()
-    if self.menu then 
+    if self.menu then
         self.menu:remove_from_parent()
     end
 end
@@ -295,14 +295,14 @@ end
 
 function sprite_test:create_menu(parent)
     if ENGINE_MODE == 1 and not self.menu_inited then
-        self.menu_inited = true 
+        self.menu_inited = true
 
         local menues = {}
         for i = 1, #test_cases do
             local t = test_cases[i]
-            menues[i] = {  
-                ui_button = true, w = 140, h = 25, 
-                { 
+            menues[i] = {
+                ui_button = true, w = 140, h = 25,
+                {
                     y = 4, fnt = 'res/fonts/animated.txt', scale = 0.8, text = t.name,
                 },
                 effect_click = function()
@@ -314,9 +314,9 @@ function sprite_test:create_menu(parent)
 
         local menu = nil
         menu = sprite.new_attr{
-            parent = parent,  
+            parent = parent,
             x =  WINDOW_WIDTH / 2, y = 25,
-            ui_rect = true, w = WINDOW_WIDTH, h = 50, fc = {204, 204, 204, 255},   
+            ui_rect = true, w = WINDOW_WIDTH, h = 50, fc = {204, 204, 204, 255},
             {
                 scroll = true,
                 direction = 2,
@@ -325,7 +325,7 @@ function sprite_test:create_menu(parent)
                 table.unpack(menues)
             },
             { ui_rect = true, w = WINDOW_WIDTH, h = 50, oc = {0, 0, 0, 255}, }
-        } 
+        }
 
         self.menu = menu
         return menu

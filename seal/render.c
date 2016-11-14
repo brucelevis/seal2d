@@ -102,14 +102,14 @@ void render_set_mvp(GLuint program, float* mat)
     glUniformMatrix4fv(projection, 1, GL_FALSE, mat);
 }
 
-void render_set_scissors(struct render* self, int x, int y, int width, int height)
+void render_set_scissors(struct render* self, int x, int y, int w, int h)
 {
-    s_assert(width >= 0 && height >= 0);
+    s_assert(w >= 0 && h >= 0);
 
     self->scissors.x = x;
     self->scissors.y = y;
-    self->scissors.width = width;
-    self->scissors.height = height;
+    self->scissors.w = w;
+    self->scissors.h = h;
 
     self->masks |= RENDER_MASK_SCISSORS;
 }
@@ -118,10 +118,12 @@ void render_scissors_test(struct render* self)
 {
     if (self->masks & RENDER_MASK_SCISSORS) {
         glEnable(GL_SCISSOR_TEST);
+        LOGP("scale_factor = %.2f", GAME->config.scale_factor);
         glScissor(self->scissors.x*GAME->config.scale_factor,
                   self->scissors.y*GAME->config.scale_factor,
-                  self->scissors.width*GAME->config.scale_factor,
-                  self->scissors.height*GAME->config.scale_factor);
+                  self->scissors.w*GAME->config.scale_factor,
+                  self->scissors.h*GAME->config.scale_factor);
+        CHECK_GL_ERROR;
     }
 }
 

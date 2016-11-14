@@ -23,59 +23,36 @@
  * THE SOFTWARE.
  */
 
+#ifndef __seal__glview__
+#define __seal__glview__
 
 #include "seal.h"
-#include "math/mat4.h"
 
-#include "camera.h"
+enum design_policy {
+    FIX_WIDTH = 0,
+    FIX_HEIGHT,
+};
 
-EXTERN_GAME;
+struct glview {
+//    struct size screen_size; // size of real device
+    struct size view_size;   // read from the local OpenGLView system(GLKView)
+    struct size fb_size;     // framebuffer size
 
-struct camera* camera_new(float width, float height)
-{
-    struct camera* c = (struct camera*)s_malloc(sizeof(struct camera));
-    c->x = 0.0f;
-    c->y = 0.0f;
-    c->scale_x = 1.0f;
-    c->scale_y = 1.0f;
-    c->width = width;
-    c->height = height;
-    c->dirty = 0;
+    // these values could NOT be changed during runtime
+    struct size __design_size; // the size set by the user, design size.
+    enum design_policy __policy; // design policy
+    float __view_scalar_x;  // scalar of design/view
+    float __view_scalar_y;
 
-    mat4_orth(&c->camer_mat, -width/2, -height/2, width/2, height/2, -1, 1);
-    return c;
-}
+    float __frame_scalar_x; // scalear of framebuffer/view (retina support)
+    float __frame_scalar_y;
+};
 
-void camera_free(struct camera* c)
-{
-    s_free(c);
-}
+struct glview* glview_new(int design_w, int design_h, enum design_policy policy);
+void glview_free(struct glview* self);
 
-void camera_pos(struct camera* self, float x, float y)
-{
-    self->x = x;
-    self->y = y;
+void glview_set_fb_size(struct glview* self, int fb_w, int fb_h);
+//void glview_set_screen_size(struct glview* self, int screen_w, int screen_h);
+void glview_set_view_size(struct glview* self, int view_w, int view_h);
 
-    self->dirty |= TRANSLATE_DIRTY;
-}
-
-void camera_scale(struct camera* self, float sx, float sy)
-{
-    self->scale_x = 1.0f;
-    self->scale_y = 1.0f;
-
-    self->dirty |= SCALE_DIRTY;
-}
-
-void camera_update(struct camera* self)
-{
-    if(!self->dirty) {
-        return;
-    }
-
-    mat4_translate(&self->camer_mat,
-                     -self->x/GAME->config.design_width*2,
-                     -self->y/GAME->config.design_height*2,
-                     1.0);
-    self->dirty = 0;
-}
+#endif /* glview_h */

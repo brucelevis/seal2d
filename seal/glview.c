@@ -23,59 +23,64 @@
  * THE SOFTWARE.
  */
 
+#include "glview.h"
 
-#include "seal.h"
-#include "math/mat4.h"
-
-#include "camera.h"
-
-EXTERN_GAME;
-
-struct camera* camera_new(float width, float height)
+struct glview* glview_new(int design_w, int design_h, enum design_policy policy)
 {
-    struct camera* c = (struct camera*)s_malloc(sizeof(struct camera));
-    c->x = 0.0f;
-    c->y = 0.0f;
-    c->scale_x = 1.0f;
-    c->scale_y = 1.0f;
-    c->width = width;
-    c->height = height;
-    c->dirty = 0;
+    struct glview* view = STRUCT_NEW(glview);
+    view->__design_size.w = design_w;
+    view->__design_size.h = design_h;
+    view->__policy = policy;
 
-    mat4_orth(&c->camer_mat, -width/2, -height/2, width/2, height/2, -1, 1);
-    return c;
+//    view->screen_size = view->__design_size;
+    view->fb_size = view->__design_size;
+    view->view_size = view->__design_size;
+
+    return view;
 }
 
-void camera_free(struct camera* c)
+static void glview_update(struct glview* self)
 {
-    s_free(c);
-}
+    switch (self->__policy) {
+        case FIX_WIDTH:
+        {
+            break;
+        }
+        case FIX_HEIGHT:
+        {
+            break;
+        }
 
-void camera_pos(struct camera* self, float x, float y)
-{
-    self->x = x;
-    self->y = y;
-
-    self->dirty |= TRANSLATE_DIRTY;
-}
-
-void camera_scale(struct camera* self, float sx, float sy)
-{
-    self->scale_x = 1.0f;
-    self->scale_y = 1.0f;
-
-    self->dirty |= SCALE_DIRTY;
-}
-
-void camera_update(struct camera* self)
-{
-    if(!self->dirty) {
-        return;
+        default:
+            break;
     }
+}
 
-    mat4_translate(&self->camer_mat,
-                     -self->x/GAME->config.design_width*2,
-                     -self->y/GAME->config.design_height*2,
-                     1.0);
-    self->dirty = 0;
+void glview_set_fb_size(struct glview* self, int fb_w, int fb_h)
+{
+    self->fb_size.w = fb_w;
+    self->fb_size.h = fb_h;
+
+    glview_update(self);
+}
+
+void glview_set_screen_size(struct glview* self, int screen_w, int screen_h)
+{
+//    self->screen_size.w = screen_w;
+//    self->screen_size.h = screen_h;
+
+//    glview_update(self);
+}
+
+void glview_set_view_size(struct glview* self, int view_w, int view_h)
+{
+    self->view_size.w = view_w;
+    self->view_size.h = view_h;
+
+    glview_update(self);
+}
+
+void glview_free(struct glview* self)
+{
+    s_free(self);
 }

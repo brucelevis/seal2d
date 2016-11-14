@@ -142,13 +142,13 @@ static int engine_init_display(struct engine* engine) {
 
     struct game* game = seal_load_game_config();
 
-    int window_width = game->config.window_width;
-    int window_height = game->config.window_height;
+    int window_width = GAME->config.design_width;
+    int window_height = GAME->config.design_height;
     game->config.scale_factor = w / window_width;
     game->config.fb_width = w;
     game->config.fb_height = h;
 
-    seal_init_graphics(GAME->config.window_width, GAME->config.window_height);
+    seal_init_graphics(GAME->config.design_width, GAME->config.design_height);
     seal_start_game();
 
     glViewport(0, 0, GAME->config.fb_width, GAME->config.fb_height);

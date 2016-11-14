@@ -4,9 +4,9 @@
 bool rect_contains(struct rect* rect, float x, float y)
 {
     return !(rect->x                 > x ||
-             rect->x+rect->width     < x ||
+             rect->x+rect->w     < x ||
              rect->y                 > y ||
-             rect->y + rect->height  < y );
+             rect->y + rect->h  < y );
 }
 
 void color_vec4(unsigned long color, float v[4])

@@ -16,6 +16,8 @@
 		9F174FCA1DD7040100191B99 /* res in Resources */ = {isa = PBXBuildFile; fileRef = 9F174FC81DD7040100191B99 /* res */; };
 		9F174FCB1DD7040100191B99 /* scripts in Resources */ = {isa = PBXBuildFile; fileRef = 9F174FC91DD7040100191B99 /* scripts */; };
 		9F174FCD1DD705D600191B99 /* lscheduler.c in Sources */ = {isa = PBXBuildFile; fileRef = 9F174FCC1DD705D600191B99 /* lscheduler.c */; };
+		A61102E61DD9997800C33627 /* mat4.c in Sources */ = {isa = PBXBuildFile; fileRef = A61102E41DD9997800C33627 /* mat4.c */; };
+		A61DDA761DD9CEFC00B7BDEC /* glview.c in Sources */ = {isa = PBXBuildFile; fileRef = A61DDA741DD9CEFC00B7BDEC /* glview.c */; };
 		A67C62841D90E1B900138CD2 /* Animation.c in Sources */ = {isa = PBXBuildFile; fileRef = A67C62621D90E1B900138CD2 /* Animation.c */; };
 		A67C62851D90E1B900138CD2 /* AnimationState.c in Sources */ = {isa = PBXBuildFile; fileRef = A67C62631D90E1B900138CD2 /* AnimationState.c */; };
 		A67C62861D90E1B900138CD2 /* AnimationStateData.c in Sources */ = {isa = PBXBuildFile; fileRef = A67C62641D90E1B900138CD2 /* AnimationStateData.c */; };
@@ -75,7 +77,6 @@
 		A6A835ED1D4CA94C00A48B19 /* lua_handler.c in Sources */ = {isa = PBXBuildFile; fileRef = A6A835B51D4CA94C00A48B19 /* lua_handler.c */; };
 		A6A835EE1D4CA94C00A48B19 /* affine.c in Sources */ = {isa = PBXBuildFile; fileRef = A6A835B81D4CA94C00A48B19 /* affine.c */; };
 		A6A835EF1D4CA94C00A48B19 /* geo.c in Sources */ = {isa = PBXBuildFile; fileRef = A6A835BA1D4CA94C00A48B19 /* geo.c */; };
-		A6A835F01D4CA94C00A48B19 /* matrix.c in Sources */ = {isa = PBXBuildFile; fileRef = A6A835BC1D4CA94C00A48B19 /* matrix.c */; };
 		A6A835F11D4CA94C00A48B19 /* memory.c in Sources */ = {isa = PBXBuildFile; fileRef = A6A835BE1D4CA94C00A48B19 /* memory.c */; };
 		A6A835F51D4CA94C00A48B19 /* timer.c in Sources */ = {isa = PBXBuildFile; fileRef = A6A835C71D4CA94C00A48B19 /* timer.c */; };
 		A6A835F61D4CA94C00A48B19 /* render.c in Sources */ = {isa = PBXBuildFile; fileRef = A6A835C91D4CA94C00A48B19 /* render.c */; };
@@ -163,6 +164,10 @@
 		9F174FC81DD7040100191B99 /* res */ = {isa = PBXFileReference; lastKnownFileType = folder; name = res; path = ../Resources/res; sourceTree = "<group>"; };
 		9F174FC91DD7040100191B99 /* scripts */ = {isa = PBXFileReference; lastKnownFileType = folder; name = scripts; path = ../Resources/scripts; sourceTree = "<group>"; };
 		9F174FCC1DD705D600191B99 /* lscheduler.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = lscheduler.c; sourceTree = "<group>"; };
+		A61102E41DD9997800C33627 /* mat4.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = mat4.c; sourceTree = "<group>"; };
+		A61102E51DD9997800C33627 /* mat4.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mat4.h; sourceTree = "<group>"; };
+		A61DDA741DD9CEFC00B7BDEC /* glview.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = glview.c; sourceTree = "<group>"; };
+		A61DDA751DD9CEFC00B7BDEC /* glview.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = glview.h; sourceTree = "<group>"; };
 		A67C62401D90E1B900138CD2 /* Animation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Animation.h; sourceTree = "<group>"; };
 		A67C62411D90E1B900138CD2 /* AnimationState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnimationState.h; sourceTree = "<group>"; };
 		A67C62421D90E1B900138CD2 /* AnimationStateData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnimationStateData.h; sourceTree = "<group>"; };
@@ -275,8 +280,6 @@
 		A6A835B91D4CA94C00A48B19 /* affine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = affine.h; sourceTree = "<group>"; };
 		A6A835BA1D4CA94C00A48B19 /* geo.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = geo.c; sourceTree = "<group>"; };
 		A6A835BB1D4CA94C00A48B19 /* geo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = geo.h; sourceTree = "<group>"; };
-		A6A835BC1D4CA94C00A48B19 /* matrix.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = matrix.c; sourceTree = "<group>"; };
-		A6A835BD1D4CA94C00A48B19 /* matrix.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = matrix.h; sourceTree = "<group>"; };
 		A6A835BE1D4CA94C00A48B19 /* memory.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = memory.c; sourceTree = "<group>"; };
 		A6A835BF1D4CA94C00A48B19 /* memory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = memory.h; sourceTree = "<group>"; };
 		A6A835C41D4CA94C00A48B19 /* fs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = fs.h; sourceTree = "<group>"; };
@@ -289,7 +292,7 @@
 		A6A835CC1D4CA94C00A48B19 /* seal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = seal.h; sourceTree = "<group>"; };
 		A6A835CD1D4CA94C00A48B19 /* shader.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = shader.c; sourceTree = "<group>"; };
 		A6A835CE1D4CA94C00A48B19 /* shader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = shader.h; sourceTree = "<group>"; };
-		A6A835CF1D4CA94C00A48B19 /* sprite.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = sprite.c; sourceTree = "<group>"; };
+		A6A835CF1D4CA94C00A48B19 /* sprite.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; lineEnding = 0; path = sprite.c; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.c; };
 		A6A835D01D4CA94C00A48B19 /* sprite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sprite.h; sourceTree = "<group>"; };
 		A6A835D31D4CA94C00A48B19 /* test.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = test.h; sourceTree = "<group>"; };
 		A6A835D41D4CA94C00A48B19 /* test_2d_array.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = test_2d_array.c; sourceTree = "<group>"; };
@@ -618,6 +621,8 @@
 				A6A835D11D4CA94C00A48B19 /* tests */,
 				A6A835C21D4CA94C00A48B19 /* platform */,
 				A6A835B71D4CA94C00A48B19 /* math */,
+				A61DDA741DD9CEFC00B7BDEC /* glview.c */,
+				A61DDA751DD9CEFC00B7BDEC /* glview.h */,
 				4D76760F1DB20AB200493C2D /* scheduler.c */,
 				4D7676101DB20AB200493C2D /* scheduler.h */,
 				A6A835981D4CA94C00A48B19 /* action.c */,
@@ -698,12 +703,12 @@
 		A6A835B71D4CA94C00A48B19 /* math */ = {
 			isa = PBXGroup;
 			children = (
+				A61102E41DD9997800C33627 /* mat4.c */,
+				A61102E51DD9997800C33627 /* mat4.h */,
 				A6A835B81D4CA94C00A48B19 /* affine.c */,
 				A6A835B91D4CA94C00A48B19 /* affine.h */,
 				A6A835BA1D4CA94C00A48B19 /* geo.c */,
 				A6A835BB1D4CA94C00A48B19 /* geo.h */,
-				A6A835BC1D4CA94C00A48B19 /* matrix.c */,
-				A6A835BD1D4CA94C00A48B19 /* matrix.h */,
 			);
 			path = math;
 			sourceTree = "<group>";
@@ -1004,6 +1009,7 @@
 				4D7676141DB20AC300493C2D /* laction.c in Sources */,
 				A6A835FB1D4CA94C00A48B19 /* test_array.c in Sources */,
 				A6A835E81D4CA94C00A48B19 /* ltexture.c in Sources */,
+				A61102E61DD9997800C33627 /* mat4.c in Sources */,
 				A67C629D1D90E1B900138CD2 /* SkeletonJson.c in Sources */,
 				A6A8365B1D4CABF800A48B19 /* lauxlib.c in Sources */,
 				A6A835E41D4CA94C00A48B19 /* lopen.c in Sources */,
@@ -1103,12 +1109,12 @@
 				A6A836681D4CABF800A48B19 /* liolib.c in Sources */,
 				A67C62871D90E1B900138CD2 /* Atlas.c in Sources */,
 				A6A835EC1D4CA94C00A48B19 /* lodepng.c in Sources */,
-				A6A835F01D4CA94C00A48B19 /* matrix.c in Sources */,
 				A6A835F61D4CA94C00A48B19 /* render.c in Sources */,
 				A6A8366E1D4CABF800A48B19 /* lopcodes.c in Sources */,
 				A6A836CB1D4CE37A00A48B19 /* buffer.c in Sources */,
 				A6A835F71D4CA94C00A48B19 /* seal.c in Sources */,
 				A6A835E01D4CA94C00A48B19 /* array.c in Sources */,
+				A61DDA761DD9CEFC00B7BDEC /* glview.c in Sources */,
 				4DC479571D4DB966002E444B /* fs.m in Sources */,
 				A6A8357E1D4CA87000A48B19 /* main.m in Sources */,
 				A67C62961D90E1B900138CD2 /* PathConstraint.c in Sources */,

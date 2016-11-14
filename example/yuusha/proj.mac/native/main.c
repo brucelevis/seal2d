@@ -46,7 +46,7 @@ GLFWwindow* init_glfw(int window_width, int window_height, const char* title)
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-    
+
     window = glfwCreateWindow(window_width, window_height, title, NULL, NULL);
     if (!window) {
         fprintf(stderr, "Error, glfwCreateWindow failed.\n");
@@ -72,10 +72,10 @@ void exit_glfw(GLFWwindow* window)
 int main(int argc, char *argv[])
 {
     struct game* game = seal_load_game_config();
-    
-    int window_width = game->config.window_width;
-    int window_height = game->config.window_height;
-    
+
+    int window_width = GAME->config.design_width;
+    int window_height = GAME->config.design_height;
+
     GLFWwindow* window = init_glfw(window_width,
                                    window_height,
                                    game->config.app_name);
@@ -98,7 +98,7 @@ int main(int argc, char *argv[])
     }
 
     seal_destroy();
-    
+
     exit_glfw(window);
     return 0;
 }

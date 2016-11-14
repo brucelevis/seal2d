@@ -37,8 +37,8 @@ int lsprite_load_spriteframe(lua_State* L)
         struct rect* frame_rect = &frame->frame_rect;
         frame_rect->x = (int)getfield_i(L, "x");
         frame_rect->y = (int)getfield_i(L, "y");
-        frame_rect->width = (int)getfield_i(L, "w");
-        frame_rect->height = (int)getfield_i(L, "h");
+        frame_rect->w = (int)getfield_i(L, "w");
+        frame_rect->h = (int)getfield_i(L, "h");
         lua_pop(L, 1);
 
         lua_pushstring(L, "spriteSourceSize");
@@ -47,16 +47,16 @@ int lsprite_load_spriteframe(lua_State* L)
         struct rect* source_rect = &frame->source_rect;
         source_rect->x = (int)getfield_i(L, "x");
         source_rect->y = (int)getfield_i(L, "y");
-        source_rect->width = (int)getfield_i(L, "w");
-        source_rect->height = (int)getfield_i(L, "h");
+        source_rect->w = (int)getfield_i(L, "w");
+        source_rect->h = (int)getfield_i(L, "h");
         lua_pop(L, 1);
 
         lua_pushstring(L, "sourceSize");
         lua_gettable(L, 1);
 
         struct size* size = &frame->source_size;
-        size->width = (int)getfield_i(L, "w");
-        size->height = (int)getfield_i(L, "h");
+        size->w = (int)getfield_i(L, "w");
+        size->h = (int)getfield_i(L, "h");
         lua_pop(L, 1);
 
         // read the info in the meta
@@ -92,8 +92,8 @@ int lsprite_set_texture_id(lua_State* L)
 int lsprite_frame_size(lua_State* L)
 {
     struct sprite_frame* self = lua_touserdata(L, 1);
-    lua_pushinteger(L, self->frame_rect.width);
-    lua_pushinteger(L, self->frame_rect.height);
+    lua_pushinteger(L, self->frame_rect.w);
+    lua_pushinteger(L, self->frame_rect.h);
     return 2;
 }
 
@@ -125,22 +125,22 @@ int lsprite_new_bmfont_label(lua_State* L)
 
 static void check_rect(lua_State* L, struct rect* r)
 {
-    lua_Number x, y, width, height;
+    lua_Number x, y, w, h;
     if(lua_gettop(L) == 4) {
         x = luaL_checknumber(L, 1);
         y = luaL_checknumber(L, 2);
-        width = luaL_checknumber(L, 3);
-        height = luaL_checknumber(L, 4);
+        w = luaL_checknumber(L, 3);
+        h = luaL_checknumber(L, 4);
     } else {
         x = y = 0;
-        width = GAME->config.window_width;
-        height = GAME->config.window_height;
+        w = GAME->config.design_width;
+        h = GAME->config.design_height;
     }
 
     r->x = x;
     r->y = y;
-    r->width = width;
-    r->height = height;
+    r->w = w;
+    r->h = h;
 }
 
 int lsprite_new_container(lua_State* L)
@@ -228,8 +228,8 @@ int lsprite_new_clip(lua_State* L)
     struct rect r;
     r.x = (int)getfield_i(L, "x");
     r.y = (int)getfield_i(L, "y");
-    r.width = (int)getfield_i(L, "w");
-    r.height = (int)getfield_i(L, "h");
+    r.w = (int)getfield_i(L, "w");
+    r.h = (int)getfield_i(L, "h");
 
     struct sprite* s = sprite_new_clip(&r);
     lua_pushlightuserdata(L, s);
@@ -243,8 +243,8 @@ int lsprite_new_scale9(lua_State* L)
     struct rect r;
     lua_getfield(L, 2, "x"); r.x = (int)lua_tonumber(L, -1); lua_pop(L, 1);
     lua_getfield(L, 2, "y"); r.y = (int)lua_tonumber(L, -1); lua_pop(L, 1);
-    lua_getfield(L, 2, "w"); r.width = (int)lua_tonumber(L, -1); lua_pop(L, 1);
-    lua_getfield(L, 2, "h"); r.height = (int)lua_tonumber(L, -1); lua_pop(L, 1);
+    lua_getfield(L, 2, "w"); r.w = (int)lua_tonumber(L, -1); lua_pop(L, 1);
+    lua_getfield(L, 2, "h"); r.h = (int)lua_tonumber(L, -1); lua_pop(L, 1);
 
     struct sprite* sprite = sprite_new_scale9(frame, &r);
     lua_pushlightuserdata(L, sprite);
@@ -405,15 +405,15 @@ int lsprite_set_glyph(lua_State* L)
     struct rect r;
     lua_rawgeti(L, 2, 1); r.x = lua_tonumber(L, -1); lua_pop(L, 1);
     lua_rawgeti(L, 2, 2); r.y = lua_tonumber(L, -1); lua_pop(L, 1);
-    lua_rawgeti(L, 2, 3); r.width = lua_tonumber(L, -1); lua_pop(L, 1);
-    lua_rawgeti(L, 2, 4); r.height = lua_tonumber(L, -1); lua_pop(L, 1);
+    lua_rawgeti(L, 2, 3); r.w = lua_tonumber(L, -1); lua_pop(L, 1);
+    lua_rawgeti(L, 2, 4); r.h = lua_tonumber(L, -1); lua_pop(L, 1);
 
     struct uv uv;
     lua_rawgeti(L, 3, 1); uv.u = lua_tonumber(L, -1); lua_pop(L, 1);
     lua_rawgeti(L, 3, 2); uv.v = lua_tonumber(L, -1); lua_pop(L, 1);
     lua_rawgeti(L, 3, 3); uv.w = lua_tonumber(L, -1); lua_pop(L, 1);
     lua_rawgeti(L, 3, 4); uv.h = lua_tonumber(L, -1); lua_pop(L, 1);
-    
+
     sprite_set_glyph(self, &r, &uv, 0);
 
     return 0;

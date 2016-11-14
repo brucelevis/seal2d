@@ -122,8 +122,8 @@ static void sprite_update_scale9(struct sprite* self)
 {
     struct sprite_frame* frame = self->scale9_data.frame;
     struct rect* inset = &(self->scale9_data.inset);
-    int width = frame->source_size.width;
-    int height = frame->source_size.height;
+    int width = frame->source_size.w;
+    int height = frame->source_size.h;
 
     float ox = -self->w * self->anchor_x;
     float oy = self->h * self->anchor_y;
@@ -131,14 +131,14 @@ static void sprite_update_scale9(struct sprite* self)
     struct scale9_data* data = &(self->scale9_data);
 
     int l = inset->x;
-    int c = inset->width;
-    int r = width - (inset->x + inset->width);
+    int c = inset->w;
+    int r = width - (inset->x + inset->h);
     int p = self->w - r;
     float ps = (self->w - (l + r)) * 1.0f / c;
 
     int t = inset->y;
-    int m = inset->height;
-    int b = height - (inset->y + inset->height);
+    int m = inset->h;
+    int b = height - (inset->y + inset->h);
     int q = self->h - b;
     float qs = (self->h - (t + b)) * 1.0f / m;
 
@@ -334,15 +334,15 @@ void sprite_frame_init_uv(struct sprite_frame* self,
                           float texture_width, float texture_height) {
     struct rect* frame_rect = &self->frame_rect;
     self->uv.u = frame_rect->x / texture_width;
-    self->uv.v = 1.0f - (frame_rect->y + frame_rect->height) / texture_height; // left corner is (0, 0)
-    self->uv.w = frame_rect->width / texture_width;
-    self->uv.h = frame_rect->height / texture_height;
+    self->uv.v = 1.0f - (frame_rect->y + frame_rect->h) / texture_height; // left corner is (0, 0)
+    self->uv.w = frame_rect->w / texture_width;
+    self->uv.h = frame_rect->h / texture_height;
 }
 
 void sprite_frame_init_subuv(struct sprite_frame* self, struct sprite_frame* parent)
 {
-    int tex_width = parent->frame_rect.width / parent->uv.w;
-    int tex_height = parent->frame_rect.height / parent->uv.h;
+    int tex_width = parent->frame_rect.w / parent->uv.w;
+    int tex_height = parent->frame_rect.h / parent->uv.h;
     sprite_frame_init_uv(self, tex_width, tex_height);
 }
 
@@ -358,10 +358,10 @@ void sprite_frame_tostring(struct sprite_frame* self, char* buff)
             "uv = {%.2f, %.2f, %.2f, %.2f}}\n",
             self->key,
             self->frame_rect.x, self->frame_rect.y,
-            self->frame_rect.width, self->frame_rect.height,
+            self->frame_rect.w, self->frame_rect.w,
             self->source_rect.x, self->source_rect.y,
-            self->source_rect.width, self->source_rect.height,
-            self->source_size.width, self->source_size.height,
+            self->source_rect.h, self->source_rect.h,
+            self->source_size.w, self->source_size.h,
             self->tex_id,
             stringfy_bool(self->rotated),
             stringfy_bool(self->trimmed),
@@ -401,13 +401,13 @@ void sprite_set_glyph(struct sprite* self, struct rect* rect,
     SET_VERTEX_POS(g->bl, 0.0f, 0.0f);
     SET_VERTEX_COLOR(g->bl, 255, 255, 255, 255);
 
-    SET_VERTEX_POS(g->br, rect->width, 0.0f);
+    SET_VERTEX_POS(g->br, rect->h, 0.0f);
     SET_VERTEX_COLOR(g->br, 255, 255, 255, 255);
 
-    SET_VERTEX_POS(g->tl, 0.0f, rect->height);
+    SET_VERTEX_POS(g->tl, 0.0f, rect->h);
     SET_VERTEX_COLOR(g->tl, 255, 255, 255, 255);
 
-    SET_VERTEX_POS(g->tr, rect->width, rect->height);
+    SET_VERTEX_POS(g->tr, rect->h, rect->h);
     SET_VERTEX_COLOR(g->tr, 255, 255, 255, 255);
 
     if (uv) {
@@ -424,7 +424,7 @@ struct sprite* sprite_new(struct sprite_frame* frame)
     s->type = SPRITE_TYPE_PIC;
     s->sprite_data.anim = NULL;
     s->sprite_data.frame = frame;
-    sprite_init(s, SPRITE_TYPE_PIC, frame->source_rect.width, frame->source_rect.height);
+    sprite_init(s, SPRITE_TYPE_PIC, frame->source_rect.w, frame->source_rect.h);
 
     sprite_set_glyph(s, &frame->frame_rect, &frame->uv, frame->tex_id);
 
@@ -467,7 +467,7 @@ struct sprite* sprite_new_container(struct rect* r)
     struct sprite* s = STRUCT_NEW(sprite);
     s->type = SPRITE_TYPE_CONTAINER;
 
-    sprite_init(s, SPRITE_TYPE_CONTAINER, r->width, r->height);
+    sprite_init(s, SPRITE_TYPE_CONTAINER, r->w, r->h);
     sprite_set_glyph(s, r, NULL, 0);
     s->x = r->x;
     s->y = r->y;
@@ -487,7 +487,7 @@ struct sprite* sprite_new_spine(const char* atlas_path,
                                                    spine_data_path,
                                                    scale);
     spine_get_boundingbox(spine_anim, &r);
-    sprite_init(s, SPRITE_TYPE_SPINE, r.width, r.height);
+    sprite_init(s, SPRITE_TYPE_SPINE, r.w, r.h);
     s->spine_data.spine_anim = spine_anim;
     return s;
 }
@@ -498,7 +498,7 @@ struct sprite* sprite_new_clip(struct rect* r)
     struct sprite* s = STRUCT_NEW(sprite);
     s->type = SPRITE_TYPE_CLIP;
 
-    sprite_init(s, SPRITE_TYPE_CLIP, r->width, r->height);
+    sprite_init(s, SPRITE_TYPE_CLIP, r->w, r->h);
     sprite_set_glyph(s, r, NULL, 0);
 
     s->x = r->x;
@@ -516,7 +516,7 @@ struct sprite* sprite_new_line(float* vertex, float width, color line_color)
     };
 
     s->type = SPRITE_TYPE_PRIMITVE;
-    sprite_init(s, SPRITE_TYPE_PRIMITVE, rect.width, rect.height);
+    sprite_init(s, SPRITE_TYPE_PRIMITVE, rect.w, rect.h);
     sprite_set_color(s, line_color);
 
     s->primitive_data.primitive_type = PRIMITIVE_LINE;
@@ -546,15 +546,15 @@ struct sprite* sprite_new_rect(struct rect* rect,
     struct primitive_data* primitive_data = &s->primitive_data;
     primitive_data->primitive_type = PRIMITIVE_RECT;
 
-    sprite_init(s, SPRITE_TYPE_PRIMITVE, rect->width, rect->height);
+    sprite_init(s, SPRITE_TYPE_PRIMITVE, rect->h, rect->h);
     sprite_set_glyph(s, rect, NULL, 0);
     sprite_set_color(s, fill_color);
 
     struct primitive_vertex* v = s_malloc(PRIMITIVE_VERTEX_SIZE * 4);
     float l = rect->x;
-    float r = rect->x + rect->width;
+    float r = rect->x + rect->h;
     float b = rect->y;
-    float t = rect->y + rect->height;
+    float t = rect->y + rect->h;
 
     // 4 lines forms an rect.
     SET_VERTEX_POS(v[0], l, b);
@@ -590,13 +590,13 @@ static struct sprite* sprite_new_scale9_item(struct sprite* self,
     struct sprite_frame* frame = sprite_frame_new_raw();
     frame->frame_rect.x = x;
     frame->frame_rect.y = y;
-    frame->frame_rect.width = width;
-    frame->frame_rect.height = height;
+    frame->frame_rect.w = width;
+    frame->frame_rect.h = height;
 
     frame->source_rect = frame->frame_rect;
 
-    frame->source_size.width = width;
-    frame->source_size.height = height;
+    frame->source_size.w = width;
+    frame->source_size.h = height;
 
     frame->tex_id = tex_id;
 
@@ -611,11 +611,11 @@ static struct sprite* sprite_new_scale9_item(struct sprite* self,
 
 struct sprite* sprite_new_scale9(struct sprite_frame* frame, struct rect* inset)
 {
-    int t_width = frame->frame_rect.width / frame->uv.w;
-    int t_height = frame->frame_rect.height / frame->uv.h;
+    int t_width = frame->frame_rect.w / frame->uv.w;
+    int t_height = frame->frame_rect.h / frame->uv.h;
 
-    int width = frame->source_size.width;
-    int height = frame->source_size.height;
+    int width = frame->source_size.w;
+    int height = frame->source_size.h;
 
     struct rect rect = {0, 0, width, height};
     struct sprite* s = sprite_new_container(&rect);
@@ -626,13 +626,13 @@ struct sprite* sprite_new_scale9(struct sprite_frame* frame, struct rect* inset)
     int y = frame->frame_rect.y;
 
     int l = inset->x;
-    int c = inset->width;
-    int r = width - (inset->x + inset->width);
+    int c = inset->w;
+    int r = width - (inset->x + inset->w);
     int p = l + c;
 
     int t = inset->y;
-    int m = inset->height;
-    int b = height - (inset->y + inset->height);
+    int m = inset->h;
+    int b = height - (inset->y + inset->h);
     int q = t + m;
 
     GLuint tex_id = frame->tex_id;
@@ -769,13 +769,13 @@ void sprite_set_text(struct sprite* self, const char* label)
 
                 frame->frame_rect.x = character->x;
                 frame->frame_rect.y = character->y;
-                frame->frame_rect.width = character->width;
-                frame->frame_rect.height = character->height;
+                frame->frame_rect.w = character->width;
+                frame->frame_rect.h = character->height;
 
                 frame->source_rect = frame->frame_rect;
 
-                frame->source_size.width = character->width;
-                frame->source_size.height = character->height;
+                frame->source_size.w = character->width;
+                frame->source_size.h = character->height;
 
                 frame->tex_id = tex->id;
 
@@ -900,7 +900,7 @@ bool sprite_contains(struct sprite* self, float x, float y)
         self->h,
     };
 
-    af_transfer_rect(&self->world_srt, &world.x, &world.y, &world.width, &world.height);
+    af_transfer_rect(&self->world_srt, &world.x, &world.y, &world.w, &world.h);
 
     return rect_contains(&world, x, y);
 }
@@ -929,9 +929,9 @@ static void sprite_draw_clip(struct sprite* self)
         self->x, self->y, self->w, self->h
     };
 
-    af_transfer_rect(&self->world_srt, &sr.x, &sr.y, &sr.width, &sr.height);
+    af_transfer_rect(&self->world_srt, &sr.x, &sr.y, &sr.w, &sr.h);
 
-    render_set_scissors(R, sr.x, sr.y, sr.width, sr.height);
+    render_set_scissors(R, sr.x, sr.y, sr.w, sr.h);
 }
 
 #if defined (SEAL_USE_SPINE)

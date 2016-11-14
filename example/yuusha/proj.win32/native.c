@@ -172,8 +172,8 @@ int main(int argc, char *argv[])
 {
     struct game* game = seal_load_game_config();
 
-    int window_width = game->config.window_width;
-    int window_height = game->config.window_height;
+    int window_width = GAME->config.design_width;
+    int window_height = GAME->config.design_height;
 
     long interval = (1 / 60.0f) * 1000;
     long dt = interval;
