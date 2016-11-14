@@ -139,7 +139,7 @@
         };
         seal_touch_event(&e);
     }
-    LOGP("touchCount = %d", touchCount);
+    LOGP("touchCount = %ld", touchCount);
 }
 
 -(void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event

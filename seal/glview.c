@@ -41,19 +41,45 @@ struct glview* glview_new(int design_w, int design_h, enum design_policy policy)
 
 static void glview_update(struct glview* self)
 {
+    float scale_x, scale_y;
+    float vw, vh;
     switch (self->__policy) {
         case FIX_WIDTH:
         {
+            scale_x = self->__design_size.w / self->view_size.w;
+            scale_y = scale_x;
+
+            vw = self->__design_size.w;
+            vh = scale_y * self->view_size.h;
             break;
         }
         case FIX_HEIGHT:
         {
+            scale_y = self->__design_size.h / self->view_size.h;
+            scale_x = scale_y;
+
+            vw = scale_x * self->__design_size.w;
+            vh = self->__design_size.h;
             break;
         }
 
         default:
             break;
     }
+
+    self->view_rect.x = 0;
+    self->view_rect.y = 0;
+    self->view_rect.w = vw;
+    self->view_rect.h = vh;
+
+    LOGP("\nglview_update:\n\t vire_rect = {%d, %d, %d, %d}"
+         "\n\t design_resize {%d, %d}"
+         "\n\t view_size {%d, %d}"
+         "\n",
+         self->view_rect.x, self->view_rect.y,
+         self->view_rect.w, self->view_rect.h,
+         self->__design_size.w, self->__design_size.h,
+         self->view_size.w, self->view_size.h);
 }
 
 void glview_set_fb_size(struct glview* self, int fb_w, int fb_h)
@@ -61,7 +87,8 @@ void glview_set_fb_size(struct glview* self, int fb_w, int fb_h)
     self->fb_size.w = fb_w;
     self->fb_size.h = fb_h;
 
-    glview_update(self);
+    self->__frame_scalar_x = fb_w / self->view_size.w;
+    self->__frame_scalar_y = fb_h / self->view_size.h;
 }
 
 void glview_set_screen_size(struct glview* self, int screen_w, int screen_h)
@@ -78,6 +105,11 @@ void glview_set_view_size(struct glview* self, int view_w, int view_h)
     self->view_size.h = view_h;
 
     glview_update(self);
+}
+
+void glview_update_viewport(struct glview* self)
+{
+    glViewport(self->view_rect.x, self->view_rect.y, self->view_rect.w, self->view_rect.h);
 }
 
 void glview_free(struct glview* self)
