@@ -119,8 +119,8 @@ void render_scissors_test(struct render* self)
     if (self->masks & RENDER_MASK_SCISSORS) {
         glEnable(GL_SCISSOR_TEST);
 
-        float scalar_x = GAME->glview->__view_scalar_x;
-        float scalar_y = GAME->glview->__view_scalar_y;
+        float scalar_x = GAME->glview->__frame_scalar_x;
+        float scalar_y = GAME->glview->__frame_scalar_x;
         glScissor(self->scissors.x * scalar_x,
                   self->scissors.y * scalar_y,
                   self->scissors.w * scalar_x,

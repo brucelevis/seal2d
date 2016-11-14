@@ -87,39 +87,6 @@ local tests = {
                                          end}
 }
 
-local function draw_menu(self)
-    local nuk_node = require "seal.nuk_node"
-    local menu = self.menu
-
-    menu.nk_set_button_border_color(0, 255, 0, 255)
-
-    if (menu:nk_begin("tests",
-        {x = WINDOW_WIDTH - 200, y = 50, w = 200, h = WINDOW_HEIGHT - 200/2},
-            nuk_node.NK_WINDOW_BORDER      |
-            nuk_node.NK_WINDOW_MOVABLE     |
-            nuk_node.NK_WINDOW_SCALABLE    |
-            nuk_node.NK_WINDOW_MINIMIZABLE |
-            nuk_node.NK_WINDOW_TITLE
-        )) then
-
-        -- the layout size should never be larger than the panel size.....
-        menu.nk_layout_row_static(30, 150, 1)
-
-        for i = 1, #tests do
-            local t = tests[i]
-            if (menu.nk_button_label(t.name, menu.NK_BUTTON_DEFAULT)) then
-                if type(t.sample_name) == 'string' then
-                   local node = require("tests.game.samples." .. t.sample_name)
-                    self:switch(node.new())
-                elseif type(t.sample_name) == 'function' then
-                    t.sample_name(self)
-                end
-            end
-        end
-    end
-    menu.nk_end()
-end
-
 local function draw_current(self)
     if self.current and self.current.draw then
         self.current:draw()

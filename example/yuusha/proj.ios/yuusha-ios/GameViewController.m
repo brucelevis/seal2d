@@ -49,16 +49,10 @@
     [view bindDrawable];
 
     CGSize viewSize = [view bounds].size;
-//    CGRect screenRect = [[UIScreen mainScreen] bounds];
-
     CGFloat scaleFactor = [view contentScaleFactor];
+
     struct glview* glview = seal_init_graphics();
-
-//    glview_set_screen_size(glview, screenRect.size.width * scaleFactor,
-//                                   screenRect.size.height * scaleFactor);
-
-    glview_set_view_size(glview, viewSize.width * scaleFactor,
-                                 viewSize.height * scaleFactor);
+    glview_set_view_size(glview, viewSize.width * scaleFactor, viewSize.height * scaleFactor);
     glview_set_fb_size(glview, (int)view.drawableWidth, (int)view.drawableHeight);
 
     seal_start_game();

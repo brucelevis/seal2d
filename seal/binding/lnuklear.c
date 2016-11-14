@@ -31,8 +31,8 @@ void nuk_init(void* winctx)
         struct nk_font_atlas *atlas;
         nk_glfw3_font_stash_begin(&atlas);
         nk_font_atlas_add_from_file(atlas,
-                                    GAME->config.nk_gui_font_path,
-                                    GAME->config.nk_gui_font_size,
+                                    "",
+                                    14,
                                     0);
         nk_glfw3_font_stash_end();
     }
