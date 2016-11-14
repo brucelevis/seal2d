@@ -878,7 +878,7 @@ void sprite_visit_touch(struct sprite* self, struct touch_handler* handler, stru
 
     bool contains = sprite_contains(self, touch_event->x, touch_event->y);
     bool visible = self->visible;
-//    LOGP("__id = %d, contains = %s, visible = %s", self->__id, stringfy_bool(contains), stringfy_bool(visible));
+    LOGP("__id = %d, contains = %s, visible = %s", self->__id, stringfy_bool(contains), stringfy_bool(visible));
     if (touch_event->type == TOUCH_BEGIN && contains && visible) {
         touch_handler_push(handler, self);
     }

@@ -73,8 +73,8 @@ int main(int argc, char *argv[])
 {
     struct game* game = seal_load_game_config();
 
-    int window_width = GAME->config.design_width;
-    int window_height = GAME->config.design_height;
+    int window_width = game->config.design_width;
+    int window_height = game->config.design_height;
 
     GLFWwindow* window = init_glfw(window_width,
                                    window_height,
@@ -82,16 +82,17 @@ int main(int argc, char *argv[])
     game->window->ctx = window;
     int fb_width, fb_height;
     glfwGetFramebufferSize(window, &fb_width, &fb_height);
-    game->config.scale_factor = fb_width / window_width;
-    game->config.fb_width = fb_width;
-    game->config.fb_height = fb_height;
-    seal_init_graphics(window_width, window_height);
+
+    struct glview* glview = seal_init_graphics();
+    glview_set_view_size(glview, window_width, window_height);
+    glview_set_fb_size(glview, fb_width, fb_height);
+
     seal_start_game();
 
     while (!glfwWindowShouldClose(window)) {
         seal_update();
         seal_draw();
-        glViewport(0, 0, game->config.fb_width, game->config.fb_height);
+        glview_update_viewport(glview);
         glfwSwapBuffers(window);
 
         glfwPollEvents();
