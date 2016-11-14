@@ -118,11 +118,13 @@ void render_scissors_test(struct render* self)
 {
     if (self->masks & RENDER_MASK_SCISSORS) {
         glEnable(GL_SCISSOR_TEST);
-        LOGP("scale_factor = %.2f", GAME->config.scale_factor);
-        glScissor(self->scissors.x*GAME->config.scale_factor,
-                  self->scissors.y*GAME->config.scale_factor,
-                  self->scissors.w*GAME->config.scale_factor,
-                  self->scissors.h*GAME->config.scale_factor);
+
+        float scalar_x = GAME->glview->__view_scalar_x;
+        float scalar_y = GAME->glview->__view_scalar_y;
+        glScissor(self->scissors.x * scalar_x,
+                  self->scissors.y * scalar_y,
+                  self->scissors.w * scalar_x,
+                  self->scissors.h * scalar_y);
         CHECK_GL_ERROR;
     }
 }

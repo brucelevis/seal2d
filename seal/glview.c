@@ -72,14 +72,18 @@ static void glview_update(struct glview* self)
     self->view_rect.w = vw;
     self->view_rect.h = vh;
 
+    self->__view_scalar_x = vw / self->__design_size.w;
+    self->__view_scalar_y = vh / self->__design_size.h;
+
     LOGP("\nglview_update:\n\t vire_rect = {%d, %d, %d, %d}"
          "\n\t design_resize {%d, %d}"
          "\n\t view_size {%d, %d}"
-         "\n",
+         "\n\t view_scalar {%.2f, %.2f}",
          self->view_rect.x, self->view_rect.y,
          self->view_rect.w, self->view_rect.h,
          self->__design_size.w, self->__design_size.h,
-         self->view_size.w, self->view_size.h);
+         self->view_size.w, self->view_size.h,
+         self->__view_scalar_x, self->__view_scalar_y);
 }
 
 void glview_set_fb_size(struct glview* self, int fb_w, int fb_h)
