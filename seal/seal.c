@@ -189,7 +189,7 @@ struct game* seal_load_game_config()
     config->design_height = lua_tonumber(L, 3);
     config->design_policy = lua_tonumber(L, 4);
 
-    lua_pop(L, 5);
+    lua_pop(L, 4);
 
 #ifdef PLAT_DESKTOP
     GAME->window = win_alloc();
@@ -397,6 +397,8 @@ void seal_draw()
 
     render_flush(R);
 
+    glview_update_viewport(GAME->glview);
+    
     // call the injected draw function in Lua Layer.
     lua_State* L = GAME->lstate;
     lua_pushvalue(L, DRAW_FUNC_INDEX);

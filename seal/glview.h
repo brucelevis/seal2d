@@ -38,7 +38,7 @@ struct glview {
     struct size view_size;   // read from the local OpenGLView system(GLKView)
     struct size fb_size;     // framebuffer size
 
-    // these values could NOT be changed during runtime
+    struct rect view_rect;
     struct size __design_size; // the size set by the user, design size.
     enum design_policy __policy; // design policy
     float __view_scalar_x;  // scalar of design/view
@@ -54,5 +54,6 @@ void glview_free(struct glview* self);
 void glview_set_fb_size(struct glview* self, int fb_w, int fb_h);
 //void glview_set_screen_size(struct glview* self, int screen_w, int screen_h);
 void glview_set_view_size(struct glview* self, int view_w, int view_h);
+void glview_update_viewport(struct glview* self);
 
 #endif /* glview_h */
