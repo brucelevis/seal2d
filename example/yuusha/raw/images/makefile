@@ -5,7 +5,7 @@ tp=/Applications/TexturePacker.app/Contents/MacOS/Texturepacker
 
 $(dirs): $(dirs)
 	mkdir -p $(dst_dir)
-	$(tp) --data $(dst_dir)/$@.json --format json --sheet $(dst_dir)/$@.png $@/*.png --trim-mode None --disable-rotation
+	$(tp) --data $(dst_dir)/$@.json --format json --sheet $(dst_dir)/$@.png $@/*.png --trim-mode None --disable-rotation --premultiply-alpha
 	@echo making atlas in folder: $@
 
 all:create_dir $(dirs)

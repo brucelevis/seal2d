@@ -169,6 +169,7 @@ void seal_reload_scripts()
 struct game* seal_load_game_config()
 {
     GAME = (struct game*)s_malloc(sizeof(struct game));
+    memset(GAME->config.app_name, 0, 128);
     // lua modules
     lua_State* L = seal_new_lua();
     luaopen_lua_extensions(L);
@@ -177,17 +178,16 @@ struct game* seal_load_game_config()
     // load the game settings from config.lua
     seal_load_file("scripts/config.lua");
     lua_getglobal(L, "APP_NAME");
-    lua_getglobal(L, "WINDOW_WIDTH");
-    lua_getglobal(L, "WINDOW_HEIGHT");
-    lua_getglobal(L, "NK_GUI_FONT_PATH");
-    lua_getglobal(L, "NK_GUI_FONT_SIZE");
+    lua_getglobal(L, "DESIGN_WIDTH");
+    lua_getglobal(L, "DESIGN_HEIGHT");
+    lua_getglobal(L, "DESIGN_POLICY");
 
     struct game_config* config = &GAME->config;
-    config->app_name = lua_tostring(L, 1);
-    config->window_width = lua_tonumber(L, 2);
-    config->window_height = lua_tonumber(L, 3);
-    config->nk_gui_font_path = lua_tostring(L, 4);
-    config->nk_gui_font_size = lua_tonumber(L, 5);
+    const char* name = lua_tostring(L, 1);
+    strncpy(config->app_name, name, 128-1);
+    config->design_width = lua_tonumber(L, 2);
+    config->design_height = lua_tonumber(L, 3);
+    config->design_policy = lua_tonumber(L, 4);
 
     lua_pop(L, 5);
 
@@ -198,9 +198,14 @@ struct game* seal_load_game_config()
     return GAME;
 }
 
-void seal_init_graphics(int w, int h)
+struct glview* seal_init_graphics()
 {
+    int w, h, policy;
+    w = GAME->config.design_width;
+    h = GAME->config.design_height;
+    policy = GAME->config.design_policy;
     // baisc graphic modules
+    GAME->glview = glview_new(w, h, policy);
     GAME->texture_cache = texture_cache_new();
     GAME->sprite_frame_cache = sprite_frame_cache_new();
     GAME->bmfont_cache = bmfont_cache_new();
@@ -213,8 +218,9 @@ void seal_init_graphics(int w, int h)
 
 #ifdef PLAT_DESKTOP
     nuk_init(GAME->window->ctx);
-    nanovg_init(GAME->config.window_width, GAME->config.window_height);
+    nanovg_init(GAME->config.design_width, GAME->config.design_height);
 #endif
+    return GAME->glview;
     // init the font
     // TODO: implement this later
 //    ttf_init_module();
@@ -325,8 +331,8 @@ void seal_start_game()
     lua_getfield(L, LUA_REGISTRYINDEX, GAME_EVENT);
 
     camera_pos(GAME->global_camera,
-               GAME->config.window_width/2,
-               GAME->config.window_height/2);
+               GAME->config.design_width/2,
+               GAME->config.design_height/2);
 
     seal_event(EVENT_GAME_START, on_seal_game_start, NULL);
 }

@@ -73,7 +73,7 @@ struct glyph {
 
 struct rect {
     int x, y;
-    int width, height;
+    int w, h;
 };
 
 struct uv {
@@ -82,7 +82,7 @@ struct uv {
 };
 
 struct size {
-    int width, height;
+    int w, h;
 };
 
 bool rect_contains(struct rect* rect, float x, float y);

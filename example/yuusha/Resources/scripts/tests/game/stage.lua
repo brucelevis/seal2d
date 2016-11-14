@@ -75,7 +75,7 @@ function stage:switch(new)
             self.current:remove_from_parent()
         end
 
-        if new then 
+        if new then
             self:add_child(new)
             if new.on_enter then
                 new:on_enter()
@@ -138,7 +138,7 @@ end
 
 function stage:create_menu()
     if ENGINE_MODE == 1 and not self.menu_inited then
-        self.menu_inited = true 
+        self.menu_inited = true
 
         local ui_rect = require "seal.gui.simple.ui_rect"
         local ui_button = require "seal.gui.simple.ui_button"
@@ -146,9 +146,9 @@ function stage:create_menu()
         local menues = {}
         for i = 1, #tests do
             local t = tests[i]
-            menues[i] = {  
-                ui_button = true, w = 140, h = 25, 
-                { 
+            menues[i] = {
+                ui_button = true, w = 140, h = 25,
+                {
                     y = 4, fnt = 'res/fonts/animated.txt', scale = 0.8, text = t.name,
                 },
                 effect_click = function()
@@ -167,11 +167,11 @@ function stage:create_menu()
         local menu = nil
         menu = sprite.new_attr{
             parent = self,
-            x = WINDOW_WIDTH - 80, y = WINDOW_HEIGHT/2 + 100,    
-            ui_rect = true, w = 150, h = 500, fc = {204, 204, 204, 255},   
-            { 
-                scale9 = true, w = 150, h = 25, x = 0, y = 237.5, 
-                color  = {233, 80, 90, 255}, atlas="ui.png", texture="rect-full.png", 
+            x = WINDOW_WIDTH - 80, y = WINDOW_HEIGHT/2 + 100,
+            ui_rect = true, w = 150, h = 500, fc = {204, 204, 204, 255},
+            {
+                scale9 = true, w = 150, h = 25, x = 0, y = 237.5,
+                color  = {233, 80, 90, 255}, atlas="ui.png", texture="rect-full.png",
                 moved  = function(sender, x, y, sx, sy)
                     local cx, cy = menu:get_pos()
                     menu:set_pos(cx + sx, cy + sy)
@@ -185,8 +185,8 @@ function stage:create_menu()
                 table.unpack(menues)
             },
             { ui_rect = true, w = 150, h = 500, oc = {0, 0, 0, 255}, }
-        } 
-        return 
+        }
+        return
     end
 end
 

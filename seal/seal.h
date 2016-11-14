@@ -51,6 +51,7 @@
 #include "bmfont.h"
 #include "camera.h"
 #include "event.h"
+#include "glview.h"
 #include "lua_handler.h"
 #include "memory.h"
 #include "render.h"
@@ -65,7 +66,6 @@
 #include "touch_handler.h"
 
 struct camera;
-struct sprite_batch;
 struct sprite_frame_cache;
 struct texture_cache;
 struct ttf_font;
@@ -79,12 +79,10 @@ struct scheduler;
 struct touch_handler;
 
 struct game_config {
-    int window_width;
-    int window_height;
-    const char* app_name;
-
-    const char* nk_gui_font_path;
-    int nk_gui_font_size;
+    char app_name[128];
+    int design_width;
+    int design_height;
+    int design_policy;
 
     int fb_width;
     int fb_height;
@@ -99,10 +97,10 @@ struct game {
     // core render context
     float global_dt;
     struct camera* global_camera;
-    struct sprite_batch* batch;
+    struct glview* glview;
     struct texture_cache* texture_cache;
     struct ttf_font* font;
-    struct window* window;
+    struct window* window;           // TODO: move this to glview,
     struct sprite* root;             // the root node of the world
     struct shader* shader;
     struct render* render;
@@ -135,7 +133,7 @@ struct game {
 
 // main game state functions
 struct game* seal_load_game_config();
-void seal_init_graphics(int w, int h);
+struct glview* seal_init_graphics();
 void seal_load_string(const char* script_data);
 void seal_load_file(const char* script_path);
 void seal_start_game();

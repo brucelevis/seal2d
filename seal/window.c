@@ -23,7 +23,7 @@ void glfw_mouse_button_callback(GLFWwindow* window,
         case GLFW_PRESS: {
                 struct touch_event e = {TOUCH_BEGIN,
                                  GAME->window->cursor_x,
-                                 GAME->config.window_height - GAME->window->cursor_y,
+                                 GAME->config.design_height - GAME->window->cursor_y,
                                  false};
                 seal_touch_event(&e);
                 GAME->window->is_touch_down = 1;
@@ -33,7 +33,7 @@ void glfw_mouse_button_callback(GLFWwindow* window,
         case GLFW_RELEASE: {
                 struct touch_event e = {TOUCH_END,
                     GAME->window->cursor_x,
-                    GAME->config.window_height - GAME->window->cursor_y,
+                    GAME->config.design_height - GAME->window->cursor_y,
                     false};
                 seal_touch_event(&e);
                 GAME->window->is_touch_down = 0;
@@ -53,14 +53,14 @@ void glfw_mouse_pos_callback(GLFWwindow* window, double x, double y)
     if (win->is_touch_down) {
         struct touch_event e = {TOUCH_MOVE,
                                 x,
-                                GAME->config.window_height - y,
+                                GAME->config.design_height - y,
                                 false};
         seal_touch_event(&e);
     }
     static char title_text[256] = "";
     snprintf(title_text, 256, "%s:(%d, %d)",
              GAME->config.app_name,
-             (int)x, (int)(GAME->config.window_height - y));
+             (int)x, (int)(GAME->config.design_height - y));
     glfwSetWindowTitle(window, title_text);
 }
 
@@ -77,7 +77,7 @@ void glfw_framebuffer_size_callback(GLFWwindow* window, int w, int h)
     GAME->config.fb_width = w;
     GAME->config.fb_height = h;
 
-    GAME->config.scale_factor = w/GAME->config.window_width;
+    GAME->config.scale_factor = w/GAME->config.design_width;
 }
 
 #endif
