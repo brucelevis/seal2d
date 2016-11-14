@@ -198,6 +198,11 @@ struct game* seal_load_game_config()
     return GAME;
 }
 
+struct game* seal_game_context()
+{
+    return GAME;
+}
+
 struct glview* seal_init_graphics()
 {
     int w, h, policy;

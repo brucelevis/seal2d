@@ -1,4 +1,3 @@
-local nuk_node = require "seal.nuk_node"
 local common = require "tests.game.samples.sample_common"
 
 local sprite_test = class("sprite_test", function()
@@ -236,10 +235,6 @@ end
 
 function sprite_test:ctor(parent)
     self:create_menu(parent)
-
-    if device.is_pc() then
-        self.bar = nuk_node.new()
-    end
 end
 
 function sprite_test:on_enter()
@@ -264,34 +259,6 @@ local test_cases = {
     {name = "scale9 test", load_func = load_scale9},
     {name = "touch test", load_func = load_touch_test},
 }
-
-local BH = 40 --button height
-local RH = 100 -- row height
-function sprite_test:draw()
-    local bar = self.bar
-
-    if (bar:nk_begin("bar",
-                     {
-                        x = 0,
-                        y = WINDOW_HEIGHT - (RH - BH),
-                        w = WINDOW_WIDTH,
-                        h = RH
-                     },
-                     nuk_node.NK_WINDOW_MOVABLE )) then
-
-        -- the layout size should never be larger than the panel size.....
-        bar.nk_layout_row_dynamic(BH, #test_cases)
-
-        for i = 1, #test_cases do
-            local t = test_cases[i]
-            if (bar.nk_button_label(t.name, bar.NK_BUTTON_DEFAULT)) then
-                self:cleanup()
-                t.load_func(self)
-            end
-        end
-    end
-    bar.nk_end()
-end
 
 function sprite_test:create_menu(parent)
     if ENGINE_MODE == 1 and not self.menu_inited then

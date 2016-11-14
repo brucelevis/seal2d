@@ -134,6 +134,7 @@ struct game {
 // main game state functions
 struct game* seal_load_game_config();
 struct glview* seal_init_graphics();
+struct game* seal_game_context();
 void seal_load_string(const char* script_data);
 void seal_load_file(const char* script_path);
 void seal_start_game();

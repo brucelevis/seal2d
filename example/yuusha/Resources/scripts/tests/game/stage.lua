@@ -10,17 +10,6 @@ function stage:ctor()
     sprite_frame.load_from_json("res/images/anim_pirate.json")
     sprite_frame.load_from_json("res/images/skeleton.json")
 
-    if device.is_pc() then
-        local nuk_node = require "seal.nuk_node"
-        self.menu = nuk_node.new()
-    else
-        local hello_world = sprite.new_bmfont_label("hello seal2d.",
-                                                    "res/fonts/animated.txt")
-        hello_world:set_pos(0, 0)
-        self:add_child(hello_world)
-
-    end
-
     self:create_menu()
 end
 
@@ -150,15 +139,7 @@ function stage:create_menu()
 end
 
 function stage:draw()
-    if device.is_pc() then
-        local nuk_node = require "seal.nuk_node"
-        nuk_node.draw_start()
-        --draw_menu(self)
-        --draw_current(self)
-        nuk_node.draw_end()
 
-    else
-    end
 end
 
 return stage
