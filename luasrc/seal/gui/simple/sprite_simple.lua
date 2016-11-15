@@ -178,15 +178,8 @@ function sprite.new_attr(attr)
     end
 
     --sp:set_bbox_visible(true)
-    sprite_apply_attribute(sp, attr)
-    
-    for idx, attr in ipairs(attr) do 
-        if attr then 
-            local child = attr.__cobj and attr or sprite.new_attr(attr)
-            sp:add_child(child)
-        end
-    end
 
+    sp:apply_style(attr) 
     return sp
 end
 
@@ -201,16 +194,22 @@ end
 
 ]]
 function sprite:apply_style(style)  
-    self:remove_all_child()
+    --self:remove_all_child()
 
     sprite_apply_attribute(self, style)
 
+    local ids = {}
     for idx, attr in ipairs(style) do 
         if attr then 
             local child = attr.__cobj and attr or sprite.new_attr(attr)
             self:add_child(child)
+            if attr.id then 
+                ids[attr.id] = child
+            end
         end
     end
 
+    self.ids = ids
+    self.id = style.id
     return self
 end
