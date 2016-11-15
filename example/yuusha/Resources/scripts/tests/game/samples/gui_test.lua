@@ -13,6 +13,20 @@ local function attach_next_button(self)
 -----------------------------------  test simple mode
     if ENGINE_MODE == 1 then
 
+        local menu = sprite.new_attr{
+            parent = self, menu = true,
+            w = 70, h = 25, x = 250, y = 500,
+            text = 'Menu',
+            menus = {
+                { name = "New", click = function() print("New File...") end },
+                { name = "Open", click = function() print("Open File...") end },
+                { name = "Save", click = function() print("Save File...") end },
+                { name = "Cloese", click = function() print("Cloese File...") end },
+            },
+
+            { fnt = 'res/fonts/animated.txt', text = 'click menu, and click sub menu', y = 70 },
+            { fnt = 'res/fonts/animated.txt', text = 'many times, crush!!! check touch event', y = 40 },
+        }
 
         local loadingbar = sprite.new_attr{
             parent = self, loadingbar = true,
@@ -34,7 +48,7 @@ local function attach_next_button(self)
         local menu = nil
         menu = sprite.new_attr{
             parent = self,
-            x = WINDOW_WIDTH/2, y = WINDOW_HEIGHT/2,    
+            x = WINDOW_WIDTH/2+100, y = WINDOW_HEIGHT/2,    
             ui_rect = true, w = 150, h = 500, fc = {204, 204, 204, 255},   
             { 
                 scale9 = true, w = 150, h = 25, x = 0, y = 237.5, 

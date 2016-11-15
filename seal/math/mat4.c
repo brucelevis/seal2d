@@ -100,7 +100,7 @@ void mat4_load_rotate_z(struct mat4* out, float degree)
 void mat4_orth(struct mat4* out,
                float left,  float bottom,
                float right, float top,
-               float near,  float far)
+               float nnear,  float nfar)
 {
     float* m = out->m;
     m[0] = 2.0f / (right - left);
@@ -113,11 +113,11 @@ void mat4_orth(struct mat4* out,
     m[7] = 0.0f;
     m[8] = 0.0f;
     m[9] = 0.0f;
-    m[10] = 2.0f / (near - far);
+    m[10] = 2.0f / (nnear - nfar);
     m[11] = 0.0f;
     m[12] = (left + right) / (left - right);
     m[13] = -(top + bottom) / (top - bottom);
-    m[14] = (near + far) / (near - far);
+    m[14] = (nnear + nfar) / (nnear - nfar);
     m[15] = 1.0f;
 }
 

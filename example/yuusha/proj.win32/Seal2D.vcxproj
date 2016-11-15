@@ -255,7 +255,7 @@
     <ClCompile Include="..\..\..\seal\lua_handler.c" />
     <ClCompile Include="..\..\..\seal\math\affine.c" />
     <ClCompile Include="..\..\..\seal\math\geo.c" />
-    <ClCompile Include="..\..\..\seal\math\matrix.c" />
+    <ClCompile Include="..\..\..\seal\math\mat4.c" />
     <ClCompile Include="..\..\..\seal\memory.c" />
     <ClCompile Include="..\..\..\seal\platform\fs.c" />
     <ClCompile Include="..\..\..\seal\platform\platform.c" />
@@ -378,7 +378,7 @@
     <ClInclude Include="..\..\..\seal\lua_handler.h" />
     <ClInclude Include="..\..\..\seal\math\affine.h" />
     <ClInclude Include="..\..\..\seal\math\geo.h" />
-    <ClInclude Include="..\..\..\seal\math\matrix.h" />
+    <ClInclude Include="..\..\..\seal\math\mat4.h" />
     <ClInclude Include="..\..\..\seal\memory.h" />
     <ClInclude Include="..\..\..\seal\platform\fs.h" />
     <ClInclude Include="..\..\..\seal\platform\platform.h" />

@@ -139,9 +139,6 @@
     <ClCompile Include="..\..\..\seal\image\lodepng.c">
       <Filter>Engine\seal\image</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\seal\math\matrix.c">
-      <Filter>Engine\seal\math</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\seal\math\affine.c">
       <Filter>Engine\seal\math</Filter>
     </ClCompile>
@@ -436,6 +433,9 @@
     <ClCompile Include="..\..\..\seal\binding\lscheduler.c">
       <Filter>Engine\seal\binding</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\seal\math\mat4.c">
+      <Filter>Engine\seal\math</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\seal\bmfont.h">
@@ -505,9 +505,6 @@
       <Filter>Engine\seal\image</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\seal\math\geo.h">
-      <Filter>Engine\seal\math</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\seal\math\matrix.h">
       <Filter>Engine\seal\math</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\seal\math\affine.h">
@@ -803,6 +800,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\seal\touch_handler.h">
       <Filter>Engine\seal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\seal\math\mat4.h">
+      <Filter>Engine\seal\math</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -167,6 +167,8 @@ function sprite.new_attr(attr)
         if attr.on_changed then 
             sp:on_changed(attr.on_changed)
         end
+    elseif attr.menu then
+        sp = ui_menu.new(attr.w, attr.h, attr.menus) 
     elseif attr.clip then
         sp = sprite.new_clip({x = 0, y = 0, w = attr.w, h = attr.h})
     elseif attr.scroll then
