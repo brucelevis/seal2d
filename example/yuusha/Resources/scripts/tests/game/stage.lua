@@ -21,7 +21,48 @@ function stage:ctor()
 
     end
 
-    self:create_menu()
+    local edit = require("editor.menu.edit_menu_init").init(self)
+
+    self:init_events(edit)
+
+    --self:create_menu()
+end
+
+function stage:init_events(edit)
+    edit.top:slot("hello_world", function()
+        self:on_test_menu_clock("hello_world")
+    end)
+    edit.top:slot("sprite_test", function()
+        self:on_test_menu_clock("sprite_test")
+    end)
+    edit.top:slot("gui_test", function()
+        self:on_test_menu_clock("gui_test")
+    end)
+    edit.top:slot("dump_cmem", function()
+        self:switch(nil)
+        self.current = nil
+        collectgarbage()
+        require("platform_core").__cmem()
+    end)
+end
+
+function stage:on_test_menu_clock(name)
+    if "dump_cmem" == name then 
+        self:switch(nil)
+        self.current = nil
+        collectgarbage()
+        require("platform_core").__cmem()
+        return 
+    end
+
+    if type(name) == 'string' then
+        local path = "tests.game.samples." .. name
+        package.loaded[path] = nil
+        local node = require(path)
+        self:switch(node.new(self))
+    elseif type(name) == 'function' then
+        name(self)
+    end
 end
 
 function stage:switch(new)

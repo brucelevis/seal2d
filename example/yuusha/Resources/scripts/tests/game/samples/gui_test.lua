@@ -19,7 +19,7 @@ local function attach_next_button(self)
             text = 'Menu',
             menus = {
                 { name = "New", click = function() print("New File...") end },
-                { name = "Open", click = function() print("Open File...") end },
+                { name = "Ope111111111n", click = function() print("Open File...") end },
                 { name = "Save", click = function() print("Save File...") end },
                 { name = "Cloese", click = function() print("Cloese File...") end },
             },

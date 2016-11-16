@@ -1,5 +1,6 @@
 local core = require "sprite_core"
 local sprite_frame = require "seal.sprite_frame"
+local util = require "seal.util"
 
 local sprite = {
     get_frame_from_cache = core.get_frame_from_cache,
@@ -28,14 +29,17 @@ local sprite = {
     get_rotation = core.get_rotation,
     get_scale = core.get_scale,
     get_pos = core.get_pos,
+    get_world_pos = core.get_world_pos,
     get_size = core.get_size,
     get_anchor = core.get_anchor,
     get_glyph = core.get_glyph,
     get_color = core.get_color,
 
-    add_child = core.add_child,
     remove_from_parent = core.remove_from_parent,
-    remove_all_child = core.remove_all_child
+    remove_all_child = core.remove_all_child,
+    
+    slot= util.event_mt.slot,
+    emit= util.event_mt.emit,
 }
 
 local meta = {__index = sprite}
@@ -97,13 +101,19 @@ function sprite.new_scale9(texture_name, frame_name, rect)
     return self
 end
 
+function sprite:add_child(child, ...)
+    child.parent = self
+    core.add_child(self, child, ...)
+end
+
 function sprite:cleanup(...)
     self:remove_all_child(...)
     self:clean_handler()
 end
 
-function sprite:set_bbox_visible(visible)
+function sprite:set_bbox_visible(visible, color)
     if not self.__bbox_lines then
+        color = color or {255, 255, 255, 255}
 
         local ax, ay = self:get_anchor()
         local w, h = self:get_size()
@@ -133,15 +143,18 @@ function sprite:set_bbox_visible(visible)
             local line = sprite.new_primitive("L", {
                                             vertex = lines[i],
                                             width = 2.0,
-                                            color = {255, 255, 255, 255}} )
+                                            color = color} )
             self:add_child(line)
             bbox_lines[#bbox_lines+1] = line
         end
         self.__bbox_lines = bbox_lines
     end
 
-    for _, line in pairs(self.__bbox_lines) do
-        line:set_visible(visible)
+    if not visible and self.__bbox_lines then 
+        for _, line in pairs(self.__bbox_lines) do
+            line:remove_from_parent()
+        end
+        self.__bbox_lines = nil
     end
 end
 

@@ -1,7 +1,33 @@
 local util = {}
 
+local _event_mt = {
+    slot = function(self, name, handle, removed)
+        self.__events = self.__events or {}
+        self.__events[name] = self.__events[name] or {}
+
+        if removed then 
+            self.__events[name][handle] = nil
+        else 
+            self.__events[name][handle] = true
+        end
+    end,
+    emit = function(self, name, ...)
+        if not name then return end
+        if self.__events then
+            local handles = self.__events[name] 
+            if not handles then return end
+            
+            for handle in pairs(handles) do 
+                handle(...)
+            end
+        end
+    end,
+}
+_event_mt.index = _event_mt
+util.event_mt = _event_mt
+
 function util.class(name, super)
-    local __class = {}
+    local __class = setmetatable({}, _event_mt)
     if type(super) == 'table' then
         __class.new = function(...)
             local obj = {}

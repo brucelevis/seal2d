@@ -203,8 +203,9 @@ function sprite:apply_style(style)
         if attr then 
             local child = attr.__cobj and attr or sprite.new_attr(attr)
             self:add_child(child)
-            if attr.id then 
-                ids[attr.id] = child
+            local id = attr.id or child.id
+            if id then 
+                ids[id] = child
             end
         end
     end
