@@ -13,13 +13,12 @@ local scroll_dir = {
     DIR_BOTH = 3,
 }
 local SIZE = {w = 200, h = 300}
-local INTERSPACE = 0
 local GAP = 2
 local CALLBACK = function() print("no callback in scroll_view.") end
 
 function scroll_view:ctor(conf)
 
-    self.is_bounce = true
+    self.is_bounce = 1
 
     self.d_y = 0
     self.d_x = 0
@@ -30,7 +29,7 @@ function scroll_view:ctor(conf)
 
     self.contents = {}
 
-    self.not_first = 0
+    self.has_gap = 0
 
     self.size = SIZE
     if conf.view_size then
@@ -42,11 +41,6 @@ function scroll_view:ctor(conf)
     self.direction = scroll_dir.DIR_VERTICLE
     if conf.direction then
         self:set_direction(conf.direction)
-    end
-
-    self.interspace = INTERSPACE
-    if conf.interspace then
-        self.interspace = conf.interspace
     end
 
     self.gap = GAP
@@ -78,8 +72,8 @@ function scroll_view:ctor(conf)
             local ox, oy = self.container:get_anchor()
 
             -- what's this ?
-            -- should get world position to do this like touch_cancle event 
-            -- or dispatcher touch_cancle event 
+            -- should get world position to do this like touch_cancle event
+            -- or dispatcher touch_cancle event
             -- if not(x > ox and x < ox + w and
             --        y > oy and y < oy + h) then
             --     self:touch_end(x - ox, y - oy)
@@ -164,8 +158,10 @@ function scroll_view:after_end()
     if X_max > 0 then X_max = 0 end
 
     if math.abs(self.d_y) < 1.0 and math.abs(self.d_x) < 1.0 or
-       new_Y > Y_max + self.container.h * 0.3 or new_Y < -self.container.h * 0.3 or
-       new_X < X_max - self.container.w * 0.3  or new_X > self.container.h * 0.3 then
+       new_Y > Y_max + self.container.h * 0.3 * self.is_bounce or
+       new_Y < -self.container.h * 0.3 * self.is_bounce or
+       new_X < X_max - self.container.w * 0.3 * self.is_bounce  or
+       new_X > self.container.h * 0.3  * self.is_bounce then
 
         self.update:stop()
         self.update = nil
@@ -198,14 +194,14 @@ function scroll_view:add_content(content_node)
 
     if self.direction == scroll_dir.DIR_VERTICLE then
         self.now_w = self.container.w
-        self.now_h = self.now_h + my_h + self.not_first * self.interspace + self.gap
+        self.now_h = self.now_h + my_h + self.has_gap * self.gap
         local x = self.size.w / 2 + my_w * (my_anchor_x - 0.5)
         local y = self.size.h - self.now_h + my_h * my_anchor_y
         content_node:set_pos(x, y)
 
     elseif self.direction == scroll_dir.DIR_HORIZONTAL then
         self.now_h = self.container.h
-        self.now_w = self.now_w + my_w + self.not_first * self.interspace + self.gap
+        self.now_w = self.now_w + my_w + self.has_gap * self.gap
         local x = self.now_w - (1 - my_anchor_x) * my_w
         local y = self.size.h / 2 + my_h * (my_anchor_y - 0.5)
         content_node:set_pos(x, y)
@@ -214,7 +210,7 @@ function scroll_view:add_content(content_node)
         assert(false, "the direction of scroll_view error")
     end
 
-
+    self.has_gap = 1
     self.container.child_union:add_child(content_node)
 end
 
@@ -222,15 +218,15 @@ function scroll_view:set_direction(dir)
     self.direction = dir
 end
 
-function scroll_view:set_interspace(inter)
-    self.interspace = inter
+function scroll_view:set_gap(gap)
+    self.gap = gap
 end
 
 function scroll_view:set_bounce(bounce)
     if bounce == true then
-        self.is_bounce = true
+        self.is_bounce = 1
     else
-        self.is_bounce = false
+        self.is_bounce = 0
     end
 end
 
