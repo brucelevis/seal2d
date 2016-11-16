@@ -46,7 +46,7 @@ function stage:init_events(edit)
     end)
 end
 
-function stage:on_test_menu_clock(name)
+function stage:on_test_menu_click(name)
     if "dump_cmem" == name then 
         self:switch(nil)
         self.current = nil
