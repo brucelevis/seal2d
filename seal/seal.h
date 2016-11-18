@@ -83,10 +83,6 @@ struct game_config {
     int design_width;
     int design_height;
     int design_policy;
-
-    int fb_width;
-    int fb_height;
-    float scale_factor;
 };
 
 struct game {

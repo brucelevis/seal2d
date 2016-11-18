@@ -206,9 +206,12 @@ struct game* seal_game_context()
 struct glview* seal_init_graphics(int view_w, int view_h, int fb_w, int fb_h)
 {
     // baisc graphic modules
-    GAME->glview = glview_new(GAME->config.design_width,
-                              GAME->config.design_height,
-                              GAME->config.design_policy);
+    struct glview* view = glview_new(GAME->config.design_width,
+                                     GAME->config.design_height,
+                                     GAME->config.design_policy);
+    glview_set_view_size(view, view_w, view_h);
+    glview_set_fb_size(view, fb_w, fb_h);
+    GAME->glview = view;
 
     GAME->texture_cache = texture_cache_new();
     GAME->sprite_frame_cache = sprite_frame_cache_new();

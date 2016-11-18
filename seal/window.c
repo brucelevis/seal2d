@@ -74,10 +74,7 @@ void glfw_key_callback(GLFWwindow* window, int key, int scancode, int action, in
 
 void glfw_framebuffer_size_callback(GLFWwindow* window, int w, int h)
 {
-    GAME->config.fb_width = w;
-    GAME->config.fb_height = h;
-
-    GAME->config.scale_factor = w/GAME->config.design_width;
+    LOGP("framebuffer size changed (%d, %d)", w, h);
 }
 
 #endif

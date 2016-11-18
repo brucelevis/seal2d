@@ -74,8 +74,15 @@ void camera_update(struct camera* self)
     }
 
     mat4_translate(&self->camer_mat,
-                     -self->x/GAME->config.design_width*2,
-                     -self->y/GAME->config.design_height*2,
+                     (-self->x/self->width) * GAME->glview->__frame_scalar_x,
+                     (-self->y/self->height) * GAME->glview->__frame_scalar_y,
                      1.0);
+
+    LOGP("camera traslate x, y = %.2f, %.2f, dx, dy = %.2f, %.2f, w, h = %d, %d",
+         self->x, self->y,
+         -self->x/(float)self->width,
+         -self->y/(float)self->height,
+         GAME->config.design_width*2,
+         GAME->config.design_height*2);
     self->dirty = 0;
 }
