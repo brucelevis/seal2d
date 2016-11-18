@@ -13,8 +13,6 @@ function stage:ctor()
     local edit = require("editor.menu.edit_menu_init").init(self)
 
     self:init_events(edit)
-
-    --self:create_menu()
 end
 
 function stage:init_events(edit)

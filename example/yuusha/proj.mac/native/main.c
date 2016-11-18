@@ -83,7 +83,7 @@ int main(int argc, char *argv[])
     int fb_width, fb_height;
     glfwGetFramebufferSize(window, &fb_width, &fb_height);
 
-    struct glview* glview = seal_init_graphics();
+    struct glview* glview = seal_init_graphics(window_width, window_height, fb_width, fb_height);
     glview_set_view_size(glview, window_width, window_height);
     glview_set_fb_size(glview, fb_width, fb_height);
 
