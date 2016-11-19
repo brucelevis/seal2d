@@ -157,6 +157,7 @@ struct scale9_data {
 struct sprite {
     // basic info
     unsigned int __id;
+    unsigned int __lua_handler;
 
     // scene graph
     int zorder;

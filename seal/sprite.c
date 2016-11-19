@@ -373,6 +373,7 @@ static void sprite_init(struct sprite* self,
                         float width, float height)
 {
     self->__id = ++__sprite_id;
+    self->__lua_handler = 0;
     self->parent = NULL;
     self->dirty = SPRITE_ALL_DIRTY;
     self->zorder = 0;
@@ -718,6 +719,7 @@ void sprite_free(struct sprite* self)
         default:
             break;
     }
+    lua_handler_clean(GAME->lua_handler, GAME->lstate, self);
     array_free(self->children);
     s_free(self);
 }
@@ -878,7 +880,7 @@ void sprite_visit_touch(struct sprite* self, struct touch_handler* handler, stru
 
     bool contains = sprite_contains(self, touch_event->x, touch_event->y);
     bool visible = self->visible;
-    LOGP("__id = %d, contains = %s, visible = %s", self->__id, stringfy_bool(contains), stringfy_bool(visible));
+//    LOGP("__id = %d, contains = %s, visible = %s", self->__id, stringfy_bool(contains), stringfy_bool(visible));
     if (touch_event->type == TOUCH_BEGIN && contains && visible) {
         touch_handler_push(handler, self);
     }
@@ -891,7 +893,7 @@ void sprite_touch(struct sprite* self, struct touch_event* touch_event)
 
 bool sprite_contains(struct sprite* self, float x, float y)
 {
-    if (self->w < 1e-1 || self->h < 1e-1) return false;
+    if (self->w < FLT_EPSILON || self->h < FLT_EPSILON) return false;
     //struct glyph* g = &self->sprite_data.glyph;
     struct rect world = {
         0 - self->w * self->anchor_x,//g->bl.position[0],

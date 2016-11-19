@@ -63,12 +63,16 @@ void lua_handler_clean(struct lua_handler* self,
     s_assert(object);
 
     unsigned long index = (unsigned long)hashmapGet(self->__handlers, object);
-    hashmapRemove(self->__handlers, object);
-    lua_getfield(L, LUA_REGISTRYINDEX, LUA_FUNCTION_HANDLER_KEY);
-    lua_pushinteger(L, index);
-    lua_pushnil(L);
-    lua_rawset(L, -3);
-    lua_pop(L, 1);
+    if (index)
+    {
+        LOGP("clean handler (%ld)", index);
+        hashmapRemove(self->__handlers, object);
+        lua_getfield(L, LUA_REGISTRYINDEX, LUA_FUNCTION_HANDLER_KEY);
+        lua_pushinteger(L, index);
+        lua_pushnil(L);
+        lua_rawset(L, -3);
+        lua_pop(L, 1);
+    }
 }
 
 unsigned int lua_handler_new_func(struct lua_handler* self,
