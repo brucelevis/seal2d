@@ -4,9 +4,9 @@ local ui_rect = require "seal.gui.simple.ui_rect"
 local ui_menu = class("ui_menu", function(w, h, menus)
     local font_scale = h / 35
 
-    local text = sprite.new_attr{ 
-        fnt = 'res/fonts/animated.txt', 
-        text = '', 
+    local text = sprite.new_attr{
+        fnt = 'res/fonts/animated.txt',
+        text = '',
         scale = font_scale,
         y = 5
     }
@@ -16,7 +16,7 @@ local ui_menu = class("ui_menu", function(w, h, menus)
     w = math.max(w, t_w)
 
     local button = sprite.new_attr{
-        ui_rect = true, 
+        ui_rect = true,
         w = w, h = h, fc = {233, 80, 90, 255},
         text,
     }
@@ -25,7 +25,7 @@ local ui_menu = class("ui_menu", function(w, h, menus)
         w = w, h = h,
         button,
     }
-    
+
     --button:set_bbox_visible(true)
 
     obj.text = text
@@ -56,9 +56,9 @@ function ui_menu:adjust_size(w, h)
     self:set_size(w, h)
     self.button:set_size(w, h)
 
-    if self.__menu then 
+    if self.__menu then
         local items = self.__menu.items
-        for item in ipairs(items) do 
+        for item in ipairs(items) do
             item:set_size(w, h)
         end
     end
@@ -67,11 +67,11 @@ end
 function ui_menu:on_button_click()
     print("on_button_click")
 
-    self.is_show = not self.is_show 
+    self.is_show = not self.is_show
 
-    if self.is_show then 
+    if self.is_show then
         self:show()
-    else 
+    else
         self:hide()
     end
 end
@@ -79,9 +79,9 @@ end
 function ui_menu:create_menu()
     local menus = self.menus
 
-    if not menus then 
+    if not menus then
         self.__menu = sprite.new_attr{  }
-    else 
+    else
         local height = 0--self.h
         local gap = 3
 
@@ -90,11 +90,11 @@ function ui_menu:create_menu()
         local items = {}
         local item_len = #menus
         local max_w = 0
-        for idx = item_len, 1, -1 do 
+        for idx = item_len, 1, -1 do
             local info = menus[idx]
             local item = sprite.new_attr{
                 menu = true,
-                w = self.w, h = self.h, 
+                w = self.w, h = self.h,
                 x = 0, y = height,
                 text = info.name or "Null",
                 effect_click = info.click,
@@ -108,7 +108,7 @@ function ui_menu:create_menu()
             max_w = math.max(max_w, w)
         end
 
-        for k, item in ipairs(items) do 
+        for k, item in ipairs(items) do
             local x, y = item:get_pos()
             item:set_pos(x + max_w / 2 + 2, y - height / 2 + self.h / 2)
 
@@ -141,8 +141,8 @@ end
 
 function ui_menu:hide()
     self.is_show = false
-    if self.__menu then 
-        self.__menu:remove_from_parent()
+    if self.__menu then
+        -- self.__menu:remove_from_parent()
         self.__menu = nil
     end
 end
