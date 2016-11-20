@@ -146,6 +146,7 @@ struct scale9_data {
             struct sprite   *tl, *tc, *tr,
                             *ml, *mc, *mr,
                             *bl, *bc, *br;
+            struct sprite_frame* frames[9];
         };
         struct sprite* sprites[9];
     };

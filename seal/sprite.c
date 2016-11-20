@@ -653,6 +653,10 @@ struct sprite* sprite_new_scale9(struct sprite_frame* frame, struct rect* inset)
     data->bc = sprite_new_scale9_item(s, x + l, y + q, c, b, t_width, t_height, tex_id, "bcf");
     data->br = sprite_new_scale9_item(s, x + p, y + q, r, b, t_width, t_height, tex_id, "brf");
 
+    for (int i = 0; i < 9; ++i) {
+        data->frames[i] = data->sprites[i]->sprite_data.frame;
+    }
+
     return s;
 }
 
@@ -698,15 +702,11 @@ void sprite_free(struct sprite* self)
 
     case SPRITE_TYPE_SCALE9:
     {
-        // TODO: sprite frame do not free
-        // sprites already removed as child
-
-        /*
         struct scale9_data* data = &(self->scale9_data);
-        for (int i = 0; i < 9; ++i){
-        sprite_frame_free(data->sprites[i]->sprite_data.frame);
-        data->sprites[i]->sprite_data.frame = NULL;
-        }*/
+        for (int i = 0; i < 9; ++i) {
+            sprite_frame_free(data->frames[i]);
+        }
+
         break;
     }
 
