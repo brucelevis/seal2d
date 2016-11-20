@@ -3,6 +3,19 @@ local ui_rect = require "seal.gui.simple.ui_rect"
 local ui_button = require "seal.gui.simple.ui_button"
 local scroll_view = require "seal.gui.scroll_view"
 
+local sprite_current_select = nil
+
+--[[
+    tp: 0:before, 1:after
+    touch_tp: 0:began, 1:moved, 2:ended
+]]
+function seal_touch(tp, touch_tp, x, y, swallow)
+    --print(tp, touch_tp, x, y, swallow)
+    if tp == 0 and touch_tp == 0 then 
+
+    end
+end
+
 local touch_event_text = {
     "begin", "move", "end"
 }
@@ -35,6 +48,7 @@ local function sprite_init_touch_events(self)
         end
 
         self:register_handler(root_event_handler)
+        self:set_swallow(true)
     end 
 end
 
@@ -85,6 +99,29 @@ function sprite:effect_click(handle)
     return self
 end
 
+function sprite:__do_not_select_self()   
+    print("unselect obj:", self)
+
+    if self.do_not_select_self then 
+        self:do_not_select_self()
+    end
+end
+
+function sprite:__do_select_self()   
+    if self == sprite_current_select then return end
+
+    if sprite_current_select then 
+        sprite_current_select:__do_not_select_self()
+    end
+    
+    sprite_current_select = self
+
+    print("select obj:", self, self.menus)
+
+    if self.do_select_self then 
+        self:do_select_self()
+    end
+end
 
 local function sprite_apply_attribute(self, attr)
     if attr.x or attr.y then 

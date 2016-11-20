@@ -27,6 +27,8 @@
 
 #include "touch_handler.h"
 
+EXTERN_GAME;
+
 static void touch_handler_cleanup(struct touch_handler* self)
 {
     self->n_visited = 0;
@@ -56,9 +58,30 @@ void touch_handler_push(struct touch_handler* self, struct sprite* sprite)
     ++self->n_visited;
 }
 
+// type : 0: touch before,  1: touch after
+void touch_handler_global_event(struct touch_event* event, int type)
+{
+    struct lua_State* L = GAME->lstate;
+    lua_getglobal(L, "seal_touch");
+    if (lua_isnil(L, -1)) {
+        lua_pop(L, 1);
+    }
+    else {
+        lua_pushinteger(L, type);
+        lua_pushinteger(L, event->type);
+        lua_pushinteger(L, event->x);
+        lua_pushinteger(L, event->y);
+        lua_pushinteger(L, event->swallowd);
+
+        seal_call(L, 5, 0);
+        //lua_settop(L, 0);
+    }
+}
+
 void touch_handler_visit(struct touch_handler* self, struct touch_event* event)
 {
     s_assert(self->n_visited < MAX_TOUCH_SEQ);
+    touch_handler_global_event(event, 0);
     switch (event->type) {
         case TOUCH_BEGIN: {
             for (int i = self->n_visited-1; i >= 0; --i) {
@@ -96,4 +119,5 @@ void touch_handler_visit(struct touch_handler* self, struct touch_event* event)
         default:
             break;
     }
+    touch_handler_global_event(event, 1);
 }

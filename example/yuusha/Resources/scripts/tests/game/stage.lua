@@ -50,7 +50,7 @@ function stage:on_test_menu_click(name)
     elseif type(name) == 'function' then
         name(self)
     end
-    self:create_menu()
+    --self:create_menu()
 end
 
 function stage:switch(new)

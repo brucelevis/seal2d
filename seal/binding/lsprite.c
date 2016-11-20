@@ -421,6 +421,21 @@ int lsprite_set_glyph(lua_State* L)
     return 0;
 }
 
+int lsprite_set_swallow(lua_State* L)
+{
+    struct sprite* self = __self(L);
+    lua_Integer swallow = lua_tonumber(L, 2);
+    self->swallow = swallow;
+    return 0;
+}
+
+int lsprite_get_swallow(lua_State* L)
+{
+    struct sprite* self = __self(L);
+    lua_pushinteger(L, self->swallow);
+    return 1;
+}
+
 int lsprite_get_color(lua_State* L)
 {
     struct sprite* self = __self(L);
@@ -573,7 +588,9 @@ int luaopen_seal_sprite(lua_State* L)
         { "set_color", lsprite_set_color },
         { "set_size", lsprite_set_size },
         { "set_glyph", lsprite_set_glyph },
+        { "set_swallow", lsprite_set_swallow },
 
+        { "get_swallow", lsprite_get_swallow },
         { "get_color", lsprite_get_color },
         { "get_rotation", lsprite_get_rotation },
         { "get_scale", lsprite_get_scale },

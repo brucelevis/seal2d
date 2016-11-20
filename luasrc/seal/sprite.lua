@@ -25,7 +25,9 @@ local sprite = {
 
     set_frame_texture_id = core.set_frame_texture_id,
     set_text = core.set_text,
+    set_swallow = core.set_swallow,
 
+    get_swallow = core.get_swallow,
     get_rotation = core.get_rotation,
     get_scale = core.get_scale,
     get_pos = core.get_pos,
