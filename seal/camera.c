@@ -72,10 +72,14 @@ void camera_update(struct camera* self)
     if(!self->dirty) {
         return;
     }
+    float retina_factor = 1.0f;
+#ifdef _WIN32
+    retina_factor = 2.0f;
+#endif
 
     mat4_translate(&self->camer_mat,
-                     (-self->x/self->width) * GAME->glview->__frame_scalar_x,
-                     (-self->y/self->height) * GAME->glview->__frame_scalar_y,
+                     (-self->x/self->width) * GAME->glview->__frame_scalar_x * retina_factor,
+                     (-self->y/self->height) * GAME->glview->__frame_scalar_y * retina_factor,
                      1.0);
 
     LOGP("camera traslate x, y = %.2f, %.2f, dx, dy = %.2f, %.2f, w, h = %d, %d",

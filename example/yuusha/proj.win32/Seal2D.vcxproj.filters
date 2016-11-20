@@ -436,6 +436,9 @@
     <ClCompile Include="..\..\..\seal\math\mat4.c">
       <Filter>Engine\seal\math</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\seal\glview.c">
+      <Filter>Engine\seal</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\seal\bmfont.h">
@@ -803,6 +806,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\seal\math\mat4.h">
       <Filter>Engine\seal\math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\seal\glview.h">
+      <Filter>Engine\seal</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

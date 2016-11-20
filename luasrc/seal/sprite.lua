@@ -102,6 +102,7 @@ function sprite.new_scale9(texture_name, frame_name, rect)
 end
 
 function sprite:add_child(child, ...)
+    assert(child.parent == nil, "can not add again")
     child.parent = self
     core.add_child(self, child, ...)
 end

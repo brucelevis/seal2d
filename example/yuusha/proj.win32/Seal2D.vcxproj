@@ -87,7 +87,7 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;SEAL_USE_FSWRITE;SEAL_USE_SPINE;SDK_DEBUG_LOG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;DEBUG;_CONSOLE;SEAL_USE_FSWRITE;SEAL_USE_SPINE;SDK_DEBUG_LOG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir)..\..\..\libs\nuklear;$(SolutionDir)..\..\..\libs\nanovg\src;$(SolutionDir)..\..\..\libs\lua-zlib;$(SolutionDir)..\..\..\libs\zlib\win32\include;$(SolutionDir)..\..\..\libs\freetype-2.6.2\win32\include\freetype2;$(SolutionDir)..\..\..\libs\lua-5.3.2\src;$(SolutionDir)..\..\..\libs\spine\include;$(SolutionDir)..\..\..\libs\glfw\win32\include;$(SolutionDir)..\..\..\libs\gles\win32\include\OGLES;$(SolutionDir)..\..\..\seal;$(SolutionDir)..\..\..\seal\base;$(SolutionDir)..\..\..\seal\binding;$(SolutionDir)..\..\..\seal\math;$(SolutionDir)..\..\..\seal\renders;$(SolutionDir)..\..\..\seal\image;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4244;4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
@@ -251,6 +251,7 @@
     <ClCompile Include="..\..\..\seal\binding\ltexture.c" />
     <ClCompile Include="..\..\..\seal\bmfont.c" />
     <ClCompile Include="..\..\..\seal\camera.c" />
+    <ClCompile Include="..\..\..\seal\glview.c" />
     <ClCompile Include="..\..\..\seal\image\lodepng.c" />
     <ClCompile Include="..\..\..\seal\lua_handler.c" />
     <ClCompile Include="..\..\..\seal\math\affine.c" />
@@ -374,6 +375,7 @@
     <ClInclude Include="..\..\..\seal\bmfont.h" />
     <ClInclude Include="..\..\..\seal\camera.h" />
     <ClInclude Include="..\..\..\seal\event.h" />
+    <ClInclude Include="..\..\..\seal\glview.h" />
     <ClInclude Include="..\..\..\seal\image\lodepng.h" />
     <ClInclude Include="..\..\..\seal\lua_handler.h" />
     <ClInclude Include="..\..\..\seal\math\affine.h" />
