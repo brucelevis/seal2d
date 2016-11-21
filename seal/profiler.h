@@ -23,49 +23,22 @@
  * THE SOFTWARE.
  */
 
+#ifndef __seal__profiler__
+#define __seal__profiler__
 
-#ifndef __seal__anim__
-#define __seal__anim__
+#include "seal.h"
 
-#include "seal_base.h"
-
-// WC - todo fix
-#include "base/array.h"
-
-struct sprite_frame;
-
-#define MAX_FRAME (60)
-
-#define ANIM_STATE_PLAY 0
-#define ANIM_STATE_PAUSED 1
-#define ANIM_STATE_STOPPED 2
-
-struct anim {
-    unsigned int __id;
-    unsigned int __cur_frame;
-    unsigned int __total_frame;
-    int __state;
-    float __now;
-
-    struct array* sprite_frames; // only have a reference of the frames
-    float interval;
-    float speed;
-    void (*callback)(struct anim*);
+#define PROFILE_FPS_TICK (5)
+struct profiler {
+    float fps;
+    int n_ticks;
+    float counter[PROFILE_FPS_TICK];
 };
 
-struct anim* anim_new(struct array* sprite_frames);
-void anim_free(struct anim* self);
+struct profiler* profiler_new();
+void profiler_free(struct profiler* self);
 
-void anim_update(struct anim* self, float dt);
-void anim_play(struct anim* self);
-void anim_stop(struct anim* self);
-void anim_resume(struct anim* self);
-void anim_set_interval(struct anim* self, float interval);
-void anim_set_speed(struct anim* self, float speed);
-void anim_set_callback(struct anim* self, void (*callback)(struct anim*) );
+void profiler_tick(struct profiler* self, float dt);
 
-
-struct sprite_frame* anim_current_frame(struct anim* self);
-struct sprite_frame* anim_frame(struct anim* self, unsigned int frame_index);
 
 #endif

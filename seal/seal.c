@@ -221,6 +221,7 @@ struct glview* seal_init_graphics(int view_w, int view_h, int fb_w, int fb_h)
     GAME->lua_handler = lua_handler_new(GAME->lstate);
     GAME->scheduler = scheduler_new();
     GAME->touch_handler = touch_handler_new();
+    GAME->profiler = profiler_new();
     sprite_init_render(GAME->render);
 
 #ifdef PLAT_DESKTOP
@@ -358,6 +359,7 @@ void seal_update()
         return;
     }
 
+    profiler_tick(GAME->profiler, dt);
     GAME->global_dt = dt;
     camera_update(GAME->global_camera);
     scheduler_update(GAME->scheduler, dt);
@@ -436,6 +438,7 @@ void seal_destroy()
     sprite_free(GAME->root);
     scheduler_free(GAME->scheduler);
     touch_handler_free(GAME->touch_handler);
+    profiler_free(GAME->profiler);
     s_free(GAME);
 }
 

@@ -31,6 +31,8 @@
 		4D25D88A1C95C06000448F88 /* udp.c in Sources */ = {isa = PBXBuildFile; fileRef = 4D25D8651C95C06000448F88 /* udp.c */; };
 		4D25D88C1C95C06000448F88 /* unix.c in Sources */ = {isa = PBXBuildFile; fileRef = 4D25D8671C95C06000448F88 /* unix.c */; };
 		4D25D88E1C95C06000448F88 /* usocket.c in Sources */ = {isa = PBXBuildFile; fileRef = 4D25D86A1C95C06000448F88 /* usocket.c */; };
+		4D270D161DE33599002BC85D /* profiler.c in Sources */ = {isa = PBXBuildFile; fileRef = 4D270D141DE33599002BC85D /* profiler.c */; };
+		4D270D181DE33C65002BC85D /* lprofiler.c in Sources */ = {isa = PBXBuildFile; fileRef = 4D270D171DE33C65002BC85D /* lprofiler.c */; };
 		4D366AC91DD3A1F300FD3D14 /* touch_handler.c in Sources */ = {isa = PBXBuildFile; fileRef = 4D366AC71DD3A1F300FD3D14 /* touch_handler.c */; };
 		4D3676691DAE9EFD00F3E816 /* scheduler.c in Sources */ = {isa = PBXBuildFile; fileRef = 4D3676671DAE9EFD00F3E816 /* scheduler.c */; };
 		4D46F80B1C8F2B0A0081A1DC /* libfreetype.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4D46F80A1C8F2B0A0081A1DC /* libfreetype.a */; };
@@ -221,6 +223,9 @@
 		4D25D8681C95C06000448F88 /* unix.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = unix.h; sourceTree = "<group>"; };
 		4D25D86A1C95C06000448F88 /* usocket.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = usocket.c; sourceTree = "<group>"; };
 		4D25D86B1C95C06000448F88 /* usocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = usocket.h; sourceTree = "<group>"; };
+		4D270D141DE33599002BC85D /* profiler.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = profiler.c; sourceTree = "<group>"; };
+		4D270D151DE33599002BC85D /* profiler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = profiler.h; sourceTree = "<group>"; };
+		4D270D171DE33C65002BC85D /* lprofiler.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = lprofiler.c; sourceTree = "<group>"; };
 		4D366AC71DD3A1F300FD3D14 /* touch_handler.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = touch_handler.c; sourceTree = "<group>"; };
 		4D366AC81DD3A1F300FD3D14 /* touch_handler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = touch_handler.h; sourceTree = "<group>"; };
 		4D3676671DAE9EFD00F3E816 /* scheduler.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = scheduler.c; sourceTree = "<group>"; };
@@ -878,6 +883,8 @@
 				4D1CF5841CB2A04E00A1FFB9 /* window.h */,
 				4D366AC71DD3A1F300FD3D14 /* touch_handler.c */,
 				4D366AC81DD3A1F300FD3D14 /* touch_handler.h */,
+				4D270D141DE33599002BC85D /* profiler.c */,
+				4D270D151DE33599002BC85D /* profiler.h */,
 			);
 			name = seal;
 			path = ../../../seal;
@@ -896,6 +903,7 @@
 				B63A0F391D0B99F300CE6B7F /* lnuklear.c */,
 				A63F5E4E1D5ECBB1004538D9 /* lnanovg.c */,
 				4D8006FF1D6B45BB00C6C919 /* laction.c */,
+				4D270D171DE33C65002BC85D /* lprofiler.c */,
 			);
 			path = binding;
 			sourceTree = "<group>";
@@ -1115,6 +1123,7 @@
 				4DDA8E2E1C4F5AE700ED5325 /* lbaselib.c in Sources */,
 				4DDA8E481C4F5AE700ED5325 /* ltm.c in Sources */,
 				B20D7A661DD6C958001555E5 /* lscheduler.c in Sources */,
+				4D270D161DE33599002BC85D /* profiler.c in Sources */,
 				4DDA8E331C4F5AE700ED5325 /* ldblib.c in Sources */,
 				4DCBEF791D7B3F4A009C05EC /* MeshAttachment.c in Sources */,
 				4DDA8E2F1C4F5AE700ED5325 /* lbitlib.c in Sources */,
@@ -1124,6 +1133,7 @@
 				4D25D88E1C95C06000448F88 /* usocket.c in Sources */,
 				4DCBEF6C1D7B3F4A009C05EC /* Atlas.c in Sources */,
 				4DDA8E391C4F5AE700ED5325 /* linit.c in Sources */,
+				4D270D181DE33C65002BC85D /* lprofiler.c in Sources */,
 				4D77986E1C6F229700021ED6 /* shader.c in Sources */,
 				4DCBEF851D7B3F4A009C05EC /* SlotData.c in Sources */,
 				4DBAF7B21CB6C05B0079170E /* hashmap.c in Sources */,

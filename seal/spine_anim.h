@@ -23,9 +23,8 @@
  * THE SOFTWARE.
  */
 
-
-#ifndef spine_anim_h
-#define spine_anim_h
+#ifndef __seal__spine_anim__
+#define __seal__spine_anim__
 
 #include "seal_base.h"
 

@@ -24,8 +24,8 @@
  */
 
 
-#ifndef render_h
-#define render_h
+#ifndef __seal__render__
+#define __seal__render__
 
 #include "seal_base.h"
 

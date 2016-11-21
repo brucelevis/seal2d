@@ -23,9 +23,8 @@
  * THE SOFTWARE.
  */
 
-
-#ifndef __yuusha__window__
-#define __yuusha__window__
+#ifndef __seal__window__
+#define __seal__window__
 
 #include "seal_base.h"
 

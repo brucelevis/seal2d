@@ -8,6 +8,7 @@ extern int luaopen_seal_texture(lua_State* L);
 extern int luaopen_seal_sprite(lua_State* L);
 extern int luaopen_seal_action(lua_State* L);
 extern int luaopen_seal_scheduler(lua_State* L);
+extern int luaopen_seal_profiler(lua_State* L);
 
 // third part part.
 #if defined (SEAL_USE_LUASOCKET)
@@ -137,24 +138,25 @@ void luaopen_lua_extensions(lua_State *L)
 {
     // load extensions
     luaL_Reg lua_modules[] = {
-        { "engine_core", luaopen_seal_core },
-        { "platform_core", luaopen_seal_platform },
-        { "texure_core", luaopen_seal_texture },
-        { "sprite_core", luaopen_seal_sprite },
-        { "action_core", luaopen_seal_action },
+        { "engine_core",    luaopen_seal_core },
+        { "platform_core",  luaopen_seal_platform },
+        { "texure_core",    luaopen_seal_texture },
+        { "sprite_core",    luaopen_seal_sprite },
+        { "action_core",    luaopen_seal_action },
         { "scheduler_core", luaopen_seal_scheduler },
+        { "profiler_core",  luaopen_seal_profiler },
 
     #if defined (SEAL_USE_LUASOCKET)
-        { "socket.core", luaopen_socket_core },
-        { "mime.core", luaopen_mime_core },
+        { "socket.core",    luaopen_socket_core },
+        { "mime.core",      luaopen_mime_core },
     #endif
-        { "cjson", luaopen_cjson },
-        { "zlib", luaopen_zlib },
+        { "cjson",          luaopen_cjson },
+        { "zlib",           luaopen_zlib },
 
-        { "nuklear_core", luaopen_nuklear_core },
-#ifdef PLAT_DESKTOP
-        { "nanovg_core", luaopen_nanovg_core },
-#endif
+        { "nuklear_core",   luaopen_nuklear_core },
+    #ifdef PLAT_DESKTOP
+        { "nanovg_core",    luaopen_nanovg_core },
+    #endif
 
         {NULL, NULL}
     };

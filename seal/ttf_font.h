@@ -23,7 +23,6 @@
  * THE SOFTWARE.
  */
 
-
 #ifndef __seal__ttf_font__
 #define __seal__ttf_font__
 

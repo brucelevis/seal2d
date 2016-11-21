@@ -23,7 +23,6 @@
  * THE SOFTWARE.
  */
 
-
 #ifndef __seal__texture__
 #define __seal__texture__
 

@@ -24,8 +24,8 @@
  */
 
 
-#ifndef lua_handler_h
-#define lua_handler_h
+#ifndef __seal__lua_handler__
+#define __seal__lua_handler__
 
 #include "seal_base.h"
 

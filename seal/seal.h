@@ -61,22 +61,10 @@
 #include "sprite.h"
 #include "texture.h"
 #include "ttf_font.h"
+#include "touch_handler.h"
+#include "profiler.h"
 #include "util.h"
 #include "window.h"
-#include "touch_handler.h"
-
-struct camera;
-struct sprite_frame_cache;
-struct texture_cache;
-struct ttf_font;
-struct event;
-struct window;
-struct render;
-struct touch_event;
-struct lua_handler;
-struct nuk_node;
-struct scheduler;
-struct touch_handler;
 
 struct game_config {
     char app_name[128];
@@ -108,6 +96,7 @@ struct game {
     struct bmfont_cache* bmfont_cache;
     struct nuk_node* nuk_node;
     struct scheduler* scheduler;
+    struct profiler* profiler;
 
     struct timeval __last_update;
 };

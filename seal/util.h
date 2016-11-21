@@ -23,9 +23,8 @@
  * THE SOFTWARE.
  */
 
-
-#ifndef __seal__sprite_util__
-#define __seal__sprite_util__
+#ifndef __seal__util__
+#define __seal__util__
 
 #include "seal_base.h"
 

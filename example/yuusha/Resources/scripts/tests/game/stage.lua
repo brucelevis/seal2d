@@ -1,24 +1,28 @@
 local sprite = require "seal.sprite"
 local sprite_frame = require "seal.sprite_frame"
+local profiler = require "profiler_core"
 
 local stage = class("stage", function()
         return sprite.new_container()
     end)
+
+local function add_fps_label(self)
+    local fps_label = sprite.new_bmfont_label("fps", "res/fonts/animated.txt")
+    fps_label:set_pos(0, 0)
+    fps_label:set_anchor(0, 0)
+    self:add_child(fps_label, 10000)
+    self.fps_label = fps_label
+end
 
 function stage:ctor()
     sprite_frame.load_from_json("res/images/ui.json")
     sprite_frame.load_from_json("res/images/anim_pirate.json")
     sprite_frame.load_from_json("res/images/skeleton.json")
 
-if false then
-    local label = sprite.new("ui.png", "smile_middle.png")
-
-    label:set_pos(WINDOW_WIDTH, WINDOW_HEIGHT)
-    self:add_child(label)
-else
     local edit = require("editor.menu.edit_menu_init").init(self)
     self:init_events(edit)
-end
+
+    add_fps_label(self)
 end
 
 function stage:init_events(edit)
@@ -152,7 +156,7 @@ function stage:create_menu()
 end
 
 function stage:draw()
-
+    self.fps_label:set_text(string.format("fps: %.2f", profiler.get_fps()))
 end
 
 return stage

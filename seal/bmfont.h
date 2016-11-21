@@ -24,8 +24,8 @@
  */
 
 
-#ifndef bmfont_h
-#define bmfont_h
+#ifndef __seal__bmfont__
+#define __seal__bmfont__
 
 #include "seal_base.h"
 
