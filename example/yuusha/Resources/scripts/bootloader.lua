@@ -83,7 +83,7 @@ local function pmain()
     local function inject(mod_name, mod)
         for k, v in pairs(mod) do
             _G[k] = mod[k]
-            print(string.format("inject: %s.%s", mod_name, k))
+            -- print(string.format("inject: %s.%s", mod_name, k))
         end
         _G[mod_name] = mod
     end

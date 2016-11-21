@@ -10,9 +10,15 @@ function stage:ctor()
     sprite_frame.load_from_json("res/images/anim_pirate.json")
     sprite_frame.load_from_json("res/images/skeleton.json")
 
-    local edit = require("editor.menu.edit_menu_init").init(self)
+if false then
+    local label = sprite.new("ui.png", "smile_middle.png")
 
+    label:set_pos(WINDOW_WIDTH, WINDOW_HEIGHT)
+    self:add_child(label)
+else
+    local edit = require("editor.menu.edit_menu_init").init(self)
     self:init_events(edit)
+end
 end
 
 function stage:init_events(edit)

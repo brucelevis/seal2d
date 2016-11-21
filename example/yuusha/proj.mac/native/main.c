@@ -83,14 +83,12 @@ int main(int argc, char *argv[])
     int fb_width, fb_height;
     glfwGetFramebufferSize(window, &fb_width, &fb_height);
 
-    struct glview* glview = seal_init_graphics(window_width, window_height, fb_width, fb_height);
-
+    seal_init_graphics(window_width, window_height, fb_width, fb_height);
     seal_start_game();
 
     while (!glfwWindowShouldClose(window)) {
         seal_update();
         seal_draw();
-        glview_update_viewport(glview);
         glfwSwapBuffers(window);
 
         glfwPollEvents();

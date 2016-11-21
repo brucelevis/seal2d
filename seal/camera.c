@@ -42,7 +42,11 @@ struct camera* camera_new(float width, float height)
     c->height = height;
     c->dirty = 0;
 
-    mat4_orth(&c->camer_mat, -width/2, -height/2, width/2, height/2, -1, 1);
+    mat4_orth(&c->camer_mat,
+              -width/2,
+              -height/2,
+              width/2,
+              height/2, -1, 1);
     return c;
 }
 
@@ -72,21 +76,16 @@ void camera_update(struct camera* self)
     if(!self->dirty) {
         return;
     }
-    float retina_factor = 1.0f;
-#ifdef _WIN32
-    retina_factor = 2.0f;
-#endif
 
-    mat4_translate(&self->camer_mat,
-                     (-self->x/self->width) * GAME->glview->__frame_scalar_x * retina_factor,
-                     (-self->y/self->height) * GAME->glview->__frame_scalar_y * retina_factor,
-                     1.0);
+    float cx = (-self->x/self->width )  * 2.0f;
+    float cy = (-self->y/self->height ) * 2.0f;
 
-    LOGP("camera traslate x, y = %.2f, %.2f, dx, dy = %.2f, %.2f, w, h = %d, %d",
-         self->x, self->y,
-         -self->x/(float)self->width,
-         -self->y/(float)self->height,
-         GAME->config.design_width*2,
-         GAME->config.design_height*2);
+    LOGP("camera update: translate \n"
+         "cx, cy = {%.2f, %.2f}\n"
+         "x, y = {%.2f, %.2f}\n",
+         cx, cy, self->x, self->y);
+    mat4_translate(&self->camer_mat, cx, cy, 1.0);
+
+
     self->dirty = 0;
 }

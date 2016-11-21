@@ -119,7 +119,10 @@ void glview_set_view_size(struct glview* self, int view_w, int view_h)
 
 void glview_update_viewport(struct glview* self)
 {
-    glViewport(self->view_rect.x, self->view_rect.y, self->view_rect.w, self->view_rect.h);
+    glViewport(self->view_rect.x,
+               self->view_rect.y,
+               self->view_rect.w,
+               self->view_rect.h);
 }
 
 void glview_free(struct glview* self)
