@@ -5,26 +5,26 @@ local _event_mt = {
         self.__events = self.__events or {}
         self.__events[name] = self.__events[name] or {}
 
-        if removed then 
+        if removed then
             self.__events[name][handle] = nil
-        else 
+        else
             self.__events[name][handle] = true
         end
     end,
     emit = function(self, name, ...)
         if not name then return end
         if self.__events then
-            local handles = self.__events[name] 
+            local handles = self.__events[name]
             if not handles then return end
-            
-            for handle in pairs(handles) do 
+
+            for handle in pairs(handles) do
                 handle(...)
             end
         end
     end,
 }
 _event_mt.index = _event_mt
-util.event_mt = _event_mt
+util.event_mt   = _event_mt
 
 function util.class(name, super)
     local __class = setmetatable({}, _event_mt)
@@ -50,7 +50,6 @@ function util.class(name, super)
         print("invalid super type = ", type(super))
         assert(type(super) == nil)
     end
-
 
     return __class
 end
@@ -99,9 +98,9 @@ function util.print_r(root)
           return table.concat(temp,"\n"..space)
     end
 
-    local info =  "\n------------------------------------------------------------------------\n" ..
+    local info =  "\n-----------------------------------------------------\n" ..
                     _dump(root, "","") ..
-                  "\n------------------------------------------------------------------------\n"
+                  "\n-----------------------------------------------------\n"
     io.write(info)
     io.flush()
 end
@@ -159,7 +158,6 @@ function util.order_pairs(t)
     local tinsert = table.insert
 
     local ot = {}
-    -- sort the keys
     for k, _ in pairs(t) do
         tinsert(ot, k)
     end
@@ -183,7 +181,6 @@ function util.shuffle_pairs(t)
     local tinsert = table.insert
     local index = 0
     local ot = {}
-    -- sort the keys
     for k, _ in pairs(t) do
         tinsert(ot, k)
     end
