@@ -23,8 +23,6 @@
  * THE SOFTWARE.
  */
 
-
-
 #include "../seal.h"
 
 EXTERN_GAME;
