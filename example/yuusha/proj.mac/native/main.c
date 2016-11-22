@@ -85,6 +85,21 @@ GLFWwindow* init_glfw(int window_width, int window_height, const char* title)
     glfwMakeContextCurrent(window);
     glfwSwapInterval(1);
 
+    const char* vender = (const char*)glGetString(GL_VENDOR);
+    const char* render = (const char*)glGetString(GL_RENDERER);
+    const char* version = (const char*)glGetString(GL_VERSION);
+    const char* shader_version = (const char*)glGetString(GL_SHADING_LANGUAGE_VERSION);
+
+
+    LOGP("OpenGL:\n \t vender: %s\n"
+                   "\t render: %s\n"
+                   "\t version: %s\n"
+                   "\t shader_version: %s\n",
+                            vender,
+                            render,
+                            version,
+                            shader_version);
+
     return window;
 }
 

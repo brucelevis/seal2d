@@ -22,27 +22,16 @@ void sprite_render_func_flush(struct render* R)
 {
     struct sprite_render_context* context = render_get_context(R, RENDER_TYPE_SPRITE);
 
-#if defined (SEAL_USE_VAO)
-    glBindVertexArray(context->buffer->vao);
-#endif
-
     glBindBuffer(GL_ARRAY_BUFFER, context->buffer->vbo);
     glBufferData(GL_ARRAY_BUFFER, VERTEX_SIZE*context->n_objects * 4, context->buffer->data, GL_DYNAMIC_DRAW);
 
-    GLuint loc_pos = context->state.loc.position;
-    GLuint loc_color = context->state.loc.color;
-    GLuint loc_uv = context->state.loc.uv;
-    glEnableVertexAttribArray(loc_pos);
-    glEnableVertexAttribArray(loc_color);
-    glEnableVertexAttribArray(loc_uv);
-    glVertexAttribPointer(loc_pos, 2, GL_FLOAT, GL_FALSE, VERTEX_SIZE, VERTEX_OFFSET_POS);
-    glVertexAttribPointer(loc_color, 4, GL_UNSIGNED_BYTE, GL_TRUE, VERTEX_SIZE, VERTEX_OFFSET_COLOR);
-    glVertexAttribPointer(loc_uv, 2, GL_FLOAT, GL_FALSE, VERTEX_SIZE, VERTEX_OFFSET_UV);
-
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, context->buffer->vibo);
+    CHECK_GL_ERROR;
     int n = context->current_batch_index;
     unsigned long offset = 0;
     render_scissors_test(R);
+    glBindVertexArray(context->buffer->vao);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, context->buffer->vibo);
+    CHECK_GL_ERROR;
     for (int i = 0; i < n; ++i) {
         struct render_batch* b = context->batches + i;
         glBindTexture(GL_TEXTURE_2D, b->tex_id);
@@ -50,10 +39,12 @@ void sprite_render_func_flush(struct render* R)
         offset += b->n_objects * 6 * 2;
         sprite_render_batch_reset(b);
         R->drawcall++;
+        CHECK_GL_ERROR;
     }
 
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+    glBindVertexArray(0);
 
     context->current_batch_index = 0;
     context->n_objects = 0;
@@ -68,10 +59,6 @@ void sprite_render_func_start(struct render* R)
     glUseProgram(prog);
     struct sprite_render_context* context = render_get_context(R, RENDER_TYPE_SPRITE);
     context->state.program = prog;
-
-    context->state.loc.position = glGetAttribLocation(context->state.program, "vertex_pos" );
-    context->state.loc.color = glGetAttribLocation(context->state.program, "vertex_color" );
-    context->state.loc.uv = glGetAttribLocation(context->state.program, "vertex_uv" );
 
     glActiveTexture(GL_TEXTURE0);
     GLint texture_location = glGetUniformLocation(prog, "texture_0");
@@ -134,18 +121,6 @@ void sprite_render_func_init(struct render* R)
 {
     struct sprite_render_context* context = STRUCT_NEW(sprite_render_context);
     struct vertex_buffer* buffer = STRUCT_NEW(vertex_buffer);
-
-#if defined (SEAL_USE_VAO)
-    // init the vao
-    glGenVertexArrays(1, &buffer->vao);
-    glBindVertexArray(buffer->vao);
-#endif
-
-    // init the vbo
-    glGenBuffers(1, &buffer->vbo);
-    glGenBuffers(1, &buffer->vibo);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buffer->vibo);
-
     GLushort* idata = s_malloc(MAX_OBJECTS * 6 * sizeof(GLushort));
     //   tl(1) ------ (0) tr
     //      |         |
@@ -162,8 +137,30 @@ void sprite_render_func_init(struct render* R)
         idata[i+5] = j+2;
     }
 
+    GLuint prog = shader_get_program(R->shader, SHADER_SPRITE);
+    GLuint loc_pos = glGetAttribLocation(prog, "vertex_pos" );
+    GLuint loc_color = glGetAttribLocation(prog, "vertex_color" );
+    GLuint loc_uv = glGetAttribLocation(prog, "vertex_uv" );
+
+    glGenVertexArrays(1, &buffer->vao);
+    glGenBuffers(1, &buffer->vbo);
+    glGenBuffers(1, &buffer->vibo);
+
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buffer->vibo);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLushort)*MAX_OBJECTS*6, idata, GL_STATIC_DRAW);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+
+    glBindVertexArray(buffer->vao);
+        glBindBuffer(GL_ARRAY_BUFFER, buffer->vbo);
+        glEnableVertexAttribArray(loc_pos);
+        glEnableVertexAttribArray(loc_color);
+        glEnableVertexAttribArray(loc_uv);
+        glVertexAttribPointer(loc_pos, 2, GL_FLOAT, GL_FALSE, VERTEX_SIZE, VERTEX_OFFSET_POS);
+        glVertexAttribPointer(loc_color, 4, GL_UNSIGNED_BYTE, GL_TRUE, VERTEX_SIZE, VERTEX_OFFSET_COLOR);
+        glVertexAttribPointer(loc_uv, 2, GL_FLOAT, GL_FALSE, VERTEX_SIZE, VERTEX_OFFSET_UV);
+    glBindVertexArray(0);
+
+    CHECK_GL_ERROR;
 
     buffer->idata = idata;
     buffer->data = s_malloc(VERTEX_SIZE * MAX_OBJECTS * VERTEX_PER_OBJECT);

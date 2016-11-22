@@ -222,6 +222,7 @@ struct glview* seal_init_graphics(int view_w, int view_h, int fb_w, int fb_h)
     GAME->scheduler = scheduler_new();
     GAME->touch_handler = touch_handler_new();
     GAME->profiler = profiler_new();
+
     sprite_init_render(GAME->render);
 
 #ifdef PLAT_DESKTOP

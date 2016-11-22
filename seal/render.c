@@ -71,12 +71,12 @@ struct render* render_new()
     struct render* r = STRUCT_NEW(render);
     r->last = r->current = RENDER_INVALID;
     r->masks = 0;
+    r->shader = shader_new();
 
     sprite_render_func_init(r);
     primitive_render_func_init(r);
     spine_render_func_init(r);
 
-    r->shader = shader_new();
     return r;
 }
 
