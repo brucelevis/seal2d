@@ -35,6 +35,9 @@ function stage:init_events(edit)
     edit.top:slot("gui_test", function()
         self:on_test_menu_click("gui_test")
     end)
+    edit.top:slot("bunny_test", function()
+        self:on_test_menu_click("bunny_test")
+    end)
     edit.top:slot("dump_cmem", function()
         self:switch(nil)
         self.current = nil
@@ -87,6 +90,7 @@ local tests = {
     { name = "hello world", sample_name = "hello_world" },
     { name = "sprite test", sample_name = "sprite_test" },
     { name = "gui test", sample_name = "gui_test" },
+    { name = "bunny test", sample_name = "bunny_test"},
     { name = "dump cmem", sample_name = function(self)
                                             self:switch(nil)
                                             self.current = nil

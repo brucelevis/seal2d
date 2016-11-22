@@ -29,7 +29,6 @@ end
 
 function timer:step(dt)
     local next_dt = self.now + dt
-
     if self.stopped then
         return true
     end
@@ -53,7 +52,7 @@ function timer:step(dt)
             self.now = next_dt
         end
     end
-    
+
     return false
 end
 

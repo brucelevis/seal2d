@@ -1,5 +1,13 @@
 {"frames": {
 
+"bunny.png":
+{
+	"frame": {"x":206,"y":308,"w":26,"h":37},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":26,"h":37},
+	"sourceSize": {"w":26,"h":37}
+},
 "glyph_character_a.png":
 {
 	"frame": {"x":206,"y":256,"w":26,"h":50},
@@ -111,6 +119,6 @@
 	"format": "RGBA8888",
 	"size": {"w":256,"h":512},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:5d3ea4f57d727ed7f2c59e40985ba79a:1/1$"
+	"smartupdate": "$TexturePacker:SmartUpdate:cf8b2a4a33c4608404975266630084a2:1/1$"
 }
 }

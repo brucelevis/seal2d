@@ -25,7 +25,7 @@ local edit_menu_top = class("edit_menu_top", function(stage)
             { name = "Cloese",  click = function() obj:emit(event_type.CLOSE  ) end },
         },
     }
-    
+
     -- test menu
     local test_menu = sprite.new_attr{
         id = 1,
@@ -37,6 +37,7 @@ local edit_menu_top = class("edit_menu_top", function(stage)
             { name = "hello world",     click = function() obj:emit("hello_world"   ) end },
             { name = "sprite test",     click = function() obj:emit("sprite_test"   ) end },
             { name = "gui test",        click = function() obj:emit("gui_test"      ) end },
+            { name = "bunny test",      click = function() obj:emit("bunny_test"    ) end },
             { name = "dump cmem",       click = function() obj:emit("dump_cmem"     ) end },
         },
     }
