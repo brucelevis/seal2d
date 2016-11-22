@@ -15,7 +15,7 @@ local sprite = {
     set_spine_anim = core.set_spine_anim,
     set_anim_interval = core.set_anim_interval,
     set_visible = core.set_visible,
-    set_pos = core.set_pos,
+    set_pos = function(self, x, y) core.set_pos(self.__cobj, x or 0, y or 0) end,
     set_anchor = core.set_anchor,
     set_rotation = core.set_rotation,
     set_scale = core.set_scale,
@@ -51,7 +51,6 @@ function sprite.new(...)
     setmetatable(self, meta)
     local __frame = sprite_frame.get(...)
     self.__cobj = core.new(__frame)
-
     return self
 end
 

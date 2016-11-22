@@ -380,7 +380,7 @@ int lsprite_set_visible(lua_State* L)
 
 int lsprite_set_pos(lua_State* L)
 {
-    struct sprite* self = __self(L);
+    struct sprite* self = (struct sprite*)lua_touserdata(L, 1);
     lua_Number x = luaL_checknumber(L, 2);
     lua_Number y = luaL_checknumber(L, 3);
     sprite_set_pos(self, x, y);
