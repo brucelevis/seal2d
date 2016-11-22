@@ -11,10 +11,10 @@ function bunny_test:ctor()
     local n_bunny = 0
 
     self:set_anchor(0, 0)
-    local t = 50
+    local t = 500
     local bunnies = {}
     self:click(function(_, x, y)
-            n_bunny = n_bunny + 50
+            n_bunny = n_bunny + t
             counter_label:set_text(string.format("bunny: %d", n_bunny))
             print("n_bunny = ", n_bunny)
             for i = 1, t do

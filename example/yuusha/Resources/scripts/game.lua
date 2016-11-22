@@ -17,7 +17,6 @@ function game.init()
 end
 
 function game.draw()
-    game.stage:draw()
 end
 
 function game.pause()

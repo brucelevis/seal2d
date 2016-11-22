@@ -302,9 +302,8 @@ int lsprite_set_size(lua_State* L)
 int lsprite_register_handler(lua_State* L)
 {
     struct sprite* self = __self(L);
-    unsigned int handler =  lua_handler_new_func(GAME->lua_handler, L, self, 2);
-    LOGP("register handler(%d) for sprite (%d)", handler, self->__id);
-//    self->__lua_handler = handler;
+    lua_handler_new_func(GAME->lua_handler, L, self, 2);
+    self->touchable = true;
     return 0;
 }
 

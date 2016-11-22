@@ -180,6 +180,7 @@ struct sprite {
     // control block
     bool visible;
     bool swallow;
+    bool touchable;
 
     // specific sprite data
     enum sprite_type type;

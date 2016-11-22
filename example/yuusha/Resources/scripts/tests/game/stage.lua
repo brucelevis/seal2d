@@ -6,12 +6,26 @@ local stage = class("stage", function()
         return sprite.new_container()
     end)
 
-local function add_fps_label(self)
+local function add_profile_status(self)
     local fps_label = sprite.new_bmfont_label("fps", "res/fonts/animated.txt")
     fps_label:set_pos(0, 0)
     fps_label:set_anchor(0, 0)
     self:add_child(fps_label, 10000)
-    self.fps_label = fps_label
+
+    local draw_call_label = sprite.new_bmfont_label("drawcall", "res/fonts/animated.txt")
+    draw_call_label:set_pos(0, 70)
+    draw_call_label:set_anchor(0, 0)
+    self:add_child(draw_call_label, 10000)
+
+    local update_timer = require("seal.timer").new {
+        loop = -1,
+        callback = function(dt)
+            fps_label:set_text(string.format("fps: %.2f", profiler.get_fps()))
+            draw_call_label:set_text(string.format("drawcall: %d", profiler.get_drawcall()))
+        end,
+        interval = 3/60,
+    }
+
 end
 
 function stage:ctor()
@@ -22,7 +36,7 @@ function stage:ctor()
     local edit = require("editor.menu.edit_menu_init").init(self)
     self:init_events(edit)
 
-    add_fps_label(self)
+    add_profile_status(self)
 end
 
 function stage:init_events(edit)
@@ -159,8 +173,5 @@ function stage:create_menu()
     end
 end
 
-function stage:draw()
-    self.fps_label:set_text(string.format("fps: %.2f", profiler.get_fps()))
-end
 
 return stage

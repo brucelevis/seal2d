@@ -32,13 +32,20 @@ int lprofiler_get_fps(lua_State* L)
     return 1;
 }
 
+int lprofiler_get_drawcall(lua_State* L)
+{
+    lua_pushinteger(L, GAME->render->drawcall);
+    return 1;
+}
+
 int luaopen_seal_profiler(lua_State* L)
 {
 #ifdef luaL_checkversion
     luaL_checkversion(L);
 #endif
     luaL_Reg lib[] = {
-        { "get_fps", lprofiler_get_fps },
+        { "get_fps",        lprofiler_get_fps       },
+        { "get_drawcall",   lprofiler_get_drawcall  },
         { NULL, NULL },
     };
 

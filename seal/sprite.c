@@ -385,9 +385,10 @@ static void sprite_init(struct sprite* self,
     self->h = height;
     self->ow = width;
     self->oh = height;
-    self->swallow = false;
     self->color = C4B_COLOR(255, 255, 255, 255);
     self->visible = true;
+    self->touchable = false;
+    self->swallow = false;
     self->children = array_new(16);
 
     af_identify(&self->local_srt);
@@ -712,7 +713,6 @@ void sprite_free(struct sprite* self)
 
     case SPRITE_TYPE_CONTAINER:
     {
-        int i = 0;
         break;
     }
 
