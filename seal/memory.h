@@ -31,7 +31,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#if DEBUG
+#if !DEBUG
 // memory hook functions, these functions are SLOW.
 // use `if !DEBUG' if you need do the performance test.
 #define s_malloc(size)          seal_malloc(size, __FILE__, __LINE__)

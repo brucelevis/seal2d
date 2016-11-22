@@ -66,6 +66,8 @@
 #include "util.h"
 #include "window.h"
 
+//#define USE_C_ROOT
+
 struct game_config {
     char app_name[128];
     int design_width;

@@ -126,7 +126,47 @@ int main(int argc, char *argv[])
     seal_init_graphics(window_width, window_height, fb_width, fb_height);
     seal_start_game();
 
+#ifdef USE_C_ROOT
+    #define TOTAL_SPRITE (10000)
+        struct sprite* sprites[TOTAL_SPRITE] = { NULL };
+        struct sprite_frame* frame = sprite_frame_cache_get(
+                                                        game->sprite_frame_cache,
+                                                            "ui.png-bunny.png");
+
+        int speed_x[TOTAL_SPRITE] = {0};
+        int speed_y[TOTAL_SPRITE] = {0};
+        srand(time(NULL));
+        for (int i = 0; i < TOTAL_SPRITE; ++i) {
+            struct sprite* s = sprite_new(frame);
+            sprite_add_child(game->root, s, 0);
+            sprite_set_pos(s, 500, 500);
+            sprites[i] = s;
+
+            speed_x[i] = random() % 100;
+            speed_y[i] = random() % 100;
+        }
+#endif
+
     while (!glfwWindowShouldClose(window)) {
+#ifdef USE_C_ROOT
+        float dt = game->global_dt;
+        for (int i = 0; i < TOTAL_SPRITE; ++i) {
+            struct sprite* s = sprites[i];
+            float dx = speed_x[i] * dt;
+            float dy = speed_y[i] * dt;
+            float x = s->x + dx;
+            float y = s->y + dy;
+            if (x <= 0 || x >= game->config.design_width) {
+                speed_x[i] = -speed_x[i];
+            }
+
+            if (y <= 0 || y >= game->config.design_height) {
+                speed_y[i] = -speed_y[i];
+            }
+            sprite_set_pos(sprites[i], x, y);
+        }
+#endif
+
         seal_update();
         seal_draw();
         glfwSwapBuffers(window);

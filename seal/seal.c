@@ -326,12 +326,24 @@ void seal_start_game()
     assert(lua_gettop(L) == 0);
     lua_pushcfunction(L, traceback);
 
+#ifndef USE_C_ROOT
     lua_getfield(L, LUA_REGISTRYINDEX, GAME_INIT);
     seal_call(L, 0, 1);
-
     struct sprite* root = lua_touserdata(L, -1);
     GAME->root = root;
     lua_pop(L, 1);
+#else
+    lua_getfield(L, LUA_REGISTRYINDEX, GAME_INIT);
+    seal_call(L, 0, 1);
+    lua_pop(L, 1);
+
+    struct rect r = {0, 0, GAME->config.design_width, GAME->config.design_height};
+    struct sprite* root = sprite_new_container(&r);
+    sprite_set_pos(root, 0, 0);
+    sprite_set_anchor(root, 0, 0);
+    GAME->root = root;
+
+#endif
 
     lua_getfield(L, LUA_REGISTRYINDEX, GAME_UPDATE);
     lua_getfield(L, LUA_REGISTRYINDEX, GAME_DRAW);

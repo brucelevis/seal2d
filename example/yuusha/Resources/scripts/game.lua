@@ -10,6 +10,11 @@ function game.load_shader(shader_index)
 end
 
 function game.init()
+    print("call game.init")
+    sprite_frame.load_from_json("res/images/ui.json")
+    sprite_frame.load_from_json("res/images/anim_pirate.json")
+    sprite_frame.load_from_json("res/images/skeleton.json")
+
     local stage = require("tests.game.stage").new()
     game.stage = stage
 
