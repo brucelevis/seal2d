@@ -33,7 +33,7 @@
 
 #if DEBUG
 // memory hook functions, these functions are SLOW.
-// use `if !DEBUG' if you need do the performance test. 
+// use `if !DEBUG' if you need do the performance test.
 #define s_malloc(size)          seal_malloc(size, __FILE__, __LINE__)
 #define s_calloc(size)          seal_calloc(size, __FILE__, __LINE__)
 #define s_realloc(p, size)      seal_realloc(p, size, __FILE__, __LINE__)
