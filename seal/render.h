@@ -94,6 +94,7 @@ struct attr_location {
 struct render_state {
     GLuint program;
     struct attr_location loc;
+    GLuint tex_loc;
 };
 
 struct render_batch {

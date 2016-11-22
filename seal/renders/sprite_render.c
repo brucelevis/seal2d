@@ -61,8 +61,7 @@ void sprite_render_func_start(struct render* R)
     context->state.program = prog;
 
     glActiveTexture(GL_TEXTURE0);
-    GLint texture_location = glGetUniformLocation(prog, "texture_0");
-    glUniform1i(texture_location, 0);
+    glUniform1i(context->state.tex_loc, 0);
 
     render_set_mvp(prog, GAME->global_camera->camer_mat.m);
     CHECK_GL_ERROR;
@@ -171,6 +170,8 @@ void sprite_render_func_init(struct render* R)
     context->n_objects = 0;
     context->current_batch_index = 0;
     context->current_batch = &context->batches[0];
+
+    context->state.tex_loc = glGetUniformLocation(prog, "texture_0");
 
     struct render_func func = {
         sprite_render_func_init,

@@ -157,10 +157,9 @@ void render_switch(struct render* self, enum RENDER_TYPE type)
             struct render_object* LR = &self->R_objs[self->last];
             LR->render_func.flush(self);
         }
+        struct render_object* render_object = &self->R_objs[type];
+        render_object->render_func.start(self);
     }
-
-    struct render_object* render_object = &self->R_objs[type];
-    render_object->render_func.start(self);
 
     self->current = type;
     self->last = self->current;

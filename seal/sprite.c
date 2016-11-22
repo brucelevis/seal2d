@@ -992,14 +992,14 @@ static void sprite_after_visit(struct sprite* self)
     }
 
     switch (self->type) {
-    case SPRITE_TYPE_CLIP:
-    {
-        render_flush(R);
-        render_clean_scissors(R);
-        break;
-    }
-    default:
-        break;
+        case SPRITE_TYPE_CLIP:
+        {
+            render_flush(R);
+            render_clean_scissors(R);
+            break;
+        }
+        default:
+            break;
     }
 }
 
