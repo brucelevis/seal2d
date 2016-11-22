@@ -245,6 +245,7 @@
     <ClCompile Include="..\..\..\seal\binding\lnuklear.c" />
     <ClCompile Include="..\..\..\seal\binding\lopen.c" />
     <ClCompile Include="..\..\..\seal\binding\lplatform.c" />
+    <ClCompile Include="..\..\..\seal\binding\lprofiler.c" />
     <ClCompile Include="..\..\..\seal\binding\lscheduler.c" />
     <ClCompile Include="..\..\..\seal\binding\lseal_core.c" />
     <ClCompile Include="..\..\..\seal\binding\lsprite.c" />
@@ -261,6 +262,7 @@
     <ClCompile Include="..\..\..\seal\platform\fs.c" />
     <ClCompile Include="..\..\..\seal\platform\platform.c" />
     <ClCompile Include="..\..\..\seal\platform\timer.c" />
+    <ClCompile Include="..\..\..\seal\profiler.c" />
     <ClCompile Include="..\..\..\seal\render.c" />
     <ClCompile Include="..\..\..\seal\renders\primitive_render.c" />
     <ClCompile Include="..\..\..\seal\renders\spine_render.c" />
@@ -386,6 +388,7 @@
     <ClInclude Include="..\..\..\seal\platform\platform.h" />
     <ClInclude Include="..\..\..\seal\platform\render_opengl.h" />
     <ClInclude Include="..\..\..\seal\platform\timer.h" />
+    <ClInclude Include="..\..\..\seal\profiler.h" />
     <ClInclude Include="..\..\..\seal\render.h" />
     <ClInclude Include="..\..\..\seal\renders\primitive_render.h" />
     <ClInclude Include="..\..\..\seal\renders\spine_render.h" />

@@ -42,6 +42,14 @@ void af_srt(struct affine* af,
             float scale_x, float scale_y,
             float rotation_x, float rotation_y)
 {
+    af->a = scale_x;
+    af->b = rotation_x;
+    af->c = rotation_y;
+    af->d = scale_y;
+    af->x = x;
+    af->y = y;
+    return;
+
     struct affine scale_matrix;
     struct affine rotation_matrix;
     af_identify(&scale_matrix);

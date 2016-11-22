@@ -439,6 +439,12 @@
     <ClCompile Include="..\..\..\seal\glview.c">
       <Filter>Engine\seal</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\seal\profiler.c">
+      <Filter>Engine\seal</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\seal\binding\lprofiler.c">
+      <Filter>Engine\seal\binding</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\seal\bmfont.h">
@@ -808,6 +814,9 @@
       <Filter>Engine\seal\math</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\seal\glview.h">
+      <Filter>Engine\seal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\seal\profiler.h">
       <Filter>Engine\seal</Filter>
     </ClInclude>
   </ItemGroup>

@@ -19,6 +19,8 @@ function bunny_test:ctor()
             print("n_bunny = ", n_bunny)
             for i = 1, t do
                 local s = sprite.new("ui.png", "bunny.png")
+                s.x = x
+                s.y = y
                 s:set_pos(x, y)
                 self:add_child(s)
                 bunnies[#bunnies+1] = s
@@ -30,8 +32,8 @@ function bunny_test:ctor()
     local update_timer = require("seal.timer").new {
         loop = -1,
         callback = function(dt)
-            for k,s in pairs(bunnies) do
-                local x, y = s:get_pos()
+            for k,s in ipairs(bunnies) do
+                local x, y = s.x, s.y
                 local dx, dy = s.speed_x * dt, s.speed_y * dt
                 x = x + dx
                 y = y + dy
@@ -42,6 +44,8 @@ function bunny_test:ctor()
                 if y > WINDOW_HEIGHT or y < 0 then
                     s.speed_y = -s.speed_y
                 end
+                s.x = x
+                s.y = y
                 s:set_pos(x, y)
             end
         end,
