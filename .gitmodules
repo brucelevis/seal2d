@@ -1,3 +1,9 @@
 [submodule "tools/script_complier/lua-hammer"]
 	path = tools/script_complier/lua-hammer
 	url = https://github.com/tangyiyang/lua-hammer
+[submodule "libs/bx"]
+	path = libs/bx
+	url = git://github.com/bkaradzic/bx.git
+[submodule "libs/bgfx"]
+	path = libs/bgfx
+	url = git://github.com/bkaradzic/bgfx.git
