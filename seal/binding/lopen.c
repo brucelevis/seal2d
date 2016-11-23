@@ -44,7 +44,6 @@ extern int luaopen_cjson(lua_State* L);
 extern int luaopen_zlib(lua_State* L);
 
 extern int luaopen_nuklear_core(lua_State* L);
-extern int luaopen_nanovg_core(lua_State* L);
 
 void stackDump (lua_State *L)
 {
@@ -179,9 +178,6 @@ void luaopen_lua_extensions(lua_State *L)
         { "zlib",           luaopen_zlib },
 
         { "nuklear_core",   luaopen_nuklear_core },
-    #ifdef PLAT_DESKTOP
-        { "nanovg_core",    luaopen_nanovg_core },
-    #endif
 
         {NULL, NULL}
     };

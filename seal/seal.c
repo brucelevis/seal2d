@@ -29,7 +29,6 @@
 extern void (luaL_openlibs) (lua_State *L);
 extern void luaopen_lua_extensions(lua_State *L);
 extern void nuk_init(void* winctx);
-extern void nanovg_init(int w, int h);
 
 #define TRACE_BACK_FUNC_INDEX 1
 #define UPDATE_FUNC_INDEX     2
@@ -204,7 +203,6 @@ struct glview * s2game_initgraphics (struct s2game * game, int view_w, int view_
 
     #ifdef PLAT_DESKTOP
         nuk_init (game->window->ctx);
-        nanovg_init (game->config.design_width, game->config.design_height);
     #endif
         return game->glview;
 }
