@@ -170,15 +170,15 @@ void seal_reload_scripts()
 struct s2game * s2game_loadconfig ()
 {
         struct s2game   * game    = (struct s2game*) s_malloc (sizeof(struct s2game));
-        memset (GAME->config.app_name, 0, 128);
+        memset (game->config.app_name, 0, 128);
 
     #ifdef PLAT_DESKTOP
-        GAME->window = win_alloc();
+        game->window = win_alloc();
     #endif
         return game;
 }
 
-struct glview * s2game_initgraphics (struct s2game * game, int view_w, int view_h, int fb_w, int fb_h);
+struct glview * s2game_initgraphics (struct s2game * game, int view_w, int view_h, int fb_w, int fb_h)
 {
         // baisc graphic modules
         struct glview* view     = glview_new ( game->config.design_width,
@@ -247,7 +247,7 @@ struct s2game* seal_game_context()
 
 struct glview* seal_init_graphics(int view_w, int view_h, int fb_w, int fb_h)
 {
-        GAME->lua_handler = lua_handler_new(game->lstate);
+        GAME->lua_handler = lua_handler_new(GAME->lstate);
 
         struct glview *     glview  = s2game_initgraphics (GAME, view_w, view_h, fb_w, fb_h);
 

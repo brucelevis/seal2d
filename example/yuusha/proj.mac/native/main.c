@@ -111,7 +111,7 @@ void exit_glfw(GLFWwindow* window)
 
 int main(int argc, char *argv[])
 {
-    struct game* game = seal_load_game_config();
+    struct s2game* game = seal_load_game_config();
 
     int window_width = game->config.design_width;
     int window_height = game->config.design_height;
