@@ -68,17 +68,17 @@
 
 //#define USE_C_ROOT
 
-struct game_config {
+struct s2game_config {
     char app_name[128];
     int design_width;
     int design_height;
     int design_policy;
 };
 
-struct game {
+struct s2game {
     lua_State* lstate;
 
-    struct game_config config;
+    struct s2game_config config;
 
     // core render context
     float global_dt;
@@ -103,7 +103,7 @@ struct game {
     struct timeval __last_update;
 };
 
-#define EXTERN_GAME extern struct game* GAME;
+#define EXTERN_GAME extern struct s2game* GAME;
 
 #define GAME_TRACE       "GAME_TRACE"
 #define GAME_INIT        "GAME_INIT"
@@ -119,9 +119,9 @@ struct game {
 #define EVENT_KEY_RECEIVE (2)
 
 // main game state functions
-struct game* seal_load_game_config();
+struct s2game* seal_load_game_config();
 struct glview* seal_init_graphics(int view_w, int view_h, int fb_w, int fb_h);
-struct game* seal_game_context();
+struct s2game* seal_game_context();
 void seal_load_string(const char* script_data);
 void seal_load_file(const char* script_path);
 void seal_start_game();
@@ -130,9 +130,9 @@ void seal_update();
 void seal_draw();
 void seal_destroy();
 
-// Pure C entries
-struct game * s2game_loadconfig ();
-struct glview * s2game_initgraphics ();
+// Pure C entries, namespaces TODO change
+struct s2game * s2game_loadconfig ();
+struct glview * s2game_initgraphics (struct s2game * game, int view_w, int view_h, int fb_w, int fb_h);
 
 // Lua
 int  seal_call(lua_State *L, int n, int r);

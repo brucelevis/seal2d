@@ -36,7 +36,7 @@ extern void nanovg_init(int w, int h);
 #define DRAW_FUNC_INDEX       3
 #define TOP_FUNC_INDEX        3
 
-struct game* GAME = NULL;
+struct s2game* GAME = NULL;
 
 int seal_call(lua_State *L, int n, int r)
 {
@@ -167,9 +167,9 @@ void seal_reload_scripts()
 }
 
 // 纯C版本入口
-struct game * s2game_loadconfig ()
+struct s2game * s2game_loadconfig ()
 {
-        struct game   * game    = (struct game*) s_malloc (sizeof(struct game));
+        struct s2game   * game    = (struct s2game*) s_malloc (sizeof(struct s2game));
         memset (GAME->config.app_name, 0, 128);
 
     #ifdef PLAT_DESKTOP
@@ -178,7 +178,7 @@ struct game * s2game_loadconfig ()
         return game;
 }
 
-struct glview * s2game_initgraphics (struct game * game, int view_w, int view_h, int fb_w, int fb_h);
+struct glview * s2game_initgraphics (struct s2game * game, int view_w, int view_h, int fb_w, int fb_h);
 {
         // baisc graphic modules
         struct glview* view     = glview_new ( game->config.design_width,
@@ -209,7 +209,7 @@ struct glview * s2game_initgraphics (struct game * game, int view_w, int view_h,
         return game->glview;
 }
 
-struct game* seal_load_game_config()
+struct s2game* seal_load_game_config()
 {
     GAME = s2game_loadconfig ();
     // lua modules
@@ -224,7 +224,7 @@ struct game* seal_load_game_config()
     lua_getglobal(L, "DESIGN_HEIGHT");
     lua_getglobal(L, "DESIGN_POLICY");
 
-    struct game_config* config = &GAME->config;
+    struct s2game_config* config = &GAME->config;
     const char* name = lua_tostring(L, 1);
     strncpy(config->app_name, name, 128-1);
     config->design_width = lua_tonumber(L, 2);
@@ -240,7 +240,7 @@ struct game* seal_load_game_config()
 
 
 
-struct game* seal_game_context()
+struct s2game* seal_game_context()
 {
     return GAME;
 }
