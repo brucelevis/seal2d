@@ -178,10 +178,10 @@ struct s2game * s2game_loadconfig ()
         return game;
 }
 
-struct glview * s2game_initgraphics (struct s2game * game, int view_w, int view_h, int fb_w, int fb_h)
+struct s2glview * s2game_initgraphics (struct s2game * game, int view_w, int view_h, int fb_w, int fb_h);
 {
         // baisc graphic modules
-        struct glview* view     = glview_new ( game->config.design_width,
+        struct s2glview* view     = glview_new ( game->config.design_width,
                                                game->config.design_height,
                                                game->config.design_policy );
 
@@ -245,11 +245,11 @@ struct s2game* seal_game_context()
     return GAME;
 }
 
-struct glview* seal_init_graphics(int view_w, int view_h, int fb_w, int fb_h)
+struct s2glview* seal_init_graphics(int view_w, int view_h, int fb_w, int fb_h)
 {
         GAME->lua_handler = lua_handler_new(GAME->lstate);
 
-        struct glview *     glview  = s2game_initgraphics (GAME, view_w, view_h, fb_w, fb_h);
+        struct s2glview *     glview  = s2game_initgraphics (GAME, view_w, view_h, fb_w, fb_h);
 
         return glview;
 

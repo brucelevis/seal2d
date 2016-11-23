@@ -33,7 +33,7 @@ enum design_policy {
     FIX_HEIGHT,
 };
 
-struct glview {
+struct s2glview {
 //    struct size screen_size; // size of real device
     struct size view_size;   // read from the local OpenGLView system(GLKView)
     struct size fb_size;     // framebuffer size
@@ -48,12 +48,12 @@ struct glview {
     float __frame_scalar_y;
 };
 
-struct glview* glview_new(int design_w, int design_h, enum design_policy policy);
-void glview_free(struct glview* self);
+struct s2glview* glview_new(int design_w, int design_h, enum design_policy policy);
+void glview_free(struct s2glview* self);
 
-void glview_set_fb_size(struct glview* self, int fb_w, int fb_h);
-//void glview_set_screen_size(struct glview* self, int screen_w, int screen_h);
-void glview_set_view_size(struct glview* self, int view_w, int view_h);
-void glview_update_viewport(struct glview* self);
+void glview_set_fb_size(struct s2glview* self, int fb_w, int fb_h);
+//void glview_set_screen_size(struct s2glview* self, int screen_w, int screen_h);
+void glview_set_view_size(struct s2glview* self, int view_w, int view_h);
+void glview_update_viewport(struct s2glview* self);
 
 #endif /* glview_h */

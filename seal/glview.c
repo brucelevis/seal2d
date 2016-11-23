@@ -25,9 +25,9 @@
 
 #include "glview.h"
 
-struct glview* glview_new(int design_w, int design_h, enum design_policy policy)
+struct s2glview* glview_new(int design_w, int design_h, enum design_policy policy)
 {
-    struct glview* view = STRUCT_NEW(glview);
+    struct s2glview* view = STRUCT_NEW(glview);
     view->__design_size.w = design_w;
     view->__design_size.h = design_h;
     view->__policy = policy;
@@ -39,7 +39,7 @@ struct glview* glview_new(int design_w, int design_h, enum design_policy policy)
     return view;
 }
 
-static void glview_update(struct glview* self)
+static void glview_update(struct s2glview* self)
 {
     float scale_x, scale_y;
     float vw, vh;
@@ -90,7 +90,7 @@ static void glview_update(struct glview* self)
          self->__frame_scalar_x, self->__frame_scalar_y);
 }
 
-void glview_set_fb_size(struct glview* self, int fb_w, int fb_h)
+void glview_set_fb_size(struct s2glview* self, int fb_w, int fb_h)
 {
     self->fb_size.w = fb_w;
     self->fb_size.h = fb_h;
@@ -101,7 +101,7 @@ void glview_set_fb_size(struct glview* self, int fb_w, int fb_h)
     glview_update(self);
 }
 
-void glview_set_screen_size(struct glview* self, int screen_w, int screen_h)
+void glview_set_screen_size(struct s2glview* self, int screen_w, int screen_h)
 {
 //    self->screen_size.w = screen_w;
 //    self->screen_size.h = screen_h;
@@ -109,7 +109,7 @@ void glview_set_screen_size(struct glview* self, int screen_w, int screen_h)
 //    glview_update(self);
 }
 
-void glview_set_view_size(struct glview* self, int view_w, int view_h)
+void glview_set_view_size(struct s2glview* self, int view_w, int view_h)
 {
     self->view_size.w = view_w;
     self->view_size.h = view_h;
@@ -117,7 +117,7 @@ void glview_set_view_size(struct glview* self, int view_w, int view_h)
     glview_update(self);
 }
 
-void glview_update_viewport(struct glview* self)
+void glview_update_viewport(struct s2glview* self)
 {
     glViewport(self->view_rect.x,
                self->view_rect.y,
@@ -125,7 +125,7 @@ void glview_update_viewport(struct glview* self)
                self->view_rect.h);
 }
 
-void glview_free(struct glview* self)
+void glview_free(struct s2glview* self)
 {
     s_free(self);
 }

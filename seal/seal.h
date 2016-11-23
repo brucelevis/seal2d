@@ -83,7 +83,7 @@ struct s2game {
     // core render context
     float global_dt;
     struct camera* global_camera;
-    struct glview* glview;
+    struct s2glview* glview;
     struct texture_cache* texture_cache;
     struct ttf_font* font;
     struct window* window;           // TODO: move this to glview,
@@ -120,7 +120,7 @@ struct s2game {
 
 // main game state functions
 struct s2game* seal_load_game_config();
-struct glview* seal_init_graphics(int view_w, int view_h, int fb_w, int fb_h);
+struct s2glview* seal_init_graphics(int view_w, int view_h, int fb_w, int fb_h);
 struct s2game* seal_game_context();
 void seal_load_string(const char* script_data);
 void seal_load_file(const char* script_path);
@@ -132,7 +132,7 @@ void seal_destroy();
 
 // Pure C entries, namespaces TODO change
 struct s2game * s2game_loadconfig ();
-struct glview * s2game_initgraphics (struct s2game * game, int view_w, int view_h, int fb_w, int fb_h);
+struct s2glview * s2game_initgraphics (struct s2game * game, int view_w, int view_h, int fb_w, int fb_h);
 
 // Lua
 int  seal_call(lua_State *L, int n, int r);
