@@ -118,7 +118,7 @@ void sprite_render_func_end(struct render* R)
 
 void sprite_render_func_init(struct render* R)
 {
-    struct sprite_render_context* context = STRUCT_NEW(sprite_render_context);
+    struct sprite_render_context* context = STRUCT_NEW(s2sprite_render_context);
     struct vertex_buffer* buffer = STRUCT_NEW(vertex_buffer);
     GLushort* idata = s_malloc(MAX_OBJECTS * 6 * sizeof(GLushort));
     //   tl(1) ------ (0) tr

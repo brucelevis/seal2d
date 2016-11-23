@@ -269,7 +269,7 @@ static void sprite_update_color(struct sprite* self)
 
 struct sprite_frame_cache* sprite_frame_cache_new()
 {
-    struct sprite_frame_cache* c = STRUCT_NEW(sprite_frame_cache);
+    struct sprite_frame_cache* c = STRUCT_NEW(s2sprite_frame_cache);
     c->cache = hashmapCreate(128, hash_str, hash_equal);
 
     C = c;
@@ -301,7 +301,7 @@ struct sprite_frame* sprite_frame_cache_get(struct sprite_frame_cache* self,
 
 struct sprite_frame* sprite_frame_new(const char* key)
 {
-    struct sprite_frame* f = STRUCT_NEW(sprite_frame);
+    struct sprite_frame* f = STRUCT_NEW(s2sprite_frame);
     memset(f, 0, sizeof(struct sprite_frame));
 
     size_t len = strlen(key);
@@ -314,7 +314,7 @@ struct sprite_frame* sprite_frame_new(const char* key)
 
 static struct sprite_frame* sprite_frame_new_raw()
 {
-    struct sprite_frame* f = STRUCT_NEW(sprite_frame);
+    struct sprite_frame* f = STRUCT_NEW(s2sprite_frame);
     memset(f, 0, sizeof(struct sprite_frame));
     return f;
 }
@@ -422,7 +422,7 @@ void sprite_set_glyph(struct sprite* self, struct rect* rect,
 
 struct sprite* sprite_new(struct sprite_frame* frame)
 {
-    struct sprite* s = STRUCT_NEW(sprite);
+    struct sprite* s = STRUCT_NEW (s2sprite);
     s->type = SPRITE_TYPE_PIC;
     s->sprite_data.anim = NULL;
     s->sprite_data.frame = frame;
@@ -438,7 +438,7 @@ struct sprite* sprite_new(struct sprite_frame* frame)
 
 struct sprite* sprite_new_label(const char* label)
 {
-    struct sprite* s = STRUCT_NEW(sprite);
+    struct sprite* s = STRUCT_NEW (s2sprite);
     s->type = SPRITE_TYPE_TTF_LABEL;
 
     //TODO: implement this later
@@ -466,7 +466,7 @@ struct sprite* sprite_new_bmfont_label(const char* label,
 
 struct sprite* sprite_new_container(struct rect* r)
 {
-    struct sprite* s = STRUCT_NEW(sprite);
+    struct sprite* s = STRUCT_NEW (s2sprite);
     s->type = SPRITE_TYPE_CONTAINER;
 
     sprite_init(s, SPRITE_TYPE_CONTAINER, r->w, r->h);
@@ -481,7 +481,7 @@ struct sprite* sprite_new_spine(const char* atlas_path,
     const char* spine_data_path,
     float scale)
 {
-    struct sprite* s = STRUCT_NEW(sprite);
+    struct sprite* s = STRUCT_NEW (s2sprite);
     s->type = SPRITE_TYPE_SPINE;
 
     struct rect r;
@@ -497,7 +497,7 @@ struct sprite* sprite_new_spine(const char* atlas_path,
 
 struct sprite* sprite_new_clip(struct rect* r)
 {
-    struct sprite* s = STRUCT_NEW(sprite);
+    struct sprite* s = STRUCT_NEW (s2sprite);
     s->type = SPRITE_TYPE_CLIP;
 
     sprite_init(s, SPRITE_TYPE_CLIP, r->w, r->h);
@@ -511,7 +511,7 @@ struct sprite* sprite_new_clip(struct rect* r)
 // vertex: float[4], start point:(v[0], v[1]), end point: (v[1], v[2])
 struct sprite* sprite_new_line(float* vertex, float width, color line_color)
 {
-    struct sprite* s = STRUCT_NEW(sprite);
+    struct sprite* s = STRUCT_NEW (s2sprite);
 
     struct rect rect = {
         0, 0, vertex[2] - vertex[0], width
@@ -543,7 +543,7 @@ struct sprite* sprite_new_rect(struct rect* rect,
     unsigned int rect_flag,
     color fill_color, color outline_color)
 {
-    struct sprite* s = STRUCT_NEW(sprite);
+    struct sprite* s = STRUCT_NEW (s2sprite);
     s->type = SPRITE_TYPE_PRIMITVE;
     struct primitive_data* primitive_data = &s->primitive_data;
     primitive_data->primitive_type = PRIMITIVE_RECT;

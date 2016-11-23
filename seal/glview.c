@@ -27,7 +27,7 @@
 
 struct s2glview* glview_new(int design_w, int design_h, enum design_policy policy)
 {
-    struct s2glview* view = STRUCT_NEW(glview);
+    struct s2glview* view = STRUCT_NEW(s2glview);
     view->__design_size.w = design_w;
     view->__design_size.h = design_h;
     view->__policy = policy;
