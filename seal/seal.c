@@ -166,10 +166,52 @@ void seal_reload_scripts()
     load_game_scripts(GAME->lstate, "res/code.zip");
 }
 
+// 纯C版本入口
+struct game * s2game_loadconfig ()
+{
+        struct game   * game    = (struct game*) s_malloc (sizeof(struct game));
+        memset (GAME->config.app_name, 0, 128);
+
+    #ifdef PLAT_DESKTOP
+        GAME->window = win_alloc();
+    #endif
+        return game;
+}
+
+struct glview * s2game_initgraphics (struct game * game, int view_w, int view_h, int fb_w, int fb_h);
+{
+        // baisc graphic modules
+        struct glview* view     = glview_new ( game->config.design_width,
+                                               game->config.design_height,
+                                               game->config.design_policy );
+
+        glview_set_view_size (view, view_w, view_h);
+        glview_set_fb_size (view, fb_w, fb_h);
+        game->glview                = view;
+
+        game->texture_cache         = texture_cache_new ();
+        game->sprite_frame_cache    = sprite_frame_cache_new ();
+        game->bmfont_cache          = bmfont_cache_new ();
+
+        // WC: CAMERA部分matrix有问题。。。
+        game->global_camera         = camera_new (view_w, view_h);
+        game->render                = render_new ();
+        game->scheduler             = scheduler_new ();
+        game->touch_handler         = touch_handler_new ();
+        game->profiler              = profiler_new ();
+
+        sprite_init_render (game->render);
+
+    #ifdef PLAT_DESKTOP
+        nuk_init (game->window->ctx);
+        nanovg_init (game->config.design_width, game->config.design_height);
+    #endif
+        return game->glview;
+}
+
 struct game* seal_load_game_config()
 {
-    GAME = (struct game*)s_malloc(sizeof(struct game));
-    memset(GAME->config.app_name, 0, 128);
+    GAME = s2game_loadconfig ();
     // lua modules
     lua_State* L = seal_new_lua();
     luaopen_lua_extensions(L);
@@ -191,12 +233,12 @@ struct game* seal_load_game_config()
 
     lua_pop(L, 4);
 
-#ifdef PLAT_DESKTOP
-    GAME->window = win_alloc();
-#endif
+
 
     return GAME;
 }
+
+
 
 struct game* seal_game_context()
 {
@@ -205,31 +247,12 @@ struct game* seal_game_context()
 
 struct glview* seal_init_graphics(int view_w, int view_h, int fb_w, int fb_h)
 {
-    // baisc graphic modules
-    struct glview* view = glview_new(GAME->config.design_width,
-                                     GAME->config.design_height,
-                                     GAME->config.design_policy);
-    glview_set_view_size(view, view_w, view_h);
-    glview_set_fb_size(view, fb_w, fb_h);
-    GAME->glview = view;
+        GAME->lua_handler = lua_handler_new(game->lstate);
 
-    GAME->texture_cache = texture_cache_new();
-    GAME->sprite_frame_cache = sprite_frame_cache_new();
-    GAME->bmfont_cache = bmfont_cache_new();
-    GAME->global_camera = camera_new(view_w, view_h);
-    GAME->render = render_new();
-    GAME->lua_handler = lua_handler_new(GAME->lstate);
-    GAME->scheduler = scheduler_new();
-    GAME->touch_handler = touch_handler_new();
-    GAME->profiler = profiler_new();
+        struct glview *     glview  = s2game_initgraphics (GAME, view_w, view_h, fb_w, fb_h);
 
-    sprite_init_render(GAME->render);
+        return glview;
 
-#ifdef PLAT_DESKTOP
-    nuk_init(GAME->window->ctx);
-    nanovg_init(GAME->config.design_width, GAME->config.design_height);
-#endif
-    return GAME->glview;
     // init the font
     // TODO: implement this later
 //    ttf_init_module();
@@ -420,7 +443,7 @@ void seal_draw()
     render_flush(R);
 
     glview_update_viewport(GAME->glview);
-    
+
     // call the injected draw function in Lua Layer.
     lua_State* L = GAME->lstate;
     lua_pushvalue(L, DRAW_FUNC_INDEX);

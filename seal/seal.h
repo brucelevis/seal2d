@@ -130,6 +130,10 @@ void seal_update();
 void seal_draw();
 void seal_destroy();
 
+// Pure C entries
+struct game * s2game_loadconfig ();
+struct glview * s2game_initgraphics ();
+
 // Lua
 int  seal_call(lua_State *L, int n, int r);
 void seal_call_func(void* object,
