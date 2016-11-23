@@ -89,29 +89,31 @@ struct texture* texture_load_from_png(const char* file_path)
         return NULL;
     }
 
-    // load png data into memory
-    size_t file_size = 0;
-    unsigned char* origin_data = fs_read(file_path, &file_size, 0);
-
-    unsigned char* pixel_data = NULL;
-    unsigned int width = 0;
-    unsigned int height = 0;
-    unsigned int error = 0;
-
-    error = lodepng_decode32(&pixel_data,
-                             &width, &height,
-                             origin_data, file_size);
-    s_free(origin_data);
-    if(error) {
-        LOGP("error %u: %s", error, lodepng_error_text(error));
-        return NULL;
-    }
-
-    struct texture* tex = texture_load_from_mem(pixel_data, width, height, GL_RGBA);
-
-    // TODO: third party use the standard malloc, we may replace that with s_malloc some day.
-    free(pixel_data);
-    return tex;
+//    // load png data into memory
+//    size_t file_size = 0;
+//    unsigned char* origin_data = fs_read(file_path, &file_size, 0);
+//
+//    unsigned char* pixel_data = NULL;
+//    unsigned int width = 0;
+//    unsigned int height = 0;
+//    unsigned int error = 0;
+//
+//    error = lodepng_decode32(&pixel_data,
+//                             &width, &height,
+//                             origin_data, file_size);
+//    s_free(origin_data);
+//    if(error) {
+//        LOGP("error %u: %s", error, lodepng_error_text(error));
+//        return NULL;
+//    }
+//
+//    struct texture* tex = texture_load_from_mem(pixel_data, width, height, GL_RGBA);
+//
+//    // TODO: third party use the standard malloc, we may replace that with s_malloc some day.
+//    free(pixel_data);
+//    return tex;
+    
+    return NULL;
 }
 
 

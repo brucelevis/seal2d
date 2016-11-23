@@ -31,11 +31,11 @@
 #include <float.h>
 #include <unistd.h>
 
-#include "timer.h"
-#include "window.h"
 
 #include "GLFW/glfw3.h"
-#include "test.h"
+#include <bgfx/c99/bgfx.h>
+#include <bgfx/c99/bgfxplatform.h>
+
 
 static void _glfw_error_cb(int error, const char* desc)
 {
@@ -123,58 +123,28 @@ int main(int argc, char *argv[])
     int fb_width, fb_height;
     glfwGetFramebufferSize(window, &fb_width, &fb_height);
 
-    seal_init_graphics(window_width, window_height, fb_width, fb_height);
-    seal_start_game();
-
-#ifdef USE_C_ROOT
-    #define TOTAL_SPRITE (10000)
-        struct sprite* sprites[TOTAL_SPRITE] = { NULL };
-        struct sprite_frame* frame = sprite_frame_cache_get(
-                                                        game->sprite_frame_cache,
-                                                            "ui.png-bunny.png");
-
-        int speed_x[TOTAL_SPRITE] = {0};
-        int speed_y[TOTAL_SPRITE] = {0};
-        srand(time(NULL));
-        for (int i = 0; i < TOTAL_SPRITE; ++i) {
-            struct sprite* s = sprite_new(frame);
-            sprite_add_child(game->root, s, 0);
-            sprite_set_pos(s, 500, 500);
-            sprites[i] = s;
-
-            speed_x[i] = random() % 100;
-            speed_y[i] = random() % 100;
-        }
-#endif
+    bgfx_init(BGFX_PCI_ID_NONE, BGFX_PCI_ID_NONE, 0, NULL, NULL);
+    bgfx_reset (fb_width, fb_height, BGFX_RESET_VSYNC);
+    bgfx_set_debug(BGFX_DEBUG_TEXT);
+    bgfx_set_view_clear (0, BGFX_CLEAR_COLOR|BGFX_CLEAR_DEPTH, 0xff3030ff, 1.0f, 0);
 
     while (!glfwWindowShouldClose(window)) {
-#ifdef USE_C_ROOT
-        float dt = game->global_dt;
-        for (int i = 0; i < TOTAL_SPRITE; ++i) {
-            struct sprite* s = sprites[i];
-            float dx = speed_x[i] * dt;
-            float dy = speed_y[i] * dt;
-            float x = s->x + dx;
-            float y = s->y + dy;
-            if (x <= 0 || x >= game->config.design_width) {
-                speed_x[i] = -speed_x[i];
-            }
+        bgfx_set_view_rect(0, 0, 0, window_width, window_height);
 
-            if (y <= 0 || y >= game->config.design_height) {
-                speed_y[i] = -speed_y[i];
-            }
-            sprite_set_pos(sprites[i], x, y);
-        }
-#endif
+        bgfx_touch(0);
+        bgfx_dbg_text_clear(0, false);
+        bgfx_dbg_text_printf(0, 1, 0x4f, "bgfx/examples/00-helloworld");
+        bgfx_dbg_text_printf(0, 2, 0x6f, "Description: Initialization and debug text.");
 
-        seal_update();
-        seal_draw();
+        // Advance to next frame. Rendering thread will be kicked to
+        // process submitted rendering primitives.
+        bgfx_frame(0);
         glfwSwapBuffers(window);
 
         glfwPollEvents();
     }
 
-    seal_destroy();
+    bgfx_shutdown();
 
     exit_glfw(window);
     return 0;

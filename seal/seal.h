@@ -34,7 +34,6 @@
 #include "base/hashmap.h"
 #include "base/list.h"
 #include "binding/lopen.h"
-#include "image/lodepng.h"
 #include "math/affine.h"
 #include "math/geo.h"
 #include "math/mat4.h"
@@ -60,13 +59,12 @@
 #include "spine_anim.h"
 #include "sprite.h"
 #include "texture.h"
-#include "ttf_font.h"
 #include "touch_handler.h"
 #include "profiler.h"
 #include "util.h"
 #include "window.h"
 
-//#define USE_C_ROOT
+
 
 struct s2game_config {
     char app_name[128];
@@ -85,7 +83,6 @@ struct s2game {
     struct camera* global_camera;
     struct glview* glview;
     struct texture_cache* texture_cache;
-    struct ttf_font* font;
     struct window* window;           // TODO: move this to glview,
     struct sprite* root;             // the root node of the world
     struct shader* shader;
