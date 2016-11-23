@@ -28,7 +28,6 @@
 
 extern void (luaL_openlibs) (lua_State *L);
 extern void luaopen_lua_extensions(lua_State *L);
-extern void nuk_init(void* winctx);
 
 #define TRACE_BACK_FUNC_INDEX 1
 #define UPDATE_FUNC_INDEX     2
@@ -201,9 +200,6 @@ struct glview * s2game_initgraphics (struct s2game * game, int view_w, int view_
 
         sprite_init_render (game->render);
 
-    #ifdef PLAT_DESKTOP
-        nuk_init (game->window->ctx);
-    #endif
         return game->glview;
 }
 

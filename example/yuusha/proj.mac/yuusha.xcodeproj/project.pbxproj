@@ -103,7 +103,9 @@
 		4DBCFE381DE5FDF200E2B898 /* text_buffer_manager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4DBCFDDF1DE5FDF200E2B898 /* text_buffer_manager.cpp */; };
 		4DBCFE391DE5FDF200E2B898 /* text_metrics.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4DBCFDE11DE5FDF200E2B898 /* text_metrics.cpp */; };
 		4DBCFE3A1DE5FDF200E2B898 /* utf8.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4DBCFDE31DE5FDF200E2B898 /* utf8.cpp */; };
-		4DBCFE471DE5FF6800E2B898 /* stb_image.c in Sources */ = {isa = PBXBuildFile; fileRef = 4DBCFE431DE5FF6800E2B898 /* stb_image.c */; };
+		4DBCFE551DE6029E00E2B898 /* nanovg.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4DBCFE4D1DE6029E00E2B898 /* nanovg.cpp */; };
+		4DBCFE561DE6029E00E2B898 /* nanovg_bgfx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4DBCFE4F1DE6029E00E2B898 /* nanovg_bgfx.cpp */; };
+		4DBCFE571DE6033500E2B898 /* stb_image.c in Sources */ = {isa = PBXBuildFile; fileRef = 4DBCFE431DE5FF6800E2B898 /* stb_image.c */; };
 		4DBFA6B81C9DBA9400D52B23 /* test_2d_array.c in Sources */ = {isa = PBXBuildFile; fileRef = 4DBFA6B71C9DBA9400D52B23 /* test_2d_array.c */; };
 		4DCBEF691D7B3F4A009C05EC /* Animation.c in Sources */ = {isa = PBXBuildFile; fileRef = 4DCBEF471D7B3F4A009C05EC /* Animation.c */; };
 		4DCBEF6A1D7B3F4A009C05EC /* AnimationState.c in Sources */ = {isa = PBXBuildFile; fileRef = 4DCBEF481D7B3F4A009C05EC /* AnimationState.c */; };
@@ -207,7 +209,6 @@
 		A6E74CB01CCA1D2A009392C8 /* unzip.c in Sources */ = {isa = PBXBuildFile; fileRef = A6E74CAD1CCA1D2A009392C8 /* unzip.c */; };
 		A6E74CB31CCA2271009392C8 /* ioapi_mem.c in Sources */ = {isa = PBXBuildFile; fileRef = A6E74CB11CCA2271009392C8 /* ioapi_mem.c */; };
 		B20D7A661DD6C958001555E5 /* lscheduler.c in Sources */ = {isa = PBXBuildFile; fileRef = B20D7A651DD6C958001555E5 /* lscheduler.c */; };
-		B63A0F3A1D0B99F300CE6B7F /* lnuklear.c in Sources */ = {isa = PBXBuildFile; fileRef = B63A0F391D0B99F300CE6B7F /* lnuklear.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -454,6 +455,13 @@
 		4DBCFE441DE5FF6800E2B898 /* stb_rect_pack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = stb_rect_pack.h; sourceTree = "<group>"; };
 		4DBCFE451DE5FF6800E2B898 /* stb_textedit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = stb_textedit.h; sourceTree = "<group>"; };
 		4DBCFE461DE5FF6800E2B898 /* stb_truetype.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = stb_truetype.h; sourceTree = "<group>"; };
+		4DBCFE491DE6029E00E2B898 /* fontstash.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = fontstash.h; sourceTree = "<group>"; };
+		4DBCFE4A1DE6029E00E2B898 /* fs_nanovg_fill.bin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = fs_nanovg_fill.bin.h; sourceTree = "<group>"; };
+		4DBCFE4D1DE6029E00E2B898 /* nanovg.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = nanovg.cpp; sourceTree = "<group>"; };
+		4DBCFE4E1DE6029E00E2B898 /* nanovg.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = nanovg.h; sourceTree = "<group>"; };
+		4DBCFE4F1DE6029E00E2B898 /* nanovg_bgfx.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = nanovg_bgfx.cpp; sourceTree = "<group>"; };
+		4DBCFE501DE6029E00E2B898 /* nanovg_bgfx.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = nanovg_bgfx.h; sourceTree = "<group>"; };
+		4DBCFE521DE6029E00E2B898 /* vs_nanovg_fill.bin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = vs_nanovg_fill.bin.h; sourceTree = "<group>"; };
 		4DBFA6B71C9DBA9400D52B23 /* test_2d_array.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = test_2d_array.c; sourceTree = "<group>"; };
 		4DCBEF251D7B3F4A009C05EC /* Animation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Animation.h; sourceTree = "<group>"; };
 		4DCBEF261D7B3F4A009C05EC /* AnimationState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnimationState.h; sourceTree = "<group>"; };
@@ -640,9 +648,6 @@
 		A6E74CB11CCA2271009392C8 /* ioapi_mem.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = ioapi_mem.c; path = "../../../libs/lua-zlib/ioapi_mem.c"; sourceTree = "<group>"; };
 		A6E74CB21CCA2271009392C8 /* ioapi_mem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ioapi_mem.h; path = "../../../libs/lua-zlib/ioapi_mem.h"; sourceTree = "<group>"; };
 		B20D7A651DD6C958001555E5 /* lscheduler.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = lscheduler.c; sourceTree = "<group>"; };
-		B60387F31D0B027000A27714 /* nuklear.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = nuklear.h; sourceTree = "<group>"; };
-		B60387F41D0B043700A27714 /* nuklear_glfw_gl3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = nuklear_glfw_gl3.h; sourceTree = "<group>"; };
-		B63A0F391D0B99F300CE6B7F /* lnuklear.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = lnuklear.c; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -740,7 +745,6 @@
 			children = (
 				4DBCF2361DE5D43200E2B898 /* bgfx */,
 				4DCBEF221D7B3F4A009C05EC /* spine */,
-				B60387F21D0B027000A27714 /* nuklear */,
 				A63F5E511D5F3AD0004538D9 /* lua-expat */,
 				A6E74C991CCA0E71009392C8 /* lua-zlib */,
 				A611E70F1CB65F32001C7E2C /* lua-cjson */,
@@ -942,6 +946,7 @@
 				4DBCFDA81DE5FDF200E2B898 /* common.sh */,
 				4DBCFDA91DE5FDF200E2B898 /* cube_atlas.cpp */,
 				4DBCFDAA1DE5FDF200E2B898 /* cube_atlas.h */,
+				4DBCFE481DE6029E00E2B898 /* nanovg */,
 				4DBCFDAB1DE5FDF200E2B898 /* debugdraw */,
 				4DBCFDC01DE5FDF200E2B898 /* entry */,
 				4DBCFDD51DE5FDF200E2B898 /* font */,
@@ -1044,6 +1049,20 @@
 				4DBCFE461DE5FF6800E2B898 /* stb_truetype.h */,
 			);
 			path = stb;
+			sourceTree = "<group>";
+		};
+		4DBCFE481DE6029E00E2B898 /* nanovg */ = {
+			isa = PBXGroup;
+			children = (
+				4DBCFE491DE6029E00E2B898 /* fontstash.h */,
+				4DBCFE4A1DE6029E00E2B898 /* fs_nanovg_fill.bin.h */,
+				4DBCFE4D1DE6029E00E2B898 /* nanovg.cpp */,
+				4DBCFE4E1DE6029E00E2B898 /* nanovg.h */,
+				4DBCFE4F1DE6029E00E2B898 /* nanovg_bgfx.cpp */,
+				4DBCFE501DE6029E00E2B898 /* nanovg_bgfx.h */,
+				4DBCFE521DE6029E00E2B898 /* vs_nanovg_fill.bin.h */,
+			);
+			path = nanovg;
 			sourceTree = "<group>";
 		};
 		4DCBEF221D7B3F4A009C05EC /* spine */ = {
@@ -1326,7 +1345,6 @@
 				4D1CF5871CB2B79E00A1FFB9 /* lsprite.c */,
 				4D1CF58B1CB2C3AC00A1FFB9 /* ltexture.c */,
 				A611E7261CB662E0001C7E2C /* lplatform.c */,
-				B63A0F391D0B99F300CE6B7F /* lnuklear.c */,
 				4D8006FF1D6B45BB00C6C919 /* laction.c */,
 				4D270D171DE33C65002BC85D /* lprofiler.c */,
 			);
@@ -1424,16 +1442,6 @@
 			name = "lua-zlib";
 			sourceTree = "<group>";
 		};
-		B60387F21D0B027000A27714 /* nuklear */ = {
-			isa = PBXGroup;
-			children = (
-				B60387F41D0B043700A27714 /* nuklear_glfw_gl3.h */,
-				B60387F31D0B027000A27714 /* nuklear.h */,
-			);
-			name = nuklear;
-			path = ../../../libs/nuklear;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1493,6 +1501,7 @@
 			files = (
 				4DBCFE351DE5FDF200E2B898 /* input.cpp in Sources */,
 				4DDA8E301C4F5AE700ED5325 /* lcode.c in Sources */,
+				4DBCFE551DE6029E00E2B898 /* nanovg.cpp in Sources */,
 				4DCBEF711D7B3F4A009C05EC /* BoneData.c in Sources */,
 				4DDA8E311C4F5AE700ED5325 /* lcorolib.c in Sources */,
 				4DBCFE2C1DE5FDF200E2B898 /* entry_asmjs.cpp in Sources */,
@@ -1509,6 +1518,7 @@
 				4DBCF29C1DE5D5C900E2B898 /* vertexdecl.cpp in Sources */,
 				A6E74CAF1CCA1D2A009392C8 /* ioapi.c in Sources */,
 				4DDA8E3A1C4F5AE700ED5325 /* liolib.c in Sources */,
+				4DBCFE571DE6033500E2B898 /* stb_image.c in Sources */,
 				4DCBEF841D7B3F4A009C05EC /* Slot.c in Sources */,
 				A63B5C731D3872A50093359C /* bmfont.c in Sources */,
 				4DE642C81C5B3BCA003EBBC0 /* lseal_core.c in Sources */,
@@ -1517,6 +1527,7 @@
 				4D25D88C1C95C06000448F88 /* unix.c in Sources */,
 				A63F5E541D5F3AED004538D9 /* lxplib.c in Sources */,
 				4DDA8E411C4F5AE700ED5325 /* loslib.c in Sources */,
+				4DBCFE561DE6029E00E2B898 /* nanovg_bgfx.cpp in Sources */,
 				A6291AF81D2CB05600B39E63 /* lua_handler.c in Sources */,
 				4DDA8E2E1C4F5AE700ED5325 /* lbaselib.c in Sources */,
 				4DDA8E481C4F5AE700ED5325 /* ltm.c in Sources */,
@@ -1585,7 +1596,6 @@
 				4DBCF29F1DE5DBC900E2B898 /* hmd.cpp in Sources */,
 				4DCBEF6B1D7B3F4A009C05EC /* AnimationStateData.c in Sources */,
 				A695D3431CB2827900E4180B /* event.c in Sources */,
-				B63A0F3A1D0B99F300CE6B7F /* lnuklear.c in Sources */,
 				4D0281451CC693A2001986C8 /* action.c in Sources */,
 				4D25D87E1C95C06000448F88 /* mime.c in Sources */,
 				A633A7271D6EE5AD00A270A7 /* primitive_render.c in Sources */,
@@ -1628,7 +1638,6 @@
 				4DDA8E3F1C4F5AE700ED5325 /* lobject.c in Sources */,
 				4DBCF2991DE5D5C900E2B898 /* shader_spirv.cpp in Sources */,
 				4DCBEF6A1D7B3F4A009C05EC /* AnimationState.c in Sources */,
-				4DBCFE471DE5FF6800E2B898 /* stb_image.c in Sources */,
 				4DDA8E471C4F5AE700ED5325 /* ltablib.c in Sources */,
 				4DE620FD1C7856AE0073C71A /* camera.c in Sources */,
 				4DBCF29A1DE5D5C900E2B898 /* shader.cpp in Sources */,
@@ -1794,6 +1803,7 @@
 					../../../libs/bgfx/include,
 					../../../libs/bgfx/3rdparty/khronos,
 					../../../libs/bgfx/3rdparty,
+					../../../libs/bgfx/3rdparty/stb,
 				);
 				LIBRARY_SEARCH_PATHS = (
 					../../../libs/glfw/mac/libs,
@@ -1832,6 +1842,7 @@
 					../../../libs/bgfx/include,
 					../../../libs/bgfx/3rdparty/khronos,
 					../../../libs/bgfx/3rdparty,
+					../../../libs/bgfx/3rdparty/stb,
 				);
 				LIBRARY_SEARCH_PATHS = (
 					../../../libs/glfw/mac/libs,

@@ -43,8 +43,6 @@ extern int luaopen_mime_core(lua_State *L);
 extern int luaopen_cjson(lua_State* L);
 extern int luaopen_zlib(lua_State* L);
 
-extern int luaopen_nuklear_core(lua_State* L);
-
 void stackDump (lua_State *L)
 {
     int i;
@@ -176,8 +174,6 @@ void luaopen_lua_extensions(lua_State *L)
     #endif
         { "cjson",          luaopen_cjson },
         { "zlib",           luaopen_zlib },
-
-        { "nuklear_core",   luaopen_nuklear_core },
 
         {NULL, NULL}
     };
