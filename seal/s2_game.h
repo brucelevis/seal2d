@@ -27,21 +27,28 @@
 #ifndef __s2_game__
 #define __s2_game__
 
-#include "s2_base.h"
+#ifdef __cplusplus
+extern "C" {
+#endif
 
+#include "s2_common.h"
 
 struct s2_game_config {
-    char app_name[128];
+    char name[128];
     int design_width;
     int design_height;
     int design_policy;
 };
 
 struct s2_game {
-    struct s2_game_config config;
+    struct s2_sprite_render* sprite_render;
 };
 
-#define EXTERN_GAME extern struct s2game* GAME;
+struct s2_game*  s2_game_G();
+void             s2_game_init(struct s2_game_config* config);
 
+#ifdef __cplusplus
+}
+#endif
 
 #endif

@@ -23,27 +23,29 @@
  * THE SOFTWARE.
  */
 
+#ifndef __s2_platform__
+#define __s2_platform__
 
-#ifndef ANDROID_PLATFORM_H
-#define ANDROID_PLATFORM_H
+#define SEAL_IOS                1
+#define SEAL_ANDROID            2
+#define SEAL_MAC                3
+#define SEAL_WIN32              4
 
-#include "../seal_base.h"
-#include "android/android_gl.h"
-
-#if defined (SDK_DEBUG_LOG)
-#define LOGI(...)       ((void) __android_log_print (ANDROID_LOG_INFO, "SEAL2D: ", __VA_ARGS__))
-#define LOGW(...)       ((void) __android_log_print (ANDROID_LOG_WARN, "SEAL2D: ", __VA_ARGS__))
-#define LOGV(...)       ((void) __android_log_print (ANDROID_LOG_VERBOSE, "SEAL2D: ", __VA_ARGS__))
-#define LOGP(...)       ((void) __android_log_print (ANDROID_LOG_ERROR, "SEAL2D: ", __VA_ARGS__))
-#define LOGP_LUA(...)   ((void) __android_log_print (ANDROID_LOG_ERROR, "SEAL2D(LUA): ", __VA_ARGS__))
-#else
-#define LOGI(...) ((void*)0)
-#define LOGW(...) ((void*)0)
-#define LOGV(...) ((void*)0)
-#define LOGP(...)       /**/
-#define LOGP_LUA(...)   /**/
+#ifdef SEAL_PLATFORM_IOS
+    #define SEAL_PLATFORM SEAL_IOS
 #endif
 
-#endif /* ANDROID_PLATFORM_H */
+#ifdef SEAL_PLATFORM_ANDROID
+    #define SEAL_PLATFORM SEAL_ANDROID
+#endif
+
+#ifdef SEAL_PLATFORM_MAC
+    #define SEAL_PLATFORM SEAL_MAC
+#endif
+
+#ifdef SEAL_PLATFORM_WIN32
+    #define SEAL_PLATFORM SEAL_WIN32
+#endif
 
 
+#endif /* __s2_platform__ */

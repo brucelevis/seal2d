@@ -27,11 +27,19 @@
 #define __s2_common__
 
 #include "s2_base.h"
-#include "s2_sprite.h"
+
+#include "base/list.h"
+#include "base/hashmap.h"
+
+#include "platform/s2_platform.h"
+#include "platform/s2_fs.h"
+
+#include "s2_memory.h"
 #include "s2_program.h"
+#include "s2_sprite.h"
+#include "s2_util.h"
 #include "s2_render.h"
 #include "s2_texture.h"
-
 
 
 #endif

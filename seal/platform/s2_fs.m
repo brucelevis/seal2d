@@ -23,27 +23,35 @@
 * THE SOFTWARE.
 */
 
-#include "s2_program.h"
+#include "s2_fs.h"
 
-struct s2_program* s2_program_create(const char* vsh, const char* fsh)
+void s2_fs_read(const char* path, uint8_t** buffer, uint32_t* size)
 {
-    struct s2_program* program = malloc(sizeof(*program));
+    FILE* fp = fopen(path, "r");
+    if (!fp) {
+        LOGP("s2_fs_read, can't open file path = %s.\n", path);
+        return;
+    }
 
-    bgfx_memory_t vs;
-    s2_fs_read(vsh, &vs.data, &vs.size);
+    fseek(fp, 0L, SEEK_END);
+    uint32_t file_size = ftell(fp);
+    rewind(fp);
 
-    bgfx_memory_t fs;
-    s2_fs_read(fsh, &fs.data, &fs.size);
+    uint8_t* buf = s2_malloc(file_size);
+    memset(buf, 0, file_size);
+    size_t result = fread(buf, 1, file_size, fp);
 
-    bgfx_shader_handle_t vs_handle = bgfx_create_shader(&vs);
-    bgfx_shader_handle_t fs_handle = bgfx_create_shader(&fs);
+    if(result != file_size) {
+        free(buf);
+        fclose(fp);
+        LOGP("s2_fs_read, file reading error, size not match?.\n");
+        return;
+    }
+    if (size) {
+        *size = result;
+    }
 
-    program->handle = bgfx_create_program(vs_handle, fs_handle, true);
-
-    return program;
-}
-
-void s2_program_destroy(struct s2_program* self)
-{
-    bgfx_destroy_program(self->handle);
+    *buffer = buf;
+    LOGI("s2_fs_read read (%s) for (%ld) bytes.", path, result);
+    fclose(fp);
 }

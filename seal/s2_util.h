@@ -23,27 +23,32 @@
 * THE SOFTWARE.
 */
 
-#include "s2_program.h"
+#ifndef __s2_util__
+#define __s2_util__
 
-struct s2_program* s2_program_create(const char* vsh, const char* fsh)
-{
-    struct s2_program* program = malloc(sizeof(*program));
+#include "s2_common.h"
 
-    bgfx_memory_t vs;
-    s2_fs_read(vsh, &vs.data, &vs.size);
+#if !defined(SEAL_PLATFORM_ANDROID)
+    #if defined (SDK_DEBUG_LOG)
+        #define LOGI(format, ...)       ((void) printf ("SEAL2D: " format "\n", ##__VA_ARGS__))
+        #define LOGW(format, ...)       ((void) printf ("SEAL2D: " format "\n", ##__VA_ARGS__))
+        #define LOGV(format, ...)       ((void) printf ("SEAL2D: " format "\n", ##__VA_ARGS__))
+        #define LOGP(format, ...)       ((void) printf ("SEAL2D: " format "\n", ##__VA_ARGS__))
+        #define LOGP_LUA(format, ...)   ((void) printf ("SEAL2D(LUA): " format "\n", ##__VA_ARGS__))
+    #else
+        #define LOGI(...) ((void*)0)
+        #define LOGW(...) ((void*)0)
+        #define LOGV(...) ((void*)0)
+        #define LOGP(...)       /**/
+        #define LOGP_LUA(...)   /**/
+    #endif
+#endif
 
-    bgfx_memory_t fs;
-    s2_fs_read(fsh, &fs.data, &fs.size);
+#ifdef DEBUG
+    #define s2_assert(e, ...) ((void)((e)|| \
+    (LOGP("%s:%d: Assertion failed: %s", __FILE__, (int)__LINE__, #e), abort(), 0)))
+#else
+    #define s2_assert(e) (0)
+#endif
 
-    bgfx_shader_handle_t vs_handle = bgfx_create_shader(&vs);
-    bgfx_shader_handle_t fs_handle = bgfx_create_shader(&fs);
-
-    program->handle = bgfx_create_program(vs_handle, fs_handle, true);
-
-    return program;
-}
-
-void s2_program_destroy(struct s2_program* self)
-{
-    bgfx_destroy_program(self->handle);
-}
+#endif /* __s2_util__ */

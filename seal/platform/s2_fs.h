@@ -23,27 +23,11 @@
 * THE SOFTWARE.
 */
 
-#include "s2_program.h"
+#ifndef __s2_fs__
+#define __s2_fs__
 
-struct s2_program* s2_program_create(const char* vsh, const char* fsh)
-{
-    struct s2_program* program = malloc(sizeof(*program));
+#include "s2_common.h"
 
-    bgfx_memory_t vs;
-    s2_fs_read(vsh, &vs.data, &vs.size);
+void s2_fs_read(const char* path, uint8_t** buffer, uint32_t* size);
 
-    bgfx_memory_t fs;
-    s2_fs_read(fsh, &fs.data, &fs.size);
-
-    bgfx_shader_handle_t vs_handle = bgfx_create_shader(&vs);
-    bgfx_shader_handle_t fs_handle = bgfx_create_shader(&fs);
-
-    program->handle = bgfx_create_program(vs_handle, fs_handle, true);
-
-    return program;
-}
-
-void s2_program_destroy(struct s2_program* self)
-{
-    bgfx_destroy_program(self->handle);
-}
+#endif /* __s2_fs__ */

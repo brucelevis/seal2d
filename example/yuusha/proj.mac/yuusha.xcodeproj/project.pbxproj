@@ -102,6 +102,7 @@
 		A611E71A1CB65F9A001C7E2C /* fpconv.c in Sources */ = {isa = PBXBuildFile; fileRef = A611E7121CB65F9A001C7E2C /* fpconv.c */; };
 		A611E71E1CB65F9A001C7E2C /* lua_cjson.c in Sources */ = {isa = PBXBuildFile; fileRef = A611E7151CB65F9A001C7E2C /* lua_cjson.c */; };
 		A611E7201CB65F9A001C7E2C /* strbuf.c in Sources */ = {isa = PBXBuildFile; fileRef = A611E7161CB65F9A001C7E2C /* strbuf.c */; };
+		A6136F301DE6FE5200BD1627 /* hashmap.c in Sources */ = {isa = PBXBuildFile; fileRef = A6136F2D1DE6FE5200BD1627 /* hashmap.c */; };
 		A63CA3D81DD6F62600F902A4 /* res in Copy Files */ = {isa = PBXBuildFile; fileRef = A63CA3D61DD6F61F00F902A4 /* res */; };
 		A63CA3D91DD6F62600F902A4 /* scripts in Copy Files */ = {isa = PBXBuildFile; fileRef = A63CA3D71DD6F61F00F902A4 /* scripts */; };
 		A63F5E541D5F3AED004538D9 /* lxplib.c in Sources */ = {isa = PBXBuildFile; fileRef = A63F5E521D5F3AED004538D9 /* lxplib.c */; };
@@ -146,6 +147,9 @@
 		A68592071DE6BE9A000B7595 /* s2_render.c in Sources */ = {isa = PBXBuildFile; fileRef = A68592051DE6BE9A000B7595 /* s2_render.c */; };
 		A685920D1DE6CE32000B7595 /* s2_program.c in Sources */ = {isa = PBXBuildFile; fileRef = A685920B1DE6CE32000B7595 /* s2_program.c */; };
 		A68592151DE6DAE5000B7595 /* shaders in Copy Files */ = {isa = PBXBuildFile; fileRef = A68592141DE6DAD9000B7595 /* shaders */; };
+		A68592221DE6F5E8000B7595 /* s2_fs.m in Sources */ = {isa = PBXBuildFile; fileRef = A68592201DE6F5E8000B7595 /* s2_fs.m */; };
+		A68592271DE6FB4B000B7595 /* s2_util.c in Sources */ = {isa = PBXBuildFile; fileRef = A68592251DE6FB4B000B7595 /* s2_util.c */; };
+		A685922A1DE6FCE4000B7595 /* s2_memory.c in Sources */ = {isa = PBXBuildFile; fileRef = A68592281DE6FCE4000B7595 /* s2_memory.c */; };
 		A6A836801D4CBD6500A48B19 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = A6A8367F1D4CBD6500A48B19 /* libz.tbd */; };
 		A6A836821D4CBD9400A48B19 /* lua_zlib.c in Sources */ = {isa = PBXBuildFile; fileRef = A6A836811D4CBD9400A48B19 /* lua_zlib.c */; };
 		A6E74CAF1CCA1D2A009392C8 /* ioapi.c in Sources */ = {isa = PBXBuildFile; fileRef = A6E74CAB1CCA1D2A009392C8 /* ioapi.c */; };
@@ -356,6 +360,9 @@
 		A611E7151CB65F9A001C7E2C /* lua_cjson.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = lua_cjson.c; path = "../../../libs/lua-cjson/lua_cjson.c"; sourceTree = "<group>"; };
 		A611E7161CB65F9A001C7E2C /* strbuf.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = strbuf.c; path = "../../../libs/lua-cjson/strbuf.c"; sourceTree = "<group>"; };
 		A611E7171CB65F9A001C7E2C /* strbuf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = strbuf.h; path = "../../../libs/lua-cjson/strbuf.h"; sourceTree = "<group>"; };
+		A6136F2D1DE6FE5200BD1627 /* hashmap.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = hashmap.c; sourceTree = "<group>"; };
+		A6136F2E1DE6FE5200BD1627 /* hashmap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = hashmap.h; sourceTree = "<group>"; };
+		A6136F2F1DE6FE5200BD1627 /* list.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = list.h; sourceTree = "<group>"; };
 		A63CA3D61DD6F61F00F902A4 /* res */ = {isa = PBXFileReference; lastKnownFileType = folder; name = res; path = ../Resources/res; sourceTree = "<group>"; };
 		A63CA3D71DD6F61F00F902A4 /* scripts */ = {isa = PBXFileReference; lastKnownFileType = folder; name = scripts; path = ../Resources/scripts; sourceTree = "<group>"; };
 		A63F5E521D5F3AED004538D9 /* lxplib.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = lxplib.c; path = "../../../libs/lua-expat/lxplib.c"; sourceTree = "<group>"; };
@@ -517,6 +524,13 @@
 		A68592141DE6DAD9000B7595 /* shaders */ = {isa = PBXFileReference; lastKnownFileType = folder; name = shaders; path = ../Resources/shaders; sourceTree = "<group>"; };
 		A68592191DE6DE15000B7595 /* vs_sprite.sc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = vs_sprite.sc; sourceTree = "<group>"; };
 		A685921B1DE6DE2F000B7595 /* fs_sprite.sc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = fs_sprite.sc; sourceTree = "<group>"; };
+		A68592201DE6F5E8000B7595 /* s2_fs.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = s2_fs.m; sourceTree = "<group>"; };
+		A68592211DE6F5E8000B7595 /* s2_fs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = s2_fs.h; sourceTree = "<group>"; };
+		A68592231DE6F82D000B7595 /* s2_platform.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = s2_platform.h; sourceTree = "<group>"; };
+		A68592251DE6FB4B000B7595 /* s2_util.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = s2_util.c; sourceTree = "<group>"; };
+		A68592261DE6FB4B000B7595 /* s2_util.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = s2_util.h; sourceTree = "<group>"; };
+		A68592281DE6FCE4000B7595 /* s2_memory.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = s2_memory.c; sourceTree = "<group>"; };
+		A68592291DE6FCE4000B7595 /* s2_memory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = s2_memory.h; sourceTree = "<group>"; };
 		A6A8367F1D4CBD6500A48B19 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		A6A836811D4CBD9400A48B19 /* lua_zlib.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = lua_zlib.c; path = "../../../libs/lua-zlib/lua_zlib.c"; sourceTree = "<group>"; };
 		A6E74CAB1CCA1D2A009392C8 /* ioapi.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = ioapi.c; path = "../../../libs/lua-zlib/ioapi.c"; sourceTree = "<group>"; };
@@ -525,6 +539,9 @@
 		A6E74CAE1CCA1D2A009392C8 /* unzip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = unzip.h; path = "../../../libs/lua-zlib/unzip.h"; sourceTree = "<group>"; };
 		A6E74CB11CCA2271009392C8 /* ioapi_mem.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = ioapi_mem.c; path = "../../../libs/lua-zlib/ioapi_mem.c"; sourceTree = "<group>"; };
 		A6E74CB21CCA2271009392C8 /* ioapi_mem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ioapi_mem.h; path = "../../../libs/lua-zlib/ioapi_mem.h"; sourceTree = "<group>"; };
+		A6EF4C3C1DE71EA10076EF36 /* bgfx_compute.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = bgfx_compute.sh; sourceTree = "<group>"; };
+		A6EF4C3D1DE71EA10076EF36 /* bgfx_shader.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = bgfx_shader.sh; sourceTree = "<group>"; };
+		A6EF4C3E1DE71EA10076EF36 /* varying.def.sc */ = {isa = PBXFileReference; lastKnownFileType = text; path = varying.def.sc; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -871,6 +888,8 @@
 		4DE642B51C5B3BCA003EBBC0 /* seal */ = {
 			isa = PBXGroup;
 			children = (
+				A6136F2C1DE6FE5200BD1627 /* base */,
+				A685921C1DE6F582000B7595 /* platform */,
 				A68592161DE6DDAE000B7595 /* shaders */,
 				A68592041DE6B845000B7595 /* s2_common.h */,
 				A68591F01DE6A383000B7595 /* s2_base.h */,
@@ -884,6 +903,10 @@
 				A68592061DE6BE9A000B7595 /* s2_render.h */,
 				A685920B1DE6CE32000B7595 /* s2_program.c */,
 				A685920C1DE6CE32000B7595 /* s2_program.h */,
+				A68592251DE6FB4B000B7595 /* s2_util.c */,
+				A68592261DE6FB4B000B7595 /* s2_util.h */,
+				A68592281DE6FCE4000B7595 /* s2_memory.c */,
+				A68592291DE6FCE4000B7595 /* s2_memory.h */,
 			);
 			name = seal;
 			path = ../../../seal;
@@ -920,6 +943,16 @@
 				A611E7171CB65F9A001C7E2C /* strbuf.h */,
 			);
 			name = "lua-cjson";
+			sourceTree = "<group>";
+		};
+		A6136F2C1DE6FE5200BD1627 /* base */ = {
+			isa = PBXGroup;
+			children = (
+				A6136F2D1DE6FE5200BD1627 /* hashmap.c */,
+				A6136F2E1DE6FE5200BD1627 /* hashmap.h */,
+				A6136F2F1DE6FE5200BD1627 /* list.h */,
+			);
+			path = base;
 			sourceTree = "<group>";
 		};
 		A63CA3D51DD6F60E00F902A4 /* Resources */ = {
@@ -1152,10 +1185,23 @@
 		A68592161DE6DDAE000B7595 /* shaders */ = {
 			isa = PBXGroup;
 			children = (
+				A6EF4C3C1DE71EA10076EF36 /* bgfx_compute.sh */,
+				A6EF4C3D1DE71EA10076EF36 /* bgfx_shader.sh */,
+				A6EF4C3E1DE71EA10076EF36 /* varying.def.sc */,
 				A68592191DE6DE15000B7595 /* vs_sprite.sc */,
 				A685921B1DE6DE2F000B7595 /* fs_sprite.sc */,
 			);
 			name = shaders;
+			sourceTree = "<group>";
+		};
+		A685921C1DE6F582000B7595 /* platform */ = {
+			isa = PBXGroup;
+			children = (
+				A68592201DE6F5E8000B7595 /* s2_fs.m */,
+				A68592211DE6F5E8000B7595 /* s2_fs.h */,
+				A68592231DE6F82D000B7595 /* s2_platform.h */,
+			);
+			path = platform;
 			sourceTree = "<group>";
 		};
 		A6E74C991CCA0E71009392C8 /* lua-zlib */ = {
@@ -1262,6 +1308,7 @@
 				A611E7201CB65F9A001C7E2C /* strbuf.c in Sources */,
 				4DBCFC7D1DE5EDB300E2B898 /* indexbufferdecompression.cpp in Sources */,
 				4DBCF2951DE5D5C900E2B898 /* renderer_noop.cpp in Sources */,
+				A68592271DE6FB4B000B7595 /* s2_util.c in Sources */,
 				4DBCF2921DE5D5C900E2B898 /* renderer_gl.cpp in Sources */,
 				4DDA8E361C4F5AE700ED5325 /* ldump.c in Sources */,
 				4D25D8701C95C06000448F88 /* buffer.c in Sources */,
@@ -1289,6 +1336,7 @@
 				4DBCF29F1DE5DBC900E2B898 /* hmd.cpp in Sources */,
 				4D25D87E1C95C06000448F88 /* mime.c in Sources */,
 				4D25D88A1C95C06000448F88 /* udp.c in Sources */,
+				A685922A1DE6FCE4000B7595 /* s2_memory.c in Sources */,
 				A6E74CB31CCA2271009392C8 /* ioapi_mem.c in Sources */,
 				4DBCF29B1DE5D5C900E2B898 /* topology.cpp in Sources */,
 				A68591BB1DE69016000B7595 /* makefile in Sources */,
@@ -1346,9 +1394,11 @@
 				4DBCF28E1DE5D5C900E2B898 /* image.cpp in Sources */,
 				4DDA8E4E1C4F5AE700ED5325 /* lzio.c in Sources */,
 				4D25D8821C95C06000448F88 /* select.c in Sources */,
+				A68592221DE6F5E8000B7595 /* s2_fs.m in Sources */,
 				A68591C71DE69016000B7595 /* entry_windows.cpp in Sources */,
 				A68591CC1DE69016000B7595 /* text_buffer_manager.cpp in Sources */,
 				4DBCF2911DE5D5C900E2B898 /* renderer_d3d12.cpp in Sources */,
+				A6136F301DE6FE5200BD1627 /* hashmap.c in Sources */,
 				A68591C31DE69016000B7595 /* entry_nacl.cpp in Sources */,
 				A6A836821D4CBD9400A48B19 /* lua_zlib.c in Sources */,
 				4DBCF28C1DE5D5C900E2B898 /* hmd_openvr.cpp in Sources */,
@@ -1445,6 +1495,7 @@
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
+					SEAL_PLATFORM_MAC,
 					SEAL_USE_FSWRITE,
 					SDK_DEBUG_LOG,
 					LUA_COMPAT_LOADERS,

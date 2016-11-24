@@ -24,3 +24,43 @@
 */
 
 #include "s2_render.h"
+
+static const char* s2_sprite_render_get_shader_path()
+{
+    switch (bgfx_get_renderer_type())
+    {
+        case BGFX_RENDERER_TYPE_NOOP:
+        case BGFX_RENDERER_TYPE_DIRECT3D9:   return "shaders/dx9/";   break;
+        case BGFX_RENDERER_TYPE_DIRECT3D11:
+        case BGFX_RENDERER_TYPE_DIRECT3D12:  return "shaders/dx11/";  break;
+        case BGFX_RENDERER_TYPE_METAL:       return "shaders/metal/"; break;
+        case BGFX_RENDERER_TYPE_OPENGL:      return "shaders/glsl/";  break;
+        case BGFX_RENDERER_TYPE_OPENGLES:    return "shaders/essl/";  break;
+
+        default:
+            s2_assert(false, "unsupport render.");
+            break;
+    }
+}
+
+struct s2_sprite_render* s2_sprite_render_create()
+{
+    struct s2_sprite_render* render = s2_malloc(sizeof(*render));
+    memset(render, 0, sizeof(*render));
+
+    const char* prefix = s2_sprite_render_get_shader_path();
+
+    char vs_name[128] = "";
+    char fs_name[128] = "";
+    snprintf(vs_name, 128, "%s%s", prefix, "vs_sprite.bin");
+    snprintf(fs_name, 128, "%s%s", prefix, "fs_sprite.bin");
+
+    render->__program = s2_program_create(vs_name, fs_name);
+    return render;
+}
+
+void s2_sprite_render_destroy(struct s2_sprite_render* self)
+{
+    s2_program_destroy(self->__program);
+    s2_free(self);
+}

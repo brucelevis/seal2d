@@ -36,6 +36,9 @@ struct s2_sprite_render {
     bgfx_vertex_buffer_handle_t vertex_buffer_handle;
 };
 
+struct s2_sprite_render* s2_sprite_render_create();
+void s2_sprite_render_destroy(struct s2_sprite_render* self);
+
 void s2_sprite_render_draw(struct s2_sprite_render* self, float* model_transform, struct s2_vertex* quad);
 
 #endif /* __s2_render__ */

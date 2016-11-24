@@ -23,27 +23,38 @@
 * THE SOFTWARE.
 */
 
-#include "s2_program.h"
+#ifndef __s2_memory__
+#define __s2_memory__
 
-struct s2_program* s2_program_create(const char* vsh, const char* fsh)
-{
-    struct s2_program* program = malloc(sizeof(*program));
+#include "s2_common.h"
 
-    bgfx_memory_t vs;
-    s2_fs_read(vsh, &vs.data, &vs.size);
+#if !DEBUG
+// memory hook functions, these functions are SLOW.
+// use `if !DEBUG' if you need do the performance test.
+#define s2_malloc(size)          s2_memory_malloc(size, __FILE__, __LINE__)
+#define s2_calloc(size)          s2_memory_calloc(size, __FILE__, __LINE__)
+#define s2_realloc(p, size)      s2_memory_realloc(p, size, __FILE__, __LINE__)
+#define s2_free(p)               s2_memory_free((p))
 
-    bgfx_memory_t fs;
-    s2_fs_read(fsh, &fs.data, &fs.size);
+#else
 
-    bgfx_shader_handle_t vs_handle = bgfx_create_shader(&vs);
-    bgfx_shader_handle_t fs_handle = bgfx_create_shader(&fs);
+#define s2_malloc    malloc
+#define s2_calloc    calloc
+#define s2_realloc   realloc
+#define s2_free      free
 
-    program->handle = bgfx_create_program(vs_handle, fs_handle, true);
+#endif
 
-    return program;
-}
 
-void s2_program_destroy(struct s2_program* self)
-{
-    bgfx_destroy_program(self->handle);
-}
+#define STRUCT_NEW(type) (struct type*)s_malloc(sizeof(struct type))
+
+void s2_memory_add_entry(void* ptr, size_t size, const char* file, int line);
+void s2_memory_delete_entry(void* ptr);
+
+extern void* s2_memory_malloc(size_t size, const char* file, int line);
+extern void* s2_memory_calloc(size_t size, const char* file, int line);
+extern void* s2_memory_realloc(void* ptr, size_t size, const char* file, int line);
+extern void  s2_memory_free(void* ptr);
+extern void  s2_memory_dump_memory();
+
+#endif /* __s2_memory__ */
