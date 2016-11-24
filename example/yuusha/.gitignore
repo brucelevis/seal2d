@@ -1,1 +1,3 @@
 *coverage/
+*.bin.d
+*.bin.disasm
