@@ -142,6 +142,10 @@
 		A68591ED1DE69043000B7595 /* imgui_demo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A68591DA1DE69043000B7595 /* imgui_demo.cpp */; };
 		A68591EE1DE69043000B7595 /* imgui_draw.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A68591DB1DE69043000B7595 /* imgui_draw.cpp */; };
 		A68591EF1DE69043000B7595 /* imgui_node_graph_test.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A68591DD1DE69043000B7595 /* imgui_node_graph_test.cpp */; };
+		A68592021DE6B7D2000B7595 /* s2_texture.c in Sources */ = {isa = PBXBuildFile; fileRef = A68592001DE6B7D2000B7595 /* s2_texture.c */; };
+		A68592071DE6BE9A000B7595 /* s2_render.c in Sources */ = {isa = PBXBuildFile; fileRef = A68592051DE6BE9A000B7595 /* s2_render.c */; };
+		A685920D1DE6CE32000B7595 /* s2_program.c in Sources */ = {isa = PBXBuildFile; fileRef = A685920B1DE6CE32000B7595 /* s2_program.c */; };
+		A68592151DE6DAE5000B7595 /* shaders in Copy Files */ = {isa = PBXBuildFile; fileRef = A68592141DE6DAD9000B7595 /* shaders */; };
 		A6A836801D4CBD6500A48B19 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = A6A8367F1D4CBD6500A48B19 /* libz.tbd */; };
 		A6A836821D4CBD9400A48B19 /* lua_zlib.c in Sources */ = {isa = PBXBuildFile; fileRef = A6A836811D4CBD9400A48B19 /* lua_zlib.c */; };
 		A6E74CAF1CCA1D2A009392C8 /* ioapi.c in Sources */ = {isa = PBXBuildFile; fileRef = A6E74CAB1CCA1D2A009392C8 /* ioapi.c */; };
@@ -156,6 +160,7 @@
 			dstPath = .;
 			dstSubfolderSpec = 16;
 			files = (
+				A68592151DE6DAE5000B7595 /* shaders in Copy Files */,
 				A63CA3D81DD6F62600F902A4 /* res in Copy Files */,
 				A63CA3D91DD6F62600F902A4 /* scripts in Copy Files */,
 				4D205D281D60CA7A00AD1E70 /* seal in Copy Files */,
@@ -501,6 +506,15 @@
 		A68591E91DE69043000B7595 /* gizmo.inl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = gizmo.inl; sourceTree = "<group>"; };
 		A68591EA1DE69043000B7595 /* memory_editor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = memory_editor.h; sourceTree = "<group>"; };
 		A68591EB1DE69043000B7595 /* memory_editor.inl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = memory_editor.inl; sourceTree = "<group>"; };
+		A68591F01DE6A383000B7595 /* s2_base.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = s2_base.h; sourceTree = "<group>"; };
+		A68592001DE6B7D2000B7595 /* s2_texture.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = s2_texture.c; sourceTree = "<group>"; };
+		A68592011DE6B7D2000B7595 /* s2_texture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = s2_texture.h; sourceTree = "<group>"; };
+		A68592041DE6B845000B7595 /* s2_common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = s2_common.h; sourceTree = "<group>"; };
+		A68592051DE6BE9A000B7595 /* s2_render.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = s2_render.c; sourceTree = "<group>"; };
+		A68592061DE6BE9A000B7595 /* s2_render.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = s2_render.h; sourceTree = "<group>"; };
+		A685920B1DE6CE32000B7595 /* s2_program.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = s2_program.c; sourceTree = "<group>"; };
+		A685920C1DE6CE32000B7595 /* s2_program.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = s2_program.h; sourceTree = "<group>"; };
+		A68592141DE6DAD9000B7595 /* shaders */ = {isa = PBXFileReference; lastKnownFileType = folder; name = shaders; path = ../Resources/shaders; sourceTree = "<group>"; };
 		A6A8367F1D4CBD6500A48B19 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		A6A836811D4CBD9400A48B19 /* lua_zlib.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = lua_zlib.c; path = "../../../libs/lua-zlib/lua_zlib.c"; sourceTree = "<group>"; };
 		A6E74CAB1CCA1D2A009392C8 /* ioapi.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = ioapi.c; path = "../../../libs/lua-zlib/ioapi.c"; sourceTree = "<group>"; };
@@ -855,10 +869,18 @@
 		4DE642B51C5B3BCA003EBBC0 /* seal */ = {
 			isa = PBXGroup;
 			children = (
+				A68592041DE6B845000B7595 /* s2_common.h */,
+				A68591F01DE6A383000B7595 /* s2_base.h */,
 				4DE642C11C5B3BCA003EBBC0 /* s2_game.c */,
 				4DE642C21C5B3BCA003EBBC0 /* s2_game.h */,
 				4D7798641C6F0EC800021ED6 /* s2_sprite.c */,
 				4D7798651C6F0EC800021ED6 /* s2_sprite.h */,
+				A68592001DE6B7D2000B7595 /* s2_texture.c */,
+				A68592011DE6B7D2000B7595 /* s2_texture.h */,
+				A68592051DE6BE9A000B7595 /* s2_render.c */,
+				A68592061DE6BE9A000B7595 /* s2_render.h */,
+				A685920B1DE6CE32000B7595 /* s2_program.c */,
+				A685920C1DE6CE32000B7595 /* s2_program.h */,
 			);
 			name = seal;
 			path = ../../../seal;
@@ -900,6 +922,7 @@
 		A63CA3D51DD6F60E00F902A4 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				A68592141DE6DAD9000B7595 /* shaders */,
 				A63CA3D61DD6F61F00F902A4 /* res */,
 				A63CA3D71DD6F61F00F902A4 /* scripts */,
 			);
@@ -1278,6 +1301,7 @@
 				4D25D8881C95C06000448F88 /* timeout.c in Sources */,
 				4D25D8861C95C06000448F88 /* tcp.c in Sources */,
 				A68591BA1DE69016000B7595 /* debugdraw.cpp in Sources */,
+				A68592021DE6B7D2000B7595 /* s2_texture.c in Sources */,
 				4DBCF2981DE5D5C900E2B898 /* shader_dxbc.cpp in Sources */,
 				4DDA8E3E1C4F5AE700ED5325 /* loadlib.c in Sources */,
 				4DDA8E3F1C4F5AE700ED5325 /* lobject.c in Sources */,
@@ -1287,6 +1311,7 @@
 				A68591B61DE69016000B7595 /* bgfx_utils.cpp in Sources */,
 				4DBCF29A1DE5D5C900E2B898 /* shader.cpp in Sources */,
 				A68591BE1DE69016000B7595 /* entry.cpp in Sources */,
+				A685920D1DE6CE32000B7595 /* s2_program.c in Sources */,
 				A68591C41DE69016000B7595 /* entry_noop.cpp in Sources */,
 				A611E71A1CB65F9A001C7E2C /* fpconv.c in Sources */,
 				4DDA8E451C4F5AE700ED5325 /* lstrlib.c in Sources */,
@@ -1304,6 +1329,7 @@
 				A68591C21DE69016000B7595 /* entry_ios.mm in Sources */,
 				4DBCF28B1DE5D5C900E2B898 /* glcontext_wgl.cpp in Sources */,
 				A68591D01DE69016000B7595 /* makefile in Sources */,
+				A68592071DE6BE9A000B7595 /* s2_render.c in Sources */,
 				A68591B71DE69016000B7595 /* bounds.cpp in Sources */,
 				4DBCF28E1DE5D5C900E2B898 /* image.cpp in Sources */,
 				4DDA8E4E1C4F5AE700ED5325 /* lzio.c in Sources */,

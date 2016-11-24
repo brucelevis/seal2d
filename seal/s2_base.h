@@ -24,8 +24,8 @@
  */
 
 
-#ifndef __seal_base__
-#define __seal_base__
+#ifndef __s2_base__
+#define __s2_base__
 
 // System libs and external dependencies, in ALPHABETICAL ordr
 
@@ -38,6 +38,9 @@
 #include <string.h>
 #include <stdbool.h>
 #include <sys/stat.h>
+
+#include <bgfx/c99/bgfx.h>
+#include <bgfx/c99/bgfxplatform.h>
 
 // WC: Hardcoding is preferred to keep cross-platform compatibilithy
 // Different platforms has very different ways of specifying compiler flags such as -I

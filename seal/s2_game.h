@@ -27,18 +27,18 @@
 #ifndef __s2_game__
 #define __s2_game__
 
-#include "seal_base.h"
+#include "s2_base.h"
 
 
-struct s2game_config {
+struct s2_game_config {
     char app_name[128];
     int design_width;
     int design_height;
     int design_policy;
 };
 
-struct s2game {
-    struct s2game_config config;
+struct s2_game {
+    struct s2_game_config config;
 };
 
 #define EXTERN_GAME extern struct s2game* GAME;
