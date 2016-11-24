@@ -36,7 +36,7 @@ static bool hash_equal(void* a, void* b) {
 }
 
 struct lua_handler* lua_handler_new(lua_State* L) {
-    struct lua_handler* handler = STRUCT_NEW(lua_handler);
+    struct lua_handler* handler = malloc(sizeof(struct lua_handler));
     handler->__handlers = hashmapCreate(128, hash_str, hash_equal);
     handler->__func_index = 1;
 

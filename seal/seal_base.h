@@ -45,7 +45,6 @@
 #include "../libs/lua-5.3.2/src/lauxlib.h"
 #include "../libs/lua-zlib/unzip.h"
 #include "../libs/spine/include/spine/spine.h"  // 这个项目的头文件用的是相对目录，加上-I ...
-#include "../libs/bgfx/3rdparty/lodepng/lodepng.h"
 
 #if defined (__ANDROID__)
 #include <android/log.h>

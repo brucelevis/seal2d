@@ -33,7 +33,7 @@ enum design_policy {
     FIX_HEIGHT,
 };
 
-struct glview {
+struct s2_glview {
 //    struct size screen_size; // size of real device
     struct size view_size;   // read from the local OpenGLView system(GLKView)
     struct size fb_size;     // framebuffer size

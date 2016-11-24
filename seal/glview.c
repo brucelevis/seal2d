@@ -25,9 +25,9 @@
 
 #include "glview.h"
 
-struct glview* glview_new(int design_w, int design_h, enum design_policy policy)
+struct s2_glview* s2_glview_new(int design_w, int design_h, enum design_policy policy)
 {
-    struct glview* view = STRUCT_NEW(glview);
+    struct s2_glview* view = STRUCT_NEW(s2_glview);
     view->__design_size.w = design_w;
     view->__design_size.h = design_h;
     view->__policy = policy;

@@ -23,31 +23,25 @@
  * THE SOFTWARE.
  */
 
-#ifndef spine_render_h
-#define spine_render_h
 
-#include "../seal_base.h"
+#ifndef __s2_game__
+#define __s2_game__
 
-struct spine_render_context {
-    struct render_context __super;
-    struct vertex_buffer* buffer;
+#include "seal_base.h"
+
+
+struct s2game_config {
+    char app_name[128];
+    int design_width;
+    int design_height;
+    int design_policy;
 };
 
-struct spine_render_vertex_desc {
-    float* vertex;
-    float* uv;
-    unsigned char* color;
-    GLuint tex_id;
-    float x, y;
+struct s2game {
+    struct s2game_config config;
 };
 
-void spine_render_batch_reset(struct render_batch* self);
+#define EXTERN_GAME extern struct s2game* GAME;
 
-void spine_render_func_init(struct render* R);
-void spine_render_destroy(struct render* R);
-void spine_render_func_start(struct render* R);
-void spine_render_func_draw(struct render* R, void* object);
-void spine_render_func_end(struct render* R);
-void spine_render_func_flush(struct render* R);
 
 #endif

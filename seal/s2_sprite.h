@@ -23,29 +23,13 @@
  * THE SOFTWARE.
  */
 
-#ifndef __seal__mat4__
-#define __seal__mat4__
 
-struct mat4 {
-    float m[16];
+#ifndef __s2_sprite__
+#define __s2_sprite__
+
+#include "s2_game.h"
+
+struct s2_sprite {
+    
 };
-
-void mat4_identify(struct mat4* out);
-void mat4_load_translate(struct mat4* out, float x, float y, float z);
-void mat4_load_scale(struct mat4* out, float x, float y, float z);
-
-void mat4_orth(struct mat4* out,
-               float left,  float bottom,
-               float right, float top,
-               float near,  float far);
-
-void mat4_translate(struct mat4* out, float x, float y, float z);
-void mat4_scale(struct mat4* out, float x, float y, float z);
-void mat4_rotate_z(struct mat4* out, float rad);
-void mat4_multiply(struct mat4* out, struct mat4* l, struct mat4* r);
-void mat4_inverse(struct mat4* in, struct mat4* out);
-
-void mat4_free(struct mat4* self);
-void matrix_debug_print(struct mat4* self);
-
 #endif
