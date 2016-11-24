@@ -25,33 +25,28 @@
 
 #include "s2_fs.h"
 
-void s2_fs_read(const char* path, uint8_t** buffer, uint32_t* size)
+const bgfx_memory_t* s2_fs_read(const char* path)
 {
     FILE* fp = fopen(path, "r");
     if (!fp) {
         LOGP("s2_fs_read, can't open file path = %s.\n", path);
-        return;
+        return NULL;
     }
 
     fseek(fp, 0L, SEEK_END);
     uint32_t file_size = ftell(fp);
     rewind(fp);
 
-    uint8_t* buf = s2_malloc(file_size);
-    memset(buf, 0, file_size);
-    size_t result = fread(buf, 1, file_size, fp);
+    const bgfx_memory_t* mem = bgfx_alloc(file_size);
+    size_t result = fread(mem->data, 1, file_size, fp);
+    fclose(fp);
 
     if(result != file_size) {
-        free(buf);
-        fclose(fp);
         LOGP("s2_fs_read, file reading error, size not match?.\n");
-        return;
-    }
-    if (size) {
-        *size = result;
+        return NULL;
     }
 
-    *buffer = buf;
     LOGI("s2_fs_read read (%s) for (%ld) bytes.", path, result);
     fclose(fp);
+    return mem;
 }

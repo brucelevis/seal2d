@@ -24,3 +24,23 @@
 */
 
 #include "s2_texture.h"
+
+struct s2_texture* s2_texture_create(const char* path)
+{
+    struct s2_texture* texture = s2_malloc(sizeof(*texture));
+
+    const bgfx_memory_t* mem = s2_fs_read(path);
+    bgfx_texture_info_t info;
+
+    texture->__handle = bgfx_create_texture(mem, BGFX_TEXTURE_NONE, 0, &info);
+    texture->width = info.width;
+    texture->height = info.height;
+
+    return texture;
+}
+
+void s2_texture_destory(struct s2_texture* self)
+{
+    bgfx_destroy_texture(self->__handle);
+    s2_free(self);
+}

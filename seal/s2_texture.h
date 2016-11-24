@@ -35,7 +35,8 @@ struct s2_texture {
     float width, height;
 };
 
-struct s2_texture* s2_texture_create(uint16_t _width, uint16_t _height, bgfx_memory_t mem);
+struct s2_texture* s2_texture_create(const char* path);
+
 void s2_texture_destory(struct s2_texture* self);
 
 #endif /* __s2_texture__ */

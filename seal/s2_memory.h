@@ -28,7 +28,7 @@
 
 #include "s2_common.h"
 
-#if !DEBUG
+#if DEBUG
 // memory hook functions, these functions are SLOW.
 // use `if !DEBUG' if you need do the performance test.
 #define s2_malloc(size)          s2_memory_malloc(size, __FILE__, __LINE__)

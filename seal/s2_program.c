@@ -29,14 +29,11 @@ struct s2_program* s2_program_create(const char* vsh, const char* fsh)
 {
     struct s2_program* program = malloc(sizeof(*program));
 
-    bgfx_memory_t vs;
-    s2_fs_read(vsh, &vs.data, &vs.size);
+    const bgfx_memory_t* vs = s2_fs_read(vsh);
+    const bgfx_memory_t* fs = s2_fs_read(fsh);
 
-    bgfx_memory_t fs;
-    s2_fs_read(fsh, &fs.data, &fs.size);
-
-    bgfx_shader_handle_t vs_handle = bgfx_create_shader(&vs);
-    bgfx_shader_handle_t fs_handle = bgfx_create_shader(&fs);
+    bgfx_shader_handle_t vs_handle = bgfx_create_shader(vs);
+    bgfx_shader_handle_t fs_handle = bgfx_create_shader(fs);
 
     program->handle = bgfx_create_program(vs_handle, fs_handle, true);
 

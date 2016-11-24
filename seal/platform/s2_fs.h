@@ -28,6 +28,6 @@
 
 #include "s2_common.h"
 
-void s2_fs_read(const char* path, uint8_t** buffer, uint32_t* size);
+const bgfx_memory_t* s2_fs_read(const char* path);
 
 #endif /* __s2_fs__ */
