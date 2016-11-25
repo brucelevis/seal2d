@@ -33,7 +33,11 @@ struct s2_vertex;
 struct s2_sprite_render {
     struct s2_program* __program;
 
-    bgfx_vertex_buffer_handle_t vertex_buffer_handle;
+    bgfx_vertex_buffer_handle_t __vbh;
+    bgfx_index_buffer_handle_t  __ibh;
+
+    struct s2_vertex* __vb;
+    uint16_t*         __ib;
 };
 
 struct s2_sprite_render* s2_sprite_render_create();

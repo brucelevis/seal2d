@@ -25,6 +25,8 @@
 
 #include "s2_render.h"
 
+#define SPRITE_RENDER_DEFALT_VERTEX_CAP (2^16)
+
 static const char* s2_sprite_render_get_shader_path()
 {
     switch (bgfx_get_renderer_type())
@@ -43,11 +45,8 @@ static const char* s2_sprite_render_get_shader_path()
     }
 }
 
-struct s2_sprite_render* s2_sprite_render_create()
+static struct s2_program* s2_sprite_render_load_program()
 {
-    struct s2_sprite_render* render = s2_malloc(sizeof(*render));
-    memset(render, 0, sizeof(*render));
-
     const char* prefix = s2_sprite_render_get_shader_path();
 
     char vs_name[128] = "";
@@ -55,7 +54,30 @@ struct s2_sprite_render* s2_sprite_render_create()
     snprintf(vs_name, 128, "%s%s", prefix, "vs_sprite.bin");
     snprintf(fs_name, 128, "%s%s", prefix, "fs_sprite.bin");
 
-    render->__program = s2_program_create(vs_name, fs_name);
+    return s2_program_create(vs_name, fs_name);
+}
+
+struct s2_sprite_render* s2_sprite_render_create()
+{
+    struct s2_sprite_render* render = s2_malloc(sizeof(*render));
+    memset(render, 0, sizeof(*render));
+
+    render->__program = s2_sprite_render_load_program();
+    render->__vb = s2_malloc(sizeof(struct s2_vertex) * SPRITE_RENDER_DEFALT_VERTEX_CAP);
+
+
+    bgfx_vertex_decl_t vertex_decl;
+    bgfx_vertex_decl_begin (&vertex_decl, BGFX_RENDERER_TYPE_OPENGL);
+    bgfx_vertex_decl_add (&vertex_decl, BGFX_ATTRIB_POSITION,  2, BGFX_ATTRIB_TYPE_FLOAT, false, false);
+    bgfx_vertex_decl_add (&vertex_decl, BGFX_ATTRIB_COLOR0,    4, BGFX_ATTRIB_TYPE_UINT8, true,  false);
+    bgfx_vertex_decl_add (&vertex_decl, BGFX_ATTRIB_TEXCOORD0, 2, BGFX_ATTRIB_TYPE_FLOAT, false, false);
+    bgfx_vertex_decl_end (&vertex_decl);
+
+
+//    render->__ibh = bgfx_create_vertex_buffer (bgfx_make_ref (s_cubeVertices, sizeof(s_cubeVertices)), &ms_decl, BGFX_BUFFER_NONE);
+//    m_ibh = bgfx_create_index_buffer (bgfx_make_ref (s_cubeIndices, sizeof(s_cubeIndices)), BGFX_BUFFER_NONE);
+
+    
     return render;
 }
 
