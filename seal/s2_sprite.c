@@ -26,8 +26,163 @@
 
 #include "s2_sprite.h"
 
+void s2_node_init(struct s2_node* self, enum s2_node_type type)
+{
+    self->__id = ++s2_game_G()->__node_counter; // make debug easier.
+    self->__type = type;
+    self->x = 0;
+    self->y = 0;
+    self->anchor_x = 0;
+    self->anchor_y = 0;
+    self->scale_x = 1.0f;
+    self->scale_y = 1.0f;
+    self->rotation = 0.0f;
+    self->width = 0.0f;
+    self->height = 0.0f;
+
+    self->visible = true;
+    self->touchable = false;
+
+    s2_affine_identify(&self->local_transform);
+
+    self->parent = NULL;
+    self->children = NULL;
+    self->children_count = 0;
+}
+
+static void s2_node_update_local_transform(struct s2_node* self)
+{
+    float cos = cosf(self->rotation);
+    float sin = sinf(self->rotation);
+    float a = self->scale_x *  cos;
+    float b = self->scale_x *  sin;
+    float c = self->scale_y * -sin;
+    float d = self->scale_y *  cos;
+    float x = self->x - self->anchor_x * a - self->anchor_y * c;
+    float y = self->y - self->anchor_x * b - self->anchor_y * d;
+
+    s2_affine_set(&self->local_transform, a, b, c, d, x, y);
+}
+
+static struct s2_node* s2_node_get_root(struct s2_node* self)
+{
+    // the root node has no parent.
+    // we could improve this by cache the root node in GAME.
+    struct s2_node* parent = self;
+    while(parent->parent)
+    {
+        parent = parent->parent;
+    }
+    return parent;
+}
+
+// simple implemention first,
+// FIXME: how we could aviod copy here, proper memory management.
+static struct s2_affine s2_node_transform_to(struct s2_node* self, struct s2_node* to)
+{
+    if (self == to) {
+        return self->local_transform;
+    }
+
+    struct s2_affine ret;
+    s2_affine_identify(&ret);
+
+    struct s2_node* from = self;
+    while(from != to)
+    {
+        s2_affine_concat(&ret, &from->local_transform);
+        from = from->parent;
+    }
+
+    return ret;
+}
+
+// FIXME: how we could aviod copy here, proper memory management.
+static struct s2_affine s2_node_update_transform(struct s2_node* self)
+{
+    s2_node_update_local_transform(self);
+
+    struct s2_node* root = s2_node_get_root(self);
+    return s2_node_transform_to(self, root);
+}
+
+void s2_node_visit(struct s2_node* self)
+{
+    for (int i = 0; i < self->children_count; ++i) {
+        struct s2_node* child = self->children[i];
+        s2_assert(child);
+        s2_node_visit(child);
+    }
+
+    s2_node_draw(self);
+}
+
+void s2_node_draw(struct s2_node* self)
+{
+    struct s2_affine model_transform = s2_node_update_transform(self);
+
+    switch (self->__type) {
+        case S2_NODE_TYPE_SPRITE_IMAGE:
+        {
+            // safely cast due to the struct memory layout. :)
+            s2_sprite_image_draw((struct s2_sprite_image*)self, &model_transform);
+            break;
+        }
 
 
+        default:
+            break;
+    }
+}
+
+void s2_node_add_child(struct s2_node* self, struct s2_node* child)
+{
+    node_ptr_t* children = self->children;
+    if (children == NULL) {
+        children = s2_malloc(sizeof(node_ptr_t) * 4);
+        children[0] = child;
+        self->children_capacity = 4;
+        self->children = children;
+        LOGI("add Child");
+    } else {
+        if (self->children_count == self->children_capacity) {
+            node_ptr_t* new_location = s2_realloc(children,
+                                  sizeof(node_ptr_t)*self->children_capacity*2);
+            if (new_location == children) {
+                s2_assert(false, "allocate new children failed.");
+                return;
+            }
+            self->children = new_location;
+            self->children_capacity *= 2;
+        }
+
+        children[self->children_count] = child;
+    }
+
+    child->parent = self;
+    self->children_count++;
+}
+
+
+struct s2_sprite_image* s2_sprite_image_create_tex(struct s2_texture* texture)
+{
+    struct s2_sprite_image* sprite = s2_malloc(sizeof(*sprite));
+    //TODO: cast may better?(struct s2_node*)(sprite)
+    s2_node_init(&sprite->__super, S2_NODE_TYPE_SPRITE_IMAGE);
+
+    sprite->texture = NULL;
+    sprite->texture_rect.x = 0;
+    sprite->texture_rect.y = 0;
+    sprite->texture_rect.w = 0;
+    sprite->texture_rect.h = 0;
+
+    return sprite;
+}
+
+void s2_sprite_image_draw(struct s2_sprite_image* self, struct s2_affine* model_transform)
+{
+
+}
 
 
 
@@ -1173,3 +1328,4 @@
 //        }
 //    }
 //}
+

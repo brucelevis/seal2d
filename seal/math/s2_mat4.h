@@ -23,34 +23,29 @@
  * THE SOFTWARE.
  */
 
+#ifndef __seal__mat4__
+#define __seal__mat4__
 
-#ifndef __s2_game__
-#define __s2_game__
-
-#ifdef __cplusplus
-extern "C" {
-#endif
-
-#include "s2_common.h"
-
-struct s2_game_config {
-    char name[128];
-    int design_width;
-    int design_height;
-    int design_policy;
+struct s2_mat4 {
+    float m[16];
 };
 
-struct s2_game {
-    struct s2_sprite_render* sprite_render;
+void s2_mat4_identify(struct s2_mat4* out);
+void s2_mat4_load_translate(struct s2_mat4* out, float x, float y, float z);
+void s2_mat4_load_scale(struct s2_mat4* out, float x, float y, float z);
 
-    unsigned long __node_counter;
-};
+void s2_mat4_orth(struct s2_mat4* out,
+               float left,  float bottom,
+               float right, float top,
+               float near,  float far);
 
-struct s2_game*  s2_game_G();
-void             s2_game_init(struct s2_game_config* config);
+void s2_mat4_translate(struct s2_mat4* out, float x, float y, float z);
+void s2_mat4_scale(struct s2_mat4* out, float x, float y, float z);
+void s2_mat4_rotate_z(struct s2_mat4* out, float rad);
+void s2_mat4_multiply(struct s2_mat4* out, struct s2_mat4* l, struct s2_mat4* r);
+void s2_mat4_inverse(struct s2_mat4* in, struct s2_mat4* out);
 
-#ifdef __cplusplus
-}
-#endif
+void s2_mat4_free(struct s2_mat4* self);
+void s2_matrix_debug_print(struct s2_mat4* self);
 
 #endif

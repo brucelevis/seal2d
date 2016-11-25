@@ -35,6 +35,7 @@ void s2_game_init(struct s2_game_config* config)
 {
     s2_game_init_bgfx(config->design_height, config->design_height);
 
+    GAME->__node_counter = 0;
     GAME->sprite_render = s2_sprite_render_create();
 }
 

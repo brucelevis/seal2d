@@ -34,6 +34,10 @@
 #include "platform/s2_platform.h"
 #include "platform/s2_fs.h"
 
+#include "math/s2_affine.h"
+#include "math/s2_mat4.h"
+
+#include "s2_game.h"
 #include "s2_memory.h"
 #include "s2_program.h"
 #include "s2_sprite.h"

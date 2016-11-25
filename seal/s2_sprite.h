@@ -33,10 +33,6 @@ union s2_vec2 {
     struct {
         float x, y;
     };
-    struct {
-        float w, h;
-    };
-
     float v[2];
 };
 
@@ -45,6 +41,10 @@ union s2_color_4b {
         uint8_t r,g,b,a;
     };
     uint8_t c[4];
+};
+
+enum s2_node_type {
+    S2_NODE_TYPE_SPRITE_IMAGE = 0,
 };
 
 struct s2_vertex {
@@ -58,28 +58,33 @@ union s2_rect {
     float w, h;
 };
 
-struct s2_mat4 {
-    float m[16];
-};
-
+typedef struct s2_node* node_ptr_t;
 struct s2_node {
+    unsigned long __id;
+    enum s2_node_type __type;
+
     float x, y;
     float anchor_x, anchor_y;
     float scale_x, scale_y;
     float rotation;
 
-    float alpha;
-    float visible;
-    float touchable;
-
     float width, height;
-    struct s2_mat4 transform;
 
-    struct s2_node* children;
+    // TODO: we could improve performace by using affine[3x2] transform.
+    struct s2_affine local_transform;
+
+    node_ptr_t* children;
     int children_count;
+    int children_capacity;
+    struct s2_node* parent;
+    
+    bool visible;
+    bool touchable;
 };
 
 void s2_node_visit(struct s2_node* self);
+void s2_node_draw(struct s2_node* self);
+void s2_node_add_child(struct s2_node* self, struct s2_node* child);
 
 struct s2_sprite_image {
     struct s2_node __super;
@@ -92,7 +97,7 @@ struct s2_sprite_image {
 
 struct s2_sprite_image* s2_sprite_image_create_tex(struct s2_texture* texture);
 
-// @override
-void s2_sprite_image_render(struct s2_sprite_image* self);
+// called from s2_node_draw
+void s2_sprite_image_draw(struct s2_sprite_image* self, struct s2_affine* model_transform);
 
 #endif
