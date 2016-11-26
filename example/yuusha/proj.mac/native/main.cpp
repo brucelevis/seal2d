@@ -41,7 +41,7 @@ class Yuusha : public entry::AppI
 
             bgfx_touch(0);
 
-            s2_node_visit(s2_game_G()->root);
+            s2_game_update(&game);
 
             bgfx_dbg_text_clear(0, false);
             bgfx_dbg_text_printf(0, 1, 0x4f, "Yuusha");
@@ -50,7 +50,8 @@ class Yuusha : public entry::AppI
 
             return true;
         }
-        
+
+        s2_game_shutdown(&game);
         return false;
     }
     

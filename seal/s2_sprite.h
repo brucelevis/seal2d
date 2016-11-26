@@ -47,7 +47,8 @@ union s2_color_4b {
 };
 
 enum s2_node_type {
-    S2_NODE_TYPE_SPRITE_IMAGE = 0,
+    S2_NODE_SPRITE_IMAGE = 0,
+    S2_NODE_BMFONT_LABEL,
 };
 
 struct s2_vertex {
@@ -90,7 +91,7 @@ void s2_node_add_child(struct s2_node* self, struct s2_node* child);
 void s2_node_remove_child(struct s2_node* self, struct s2_node* child);
 void s2_node_remove_all_child(struct s2_node* self);
 void s2_node_remove_from_parent(struct s2_node* self);
-
+void s2_node_destroy(struct s2_node* self);
 
 struct s2_sprite_image {
     struct s2_node __super;

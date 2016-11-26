@@ -30,7 +30,9 @@ struct s2_texture* s2_texture_create(const char* path)
     const char* p =path + (strlen(path) - 3);
     if (strcmp(p, "png") == 0) {
         struct s2_texture* texture = s2_malloc(sizeof(*texture));
-        texture->ref = 1;
+        // FIXME :reference counting, auto release pool???…
+        // ref starts with 1 or 0?
+        texture->ref = 0;
 
         const bgfx_memory_t* mem = s2_fs_read(path);
 
@@ -44,7 +46,8 @@ struct s2_texture* s2_texture_create(const char* path)
                                BGFX_TEXTURE_FORMAT_RGBA8,
                                BGFX_TEXTURE_NONE,
                                bgfx_make_ref(img, x*y*comp));
-
+        texture->width = x;
+        texture->height = y;
         return texture;
     }
 
@@ -60,6 +63,7 @@ struct s2_texture* s2_texture_retain(struct s2_texture* self)
 void s2_texture_release(struct s2_texture* self)
 {
     self->ref--;
+    LOGP("texture ref = %d", self->ref);
     if(self->ref == 0) {
         s2_texture_destory(self);
     }

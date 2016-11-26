@@ -111,7 +111,7 @@ static void s2_node_draw(struct s2_node* self)
     struct s2_affine model_transform = s2_node_update_transform(self);
 
     switch (self->__type) {
-        case S2_NODE_TYPE_SPRITE_IMAGE:
+        case S2_NODE_SPRITE_IMAGE:
         {
             // safely cast due to the struct memory layout. :)
             s2_sprite_image_draw((struct s2_sprite_image*)self, &model_transform);
@@ -163,10 +163,10 @@ void s2_node_add_child(struct s2_node* self, struct s2_node* child)
     self->children_count++;
 }
 
-static void s2_node_destroy(struct s2_node* self)
+void s2_node_destroy(struct s2_node* self)
 {
     switch (self->__type) {
-        case S2_NODE_TYPE_SPRITE_IMAGE:
+        case S2_NODE_SPRITE_IMAGE:
             s2_sprite_destroy((struct s2_sprite_image*)self);
             break;
 
@@ -178,7 +178,7 @@ static void s2_node_destroy(struct s2_node* self)
 void s2_node_remove_child(struct s2_node* self, struct s2_node* child)
 {
     int found = -1;
-    for (int i = self->children_count-1; i > 0 ; --i) {
+    for (int i = self->children_count-1; i >= 0 ; --i) {
         if (self->children[i] == child) {
             self->children[i] = NULL;
             found = i;
@@ -186,15 +186,19 @@ void s2_node_remove_child(struct s2_node* self, struct s2_node* child)
         }
     }
 
-    for (int i = found; i < self->children_count-1; ++i) {
-        self->children[i] = self->children[i+1];
+    if (found != -1) {
+        for (int i = found; i < self->children_count-1; ++i) {
+            self->children[i] = self->children[i+1];
+        }
+        s2_node_destroy(child);
+    } else {
+        LOGP("child (%p) not found when being removed.", child);
     }
-    s2_node_destroy(child);
 }
 
 void s2_node_remove_all_child(struct s2_node* self)
 {
-    for (int i = self->children_count; i > 0; ++i) {
+    for (int i = self->children_count-1; i >= 0; --i) {
         s2_node_remove_from_parent(self->children[i]);
     }
 }
@@ -210,7 +214,7 @@ struct s2_sprite_image* s2_sprite_image_create_with_texture(struct s2_texture* t
 {
     struct s2_sprite_image* sprite = s2_malloc(sizeof(*sprite));
     //TODO: cast may better?(struct s2_node*)(sprite)
-    s2_node_init(&sprite->__super, S2_NODE_TYPE_SPRITE_IMAGE);
+    s2_node_init(&sprite->__super, S2_NODE_SPRITE_IMAGE);
 
     sprite->texture = s2_texture_retain(texture);
     sprite->texture_rect.x = 0;

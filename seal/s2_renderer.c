@@ -62,7 +62,7 @@ struct s2_sprite_renderer* s2_sprite_renderer_create()
     struct s2_sprite_renderer* render = s2_malloc(sizeof(*render));
     memset(render, 0, sizeof(*render));
 
-    render->__program = s2_sprite_renderer_load_program();
+    render->__program = s2_program_retain(s2_sprite_renderer_load_program());
 
     bgfx_vertex_decl_t* vertex_decl = &render->__vertex_decl;
     bgfx_vertex_decl_begin (vertex_decl, BGFX_RENDERER_TYPE_OPENGL);
@@ -78,7 +78,8 @@ struct s2_sprite_renderer* s2_sprite_renderer_create()
 
 void s2_sprite_renderer_destroy(struct s2_sprite_renderer* self)
 {
-    s2_program_destroy(self->__program);
+    bgfx_destroy_uniform(self->__uniform_handle);
+    s2_program_release(self->__program);
     s2_free(self);
 }
 
