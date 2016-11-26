@@ -21,7 +21,7 @@ class Yuusha : public entry::AppI
 
         m_width = 1024;
         m_height = 768;
-        m_debug = BGFX_DEBUG_TEXT;
+        m_debug = BGFX_DEBUG_TEXT; //| BGFX_DEBUG_STATS;
         m_reset = BGFX_RESET_VSYNC;
 
         bgfx_init(BGFX_RENDERER_TYPE_COUNT, BGFX_PCI_ID_NONE, 0, NULL, NULL);
@@ -49,31 +49,56 @@ class Yuusha : public entry::AppI
 
         m_program_handle = bgfx_create_program(vs_handle, fs_handle, true);
 
-        v[0].pos.x = -0.5f;
-        v[0].pos.y = -0.5f;
+//        v[0].pos.x = -0.5f;
+//        v[0].pos.y = -0.5f;
+//
+//        v[1].pos.x = -0.5f;
+//        v[1].pos.y = 0.5f;
+//
+//        v[2].pos.x = 0.5f;
+//        v[2].pos.y = -0.5f;
+//
+//        v[3].pos.x = 0.5f;
+//        v[3].pos.y = 0.5f;
 
-        v[1].pos.x = -0.5f;
-        v[1].pos.y = 0.5f;
+        float x = 200;
+        float y = 200;
+        float w = 100;
+        float h = 100;
 
-        v[2].pos.x = 0.5f;
-        v[2].pos.y = -0.5f;
-
-        v[3].pos.x = 0.5f;
-        v[3].pos.y = 0.5f;
-
-        for (int i = 0; i < 4; ++i) {
-            v[i].color.r = 255;
+        for (int i = 0; i < 4; ++i)
+        {
+            v[i].color.r = 0;
             v[i].color.g = 0;
             v[i].color.b = 0;
             v[i].color.a = 255;
         }
 
+        v[0].pos.x = x;
+        v[0].pos.y = y;
+        v[0].color.r = 255;
+
+        v[1].pos.x = x;
+        v[1].pos.y = y + h;
+        v[1].color.g = 255;
+
+        v[2].pos.x = x + w;
+        v[2].pos.y = y;
+        v[2].color.b = 255;
+
+        v[3].pos.x = x + w;
+        v[3].pos.y = y + h;
+        v[3].color.r = 0;
+        v[3].color.g = 0;
+        v[3].color.b = 0;
+
+
         idx[0] = 0;
         idx[1] = 1;
         idx[2] = 2;
         idx[3] = 1;
-        idx[4] = 2;
-        idx[5] = 3;
+        idx[4] = 3;
+        idx[5] = 2;
 
         bgfx_vertex_decl_begin (&m_vertex_decl, BGFX_RENDERER_TYPE_OPENGL);
         bgfx_vertex_decl_add (&m_vertex_decl, BGFX_ATTRIB_POSITION,  2, BGFX_ATTRIB_TYPE_FLOAT, false, false);
@@ -81,8 +106,8 @@ class Yuusha : public entry::AppI
         bgfx_vertex_decl_end (&m_vertex_decl);
 
 
-        m_vbh = bgfx_create_vertex_buffer(bgfx_make_ref(v, sizeof(v)), &m_vertex_decl, 0);
-        m_ibh = bgfx_create_index_buffer(bgfx_make_ref(idx, sizeof(idx)), 0);
+        m_vbh = bgfx_create_vertex_buffer(bgfx_make_ref(v, sizeof(v)), &m_vertex_decl, BGFX_BUFFER_NONE);
+        m_ibh = bgfx_create_index_buffer(bgfx_make_ref(idx, sizeof(idx)), BGFX_BUFFER_NONE);
     }
 
     virtual int shutdown() BX_OVERRIDE
@@ -97,33 +122,26 @@ class Yuusha : public entry::AppI
     {
         if (!entry::processEvents(m_width, m_height, m_debug, m_reset) )
         {
-            float at[3]  = { 0, 0,  0.0f };
-            float eye[3] = { 0, 0, -1.0f };
-
-            float view[16];
-            bx::mtxLookAt(view, eye, at);
+            bgfx_touch(0);
 
             float ortho[16];
             bx::mtxOrtho(ortho, 0, m_width, m_height, 0, -1.0f, 1.0f);
 
-            bgfx_set_view_transform(0, view, ortho);
+            bgfx_set_view_transform(0, NULL, ortho);
             bgfx_set_view_rect(0, 0, 0, uint16_t(m_width), uint16_t(m_height) );
-
-            bgfx_touch(0);
-
-            float model[16];
-            bx::mtxIdentity(model);
-            bgfx_set_transform(model, 1);
 
             bgfx_set_vertex_buffer(m_vbh, 0, 4);
             bgfx_set_index_buffer(m_ibh, 0, 6);
 
+            bgfx_set_state(BGFX_STATE_DEFAULT, 0);
+            
             bgfx_submit(0, m_program_handle, 0, false);
 
             bgfx_dbg_text_clear(0, false);
             bgfx_dbg_text_printf(0, 1, 0x4f, "Yuusha");
 
             bgfx_frame(0);
+
             return true;
         }
         
