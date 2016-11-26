@@ -41,13 +41,15 @@ struct s2_game_config {
 };
 
 struct s2_game {
-    struct s2_sprite_render* sprite_render;
+    struct s2_node* root;
 
+    struct s2_sprite_render* sprite_render;
     unsigned long __node_counter;
 };
 
 struct s2_game*  s2_game_G();
 void             s2_game_init(struct s2_game_config* config);
+void             s2_game_update();
 
 #ifdef __cplusplus
 }

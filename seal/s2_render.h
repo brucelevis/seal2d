@@ -32,17 +32,16 @@ struct s2_vertex;
 
 struct s2_sprite_render {
     struct s2_program* __program;
+    bgfx_vertex_decl_t __vertex_decl;
 
-    bgfx_vertex_buffer_handle_t __vbh;
-    bgfx_index_buffer_handle_t  __ibh;
-
-    struct s2_vertex* __vb;
-    uint16_t*         __ib;
+    bgfx_transient_vertex_buffer_t* __cur_tvb;
+    int __n_vertices;
 };
 
 struct s2_sprite_render* s2_sprite_render_create();
 void s2_sprite_render_destroy(struct s2_sprite_render* self);
 
-void s2_sprite_render_draw(struct s2_sprite_render* self, float* model_transform, struct s2_vertex* quad);
-
+void s2_sprite_render_begin(struct s2_sprite_render* self);
+void s2_sprite_render_draw(struct s2_sprite_render* self, struct s2_vertex* quad);
+void s2_sprite_render_end(struct s2_sprite_render* self);
 #endif /* __s2_render__ */

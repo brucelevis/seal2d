@@ -49,7 +49,6 @@ enum s2_node_type {
 
 struct s2_vertex {
     union s2_vec2 pos;
-    union s2_vec2 uv;
     union s2_color_4b color;
 };
 
@@ -83,7 +82,6 @@ struct s2_node {
 };
 
 void s2_node_visit(struct s2_node* self);
-void s2_node_draw(struct s2_node* self);
 void s2_node_add_child(struct s2_node* self, struct s2_node* child);
 
 struct s2_sprite_image {

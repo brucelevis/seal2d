@@ -9,19 +9,85 @@
 
 #include "s2_game.h"
 
+struct s2_vertex v[4];
+uint16_t idx[6];
+
 class Yuusha : public entry::AppI
 {
+
+
     void init(int _argc, char** _argv) BX_OVERRIDE
     {
-        struct s2_game_config config = {
-            "Yuusha", 1280, 720, 0
-        };
-        s2_game_init(&config);
+
+        m_width = 1024;
+        m_height = 768;
+        m_debug = BGFX_DEBUG_TEXT;
+        m_reset = BGFX_RESET_VSYNC;
+
+        bgfx_init(BGFX_RENDERER_TYPE_COUNT, BGFX_PCI_ID_NONE, 0, NULL, NULL);
+        bgfx_reset(m_width, m_height, m_reset);
+        bgfx_set_view_clear(0
+                            , BGFX_CLEAR_COLOR|BGFX_CLEAR_DEPTH
+                            , 0x303030ff
+                            , 1.0f
+                            , 0
+                            );
+
+        bgfx_set_debug(m_debug);
+
+        
+        char vs_name[128] = "";
+        char fs_name[128] = "";
+        snprintf(vs_name, 128, "%s%s", "shaders/glsl/", "vs_sprite.bin");
+        snprintf(fs_name, 128, "%s%s", "shaders/glsl/", "fs_sprite.bin");
+
+        const bgfx_memory_t* vs = s2_fs_read(vs_name);
+        const bgfx_memory_t* fs = s2_fs_read(fs_name);
+
+        bgfx_shader_handle_t vs_handle = bgfx_create_shader(vs);
+        bgfx_shader_handle_t fs_handle = bgfx_create_shader(fs);
+
+        m_program_handle = bgfx_create_program(vs_handle, fs_handle, true);
+
+        v[0].pos.x = -0.5f;
+        v[0].pos.y = -0.5f;
+
+        v[1].pos.x = -0.5f;
+        v[1].pos.y = 0.5f;
+
+        v[2].pos.x = 0.5f;
+        v[2].pos.y = -0.5f;
+
+        v[3].pos.x = 0.5f;
+        v[3].pos.y = 0.5f;
+
+        for (int i = 0; i < 4; ++i) {
+            v[i].color.r = 255;
+            v[i].color.g = 0;
+            v[i].color.b = 0;
+            v[i].color.a = 255;
+        }
+
+        idx[0] = 0;
+        idx[1] = 1;
+        idx[2] = 2;
+        idx[3] = 1;
+        idx[4] = 2;
+        idx[5] = 3;
+
+        bgfx_vertex_decl_begin (&m_vertex_decl, BGFX_RENDERER_TYPE_OPENGL);
+        bgfx_vertex_decl_add (&m_vertex_decl, BGFX_ATTRIB_POSITION,  2, BGFX_ATTRIB_TYPE_FLOAT, false, false);
+        bgfx_vertex_decl_add (&m_vertex_decl, BGFX_ATTRIB_COLOR0,    4, BGFX_ATTRIB_TYPE_UINT8, true,  false);
+        bgfx_vertex_decl_end (&m_vertex_decl);
+
+
+        m_vbh = bgfx_create_vertex_buffer(bgfx_make_ref(v, sizeof(v)), &m_vertex_decl, 0);
+        m_ibh = bgfx_create_index_buffer(bgfx_make_ref(idx, sizeof(idx)), 0);
     }
 
     virtual int shutdown() BX_OVERRIDE
     {
-        // Shutdown bgfx.
+        bgfx_destroy_program(m_program_handle);
         bgfx::shutdown();
 
         return 0;
@@ -31,29 +97,33 @@ class Yuusha : public entry::AppI
     {
         if (!entry::processEvents(m_width, m_height, m_debug, m_reset) )
         {
-            // Set view 0 default viewport.
-            bgfx::setViewRect(0, 0, 0, uint16_t(m_width), uint16_t(m_height) );
-//
-//            // This dummy draw call is here to make sure that view 0 is cleared
-//            // if no other draw calls are submitted to view 0.
-//            bgfx::touch(0);
-//
-//            // Use debug font to print information about this example.
-//            bgfx::dbgTextClear();
-//            bgfx::dbgTextImage(bx::uint16_max(uint16_t(m_width /2/8 ), 20)-20
-//                               , bx::uint16_max(uint16_t(m_height/2/16), 6)-6
-//                               , 40
-//                               , 12
-//                               , s_logo
-//                               , 160
-//                               );
-//            bgfx::dbgTextPrintf(0, 1, 0x4f, "bgfx/examples/00-helloworld");
-//            bgfx::dbgTextPrintf(0, 2, 0x6f, "Description: Initialization and debug text.");
-//            
-//            // Advance to next frame. Rendering thread will be kicked to
-//            // process submitted rendering primitives.
-//            bgfx::frame();
+            float at[3]  = { 0, 0,  0.0f };
+            float eye[3] = { 0, 0, -1.0f };
 
+            float view[16];
+            bx::mtxLookAt(view, eye, at);
+
+            float ortho[16];
+            bx::mtxOrtho(ortho, 0, m_width, m_height, 0, -1.0f, 1.0f);
+
+            bgfx_set_view_transform(0, view, ortho);
+            bgfx_set_view_rect(0, 0, 0, uint16_t(m_width), uint16_t(m_height) );
+
+            bgfx_touch(0);
+
+            float model[16];
+            bx::mtxIdentity(model);
+            bgfx_set_transform(model, 1);
+
+            bgfx_set_vertex_buffer(m_vbh, 0, 4);
+            bgfx_set_index_buffer(m_ibh, 0, 6);
+
+            bgfx_submit(0, m_program_handle, 0, false);
+
+            bgfx_dbg_text_clear(0, false);
+            bgfx_dbg_text_printf(0, 1, 0x4f, "Yuusha");
+
+            bgfx_frame(0);
             return true;
         }
         
@@ -64,6 +134,10 @@ class Yuusha : public entry::AppI
     uint32_t m_height;
     uint32_t m_debug;
     uint32_t m_reset;
+    bgfx_program_handle_t m_program_handle;
+    bgfx_vertex_decl_t m_vertex_decl;
+    bgfx_vertex_buffer_handle_t m_vbh;
+    bgfx_index_buffer_handle_t m_ibh;
 };
 
 ENTRY_IMPLEMENT_MAIN(Yuusha);

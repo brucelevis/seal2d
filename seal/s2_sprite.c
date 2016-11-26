@@ -106,18 +106,7 @@ static struct s2_affine s2_node_update_transform(struct s2_node* self)
     return s2_node_transform_to(self, root);
 }
 
-void s2_node_visit(struct s2_node* self)
-{
-    for (int i = 0; i < self->children_count; ++i) {
-        struct s2_node* child = self->children[i];
-        s2_assert(child);
-        s2_node_visit(child);
-    }
-
-    s2_node_draw(self);
-}
-
-void s2_node_draw(struct s2_node* self)
+static void s2_node_draw(struct s2_node* self)
 {
     struct s2_affine model_transform = s2_node_update_transform(self);
 
@@ -129,10 +118,20 @@ void s2_node_draw(struct s2_node* self)
             break;
         }
 
-
         default:
             break;
     }
+}
+
+void s2_node_visit(struct s2_node* self)
+{
+    for (int i = 0; i < self->children_count; ++i) {
+        struct s2_node* child = self->children[i];
+        s2_assert(child);
+        s2_node_visit(child);
+    }
+
+    s2_node_draw(self);
 }
 
 void s2_node_add_child(struct s2_node* self, struct s2_node* child)
@@ -176,12 +175,40 @@ struct s2_sprite_image* s2_sprite_image_create_tex(struct s2_texture* texture)
     sprite->texture_rect.w = 0;
     sprite->texture_rect.h = 0;
 
+    /*
+     * Quad layout:
+     *      1-----3
+     *      |     |
+     *      |     |
+     *      0-----2
+     *
+     */
+    sprite->__quad[0].pos.x = 0.0f;
+    sprite->__quad[0].pos.y = 0.0f;
+
+    sprite->__quad[1].pos.x = 0.0f;
+    sprite->__quad[1].pos.y = 1.0f;
+
+    sprite->__quad[2].pos.x = 1.0f;
+    sprite->__quad[2].pos.y = 0.0f;
+
+    sprite->__quad[3].pos.x = 1.0f;
+    sprite->__quad[3].pos.y = 1.0f;
+
+    for (int i = 0; i < 4; ++i)
+    {
+        sprite->__quad[i].color.r = 255;
+        sprite->__quad[i].color.g = 0;
+        sprite->__quad[i].color.b = 0;
+        sprite->__quad[i].color.a = 255;
+    }
+
     return sprite;
 }
 
 void s2_sprite_image_draw(struct s2_sprite_image* self, struct s2_affine* model_transform)
 {
-
+    s2_sprite_render_draw(s2_game_G()->sprite_render, self->__quad);
 }
 
 

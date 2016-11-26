@@ -25,7 +25,7 @@
 
 #include "s2_render.h"
 
-#define SPRITE_RENDER_DEFALT_VERTEX_CAP (2^16)
+#define SPRITE_RENDER_MAX_VERTICES (16*1024)
 
 static const char* s2_sprite_render_get_shader_path()
 {
@@ -63,21 +63,16 @@ struct s2_sprite_render* s2_sprite_render_create()
     memset(render, 0, sizeof(*render));
 
     render->__program = s2_sprite_render_load_program();
-    render->__vb = s2_malloc(sizeof(struct s2_vertex) * SPRITE_RENDER_DEFALT_VERTEX_CAP);
 
+    bgfx_vertex_decl_t* vertex_decl = &render->__vertex_decl;
+    bgfx_vertex_decl_begin (vertex_decl, BGFX_RENDERER_TYPE_OPENGL);
+    bgfx_vertex_decl_add (vertex_decl, BGFX_ATTRIB_POSITION,  2, BGFX_ATTRIB_TYPE_FLOAT, false, false);
+    bgfx_vertex_decl_add (vertex_decl, BGFX_ATTRIB_COLOR0,    4, BGFX_ATTRIB_TYPE_UINT8, true,  false);
+//    bgfx_vertex_decl_add (vertex_decl, BGFX_ATTRIB_TEXCOORD0, 2, BGFX_ATTRIB_TYPE_FLOAT, false, false);
+    bgfx_vertex_decl_end (vertex_decl);
 
-    bgfx_vertex_decl_t vertex_decl;
-    bgfx_vertex_decl_begin (&vertex_decl, BGFX_RENDERER_TYPE_OPENGL);
-    bgfx_vertex_decl_add (&vertex_decl, BGFX_ATTRIB_POSITION,  2, BGFX_ATTRIB_TYPE_FLOAT, false, false);
-    bgfx_vertex_decl_add (&vertex_decl, BGFX_ATTRIB_COLOR0,    4, BGFX_ATTRIB_TYPE_UINT8, true,  false);
-    bgfx_vertex_decl_add (&vertex_decl, BGFX_ATTRIB_TEXCOORD0, 2, BGFX_ATTRIB_TYPE_FLOAT, false, false);
-    bgfx_vertex_decl_end (&vertex_decl);
-
-
-//    render->__ibh = bgfx_create_vertex_buffer (bgfx_make_ref (s_cubeVertices, sizeof(s_cubeVertices)), &ms_decl, BGFX_BUFFER_NONE);
-//    m_ibh = bgfx_create_index_buffer (bgfx_make_ref (s_cubeIndices, sizeof(s_cubeIndices)), BGFX_BUFFER_NONE);
-
-    
+    render->__cur_tvb = NULL;
+    render->__n_vertices = 0;
     return render;
 }
 
@@ -85,4 +80,35 @@ void s2_sprite_render_destroy(struct s2_sprite_render* self)
 {
     s2_program_destroy(self->__program);
     s2_free(self);
+}
+
+void s2_sprite_render_begin(struct s2_sprite_render* self)
+{
+    // alloc the buffer.
+    bgfx_transient_vertex_buffer_t tvb;
+    bgfx_alloc_transient_vertex_buffer(&tvb, SPRITE_RENDER_MAX_VERTICES, &self->__vertex_decl);
+
+    self->__cur_tvb = &tvb; // __cur_tvb only have 1 frame lifecycle.
+    self->__n_vertices = 0;
+}
+
+void s2_sprite_render_draw(struct s2_sprite_render* self, struct s2_vertex* quad)
+{
+    // copy the vertex
+    struct s2_vertex* vertex = (struct s2_vertex*)self->__cur_tvb->data;
+    for (int i = 0; i < 4; ++i)
+    {
+        vertex[i] = quad[i];
+    }
+    self->__n_vertices += 4;
+}
+
+void s2_sprite_render_end(struct s2_sprite_render* self)
+{
+    bgfx_set_transient_vertex_buffer(self->__cur_tvb, 0, self->__n_vertices);
+    bgfx_set_state(BGFX_STATE_DEFAULT, 0);
+    bgfx_submit(0, self->__program->handle, 0, 0);
+
+    self->__cur_tvb = NULL;
+    self->__n_vertices = 0;
 }
