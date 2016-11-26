@@ -32,10 +32,10 @@ struct s2_vertex;
 
 struct s2_sprite_renderer {
     struct s2_program* __program;
-    bgfx_vertex_decl_t __vertex_decl;
 
-    bgfx_transient_vertex_buffer_t* __cur_tvb;
-    int __n_vertices;
+    
+
+    size_t __n_vertices;
 };
 
 struct s2_sprite_renderer* s2_sprite_renderer_create();

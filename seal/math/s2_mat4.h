@@ -45,6 +45,8 @@ void s2_mat4_rotate_z(struct s2_mat4* out, float rad);
 void s2_mat4_multiply(struct s2_mat4* out, struct s2_mat4* l, struct s2_mat4* r);
 void s2_mat4_inverse(struct s2_mat4* in, struct s2_mat4* out);
 
+void s2_mat4_multiply_vec2(const struct s2_mat4* in, float* x, float* y);
+
 void s2_mat4_free(struct s2_mat4* self);
 void s2_matrix_debug_print(struct s2_mat4* self);
 

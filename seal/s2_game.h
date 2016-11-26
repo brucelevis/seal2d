@@ -50,6 +50,7 @@ struct s2_game {
 struct s2_game*  s2_game_G();
 void             s2_game_init(struct s2_game_config* config);
 void             s2_game_update();
+void             s2_game_shutdown();
 
 #ifdef __cplusplus
 }

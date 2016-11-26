@@ -9,110 +9,21 @@
 
 #include "s2_game.h"
 
-struct s2_vertex v[4];
-uint16_t idx[6];
 
 class Yuusha : public entry::AppI
 {
-
-
     void init(int _argc, char** _argv) BX_OVERRIDE
     {
+        struct s2_game_config config = {
+            "Yuusha", 1024, 768, 0
+        };
 
-        m_width = 1024;
-        m_height = 768;
-        m_debug = BGFX_DEBUG_TEXT; //| BGFX_DEBUG_STATS;
-        m_reset = BGFX_RESET_VSYNC;
-
-        bgfx_init(BGFX_RENDERER_TYPE_COUNT, BGFX_PCI_ID_NONE, 0, NULL, NULL);
-        bgfx_reset(m_width, m_height, m_reset);
-        bgfx_set_view_clear(0
-                            , BGFX_CLEAR_COLOR|BGFX_CLEAR_DEPTH
-                            , 0x303030ff
-                            , 1.0f
-                            , 0
-                            );
-
-        bgfx_set_debug(m_debug);
-
-        
-        char vs_name[128] = "";
-        char fs_name[128] = "";
-        snprintf(vs_name, 128, "%s%s", "shaders/glsl/", "vs_sprite.bin");
-        snprintf(fs_name, 128, "%s%s", "shaders/glsl/", "fs_sprite.bin");
-
-        const bgfx_memory_t* vs = s2_fs_read(vs_name);
-        const bgfx_memory_t* fs = s2_fs_read(fs_name);
-
-        bgfx_shader_handle_t vs_handle = bgfx_create_shader(vs);
-        bgfx_shader_handle_t fs_handle = bgfx_create_shader(fs);
-
-        m_program_handle = bgfx_create_program(vs_handle, fs_handle, true);
-
-        float x = 200;
-        float y = 200;
-        float w = 100;
-        float h = 100;
-
-        for (int i = 0; i < 4; ++i)
-        {
-            v[i].color.r = 255;
-            v[i].color.g = 255;
-            v[i].color.b = 255;
-            v[i].color.a = 255;
-        }
-
-        v[0].pos.x = x;
-        v[0].pos.y = y;
-        v[0].uv.u = 0.0f;
-        v[0].uv.v = 0.0f;
-//        v[0].color.r = 255;
-
-        v[1].pos.x = x;
-        v[1].pos.y = y + h;
-        v[1].uv.u = 0.0f;
-        v[1].uv.v = 1.0f;
-//        v[1].color.g = 255;
-
-        v[2].pos.x = x + w;
-        v[2].pos.y = y;
-        v[2].uv.u = 1.0f;
-        v[2].uv.v = 0.0f;
-//        v[2].color.b = 255;
-
-        v[3].pos.x = x + w;
-        v[3].pos.y = y + h;
-        v[3].uv.u = 1.0f;
-        v[3].uv.v = 1.0f;
-//        v[3].color.r = 0;
-//        v[3].color.g = 0;
-//        v[3].color.b = 0;
-
-
-        idx[0] = 0;
-        idx[1] = 1;
-        idx[2] = 2;
-        idx[3] = 1;
-        idx[4] = 3;
-        idx[5] = 2;
-
-        bgfx_vertex_decl_begin (&m_vertex_decl, BGFX_RENDERER_TYPE_OPENGL);
-        bgfx_vertex_decl_add (&m_vertex_decl, BGFX_ATTRIB_POSITION,  2, BGFX_ATTRIB_TYPE_FLOAT, false, false);
-        bgfx_vertex_decl_add (&m_vertex_decl, BGFX_ATTRIB_COLOR0,    4, BGFX_ATTRIB_TYPE_UINT8, true,  false);
-        bgfx_vertex_decl_add (&m_vertex_decl, BGFX_ATTRIB_TEXCOORD0, 2, BGFX_ATTRIB_TYPE_FLOAT, false, false);
-        bgfx_vertex_decl_end (&m_vertex_decl);
-
-        m_vbh = bgfx_create_vertex_buffer(bgfx_make_ref(v, sizeof(v)), &m_vertex_decl, BGFX_BUFFER_NONE);
-        m_ibh = bgfx_create_index_buffer(bgfx_make_ref(idx, sizeof(idx)), BGFX_BUFFER_NONE);
-
-        m_tex_uniform_handle = bgfx_create_uniform("s_texColor", BGFX_UNIFORM_TYPE_INT1, 1);
-        s2_texture* tex = s2_texture_create("res/unpack/bunny.png");
-        m_tex_handle = tex->__handle;
+        s2_game_init(&config);
     }
 
     virtual int shutdown() BX_OVERRIDE
     {
-        bgfx_destroy_program(m_program_handle);
+        
         bgfx::shutdown();
 
         return 0;
@@ -120,23 +31,16 @@ class Yuusha : public entry::AppI
 
     bool update() BX_OVERRIDE
     {
+        float ortho[16];
+        bx::mtxOrtho(ortho, 0, m_width, m_height, 0, -1.0f, 1.0f);
         if (!entry::processEvents(m_width, m_height, m_debug, m_reset) )
         {
             bgfx_touch(0);
-
-            float ortho[16];
-            bx::mtxOrtho(ortho, 0, m_width, m_height, 0, -1.0f, 1.0f);
-
             bgfx_set_view_transform(0, NULL, ortho);
             bgfx_set_view_rect(0, 0, 0, uint16_t(m_width), uint16_t(m_height));
 
-            bgfx_set_state(BGFX_STATE_DEFAULT, 0);
+            s2_node_visit(s2_game_G()->root);
 
-            bgfx_set_texture(0, m_tex_uniform_handle, m_tex_handle, UINT32_MAX);
-            bgfx_set_vertex_buffer(m_vbh, 0, 4);
-            bgfx_set_index_buffer(m_ibh, 0, 6);
-
-            bgfx_submit(0, m_program_handle, 0, false);
 
             bgfx_dbg_text_clear(0, false);
             bgfx_dbg_text_printf(0, 1, 0x4f, "Yuusha");

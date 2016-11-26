@@ -102,8 +102,7 @@ static struct s2_affine s2_node_update_transform(struct s2_node* self)
 {
     s2_node_update_local_transform(self);
 
-    struct s2_node* root = s2_node_get_root(self);
-    return s2_node_transform_to(self, root);
+    return s2_node_transform_to(self, s2_node_get_root(self));
 }
 
 static void s2_node_draw(struct s2_node* self)
@@ -125,6 +124,7 @@ static void s2_node_draw(struct s2_node* self)
 
 void s2_node_visit(struct s2_node* self)
 {
+    s2_node_draw(self);
     // WC: 先draw自己还是先draw childs?
     for (int i = 0; i < self->children_count; ++i) {
         struct s2_node* child = self->children[i];
@@ -132,7 +132,7 @@ void s2_node_visit(struct s2_node* self)
         s2_node_visit(child);
     }
 
-    s2_node_draw(self);
+
 }
 
 void s2_node_add_child(struct s2_node* self, struct s2_node* child)
@@ -178,29 +178,26 @@ struct s2_sprite_image* s2_sprite_image_create_tex(struct s2_texture* texture)
 
     /*
      * Quad layout:
-     *      1-----3
+     *      2-----3
      *      |     |
      *      |     |
-     *      0-----2
+     *      0-----1
      *
      */
-    sprite->__quad[0].pos.x = 0.0f;
-    sprite->__quad[0].pos.y = 0.0f;
-
-    sprite->__quad[1].pos.x = 0.0f;
-    sprite->__quad[1].pos.y = 1.0f;
-
-    sprite->__quad[2].pos.x = 1.0f;
-    sprite->__quad[2].pos.y = 0.0f;
-
-    sprite->__quad[3].pos.x = 1.0f;
-    sprite->__quad[3].pos.y = 1.0f;
+    sprite->__quad[0].uv.u = 0.0f;
+    sprite->__quad[0].uv.v = 0.0f;
+    sprite->__quad[1].uv.u = 1.0f;
+    sprite->__quad[1].uv.v = 0.0f;
+    sprite->__quad[2].uv.u = 0.0f;
+    sprite->__quad[2].uv.v = 1.0f;
+    sprite->__quad[3].uv.u = 1.0f;
+    sprite->__quad[3].uv.v = 1.0f;
 
     for (int i = 0; i < 4; ++i)
     {
         sprite->__quad[i].color.r = 255;
-        sprite->__quad[i].color.g = 0;
-        sprite->__quad[i].color.b = 0;
+        sprite->__quad[i].color.g = 255;
+        sprite->__quad[i].color.b = 255;
         sprite->__quad[i].color.a = 255;
     }
 
@@ -208,8 +205,35 @@ struct s2_sprite_image* s2_sprite_image_create_tex(struct s2_texture* texture)
 }
 
 // WC: Vertices should pre-mulitply model matrix before their submission to the renderer
-void s2_sprite_image_draw(struct s2_sprite_image* self, struct s2_affine* model_transform)
+void s2_sprite_image_draw(struct s2_sprite_image* self, struct s2_affine* mt)
 {
+    struct s2_node* super = &self->__super;
+    struct s2_vertex* v = self->__quad;
+
+    float left = super->x;
+    float bottom = super->y;
+    float right = super->x + super->width;
+    float top = super->y + super->height;
+
+    v[0].pos.x = mt->a * left + mt->b * bottom + mt->x;
+    v[0].pos.y = mt->c * left + mt->c * bottom + mt->y;
+
+    v[1].pos.x = mt->a * right + mt->b * bottom + mt->x;
+    v[1].pos.y = mt->c * right+ mt->c * bottom + mt->y;
+
+    v[2].pos.x = mt->a * left + mt->b * top + mt->x;
+    v[2].pos.y = mt->c * left + mt->c * top + mt->y;
+
+    v[3].pos.x = mt->a * right + mt->b * top + mt->x;
+    v[3].pos.y = mt->c * right + mt->c * top + mt->y;
+
+    LOGP("{%.2f, %.2f}, {%.2f, %.2f}, {%.2f, %.2f}, {%.2f, %.2f}",
+            v[0].pos.x, v[0].pos.y,
+            v[1].pos.x, v[1].pos.y,
+            v[2].pos.x, v[2].pos.y,
+            v[3].pos.x, v[3].pos.y
+        );
+
     s2_sprite_renderer_draw(s2_game_G()->sprite_renderer, self->__quad);
 }
 

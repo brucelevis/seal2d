@@ -241,6 +241,16 @@ void s2_mat4_inverse(struct s2_mat4* in, struct s2_mat4* out)
     om[15] = scalar * ( m[8]  * a3 - m[9]  * a1 + m[10] * a0);
 }
 
+void s2_mat4_multiply_vec2(const struct s2_mat4* in, float* x, float* y)
+{
+    const float* om = in->m;
+    float tx = *x;
+    float ty = *y;
+
+    *x = om[0] * tx + om[1] * ty;
+    *y = om[4] * tx + om[5] * ty;
+}
+
 void s2_mat4_free(struct s2_mat4* self)
 {
     s2_free(self);

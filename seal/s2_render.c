@@ -25,7 +25,7 @@
 
 #include "s2_render.h"
 
-#define SPRITE_RENDER_MAX_VERTICES (16*1024)
+#define SPRITE_MAX_OBJECTS (16*1024)
 
 static const char* s2_sprite_renderer_get_shader_path()
 {
@@ -64,15 +64,14 @@ struct s2_sprite_renderer* s2_sprite_renderer_create()
 
     render->__program = s2_sprite_renderer_load_program();
 
-    bgfx_vertex_decl_t* vertex_decl = &render->__vertex_decl;
-    bgfx_vertex_decl_begin (vertex_decl, BGFX_RENDERER_TYPE_OPENGL);
-    bgfx_vertex_decl_add (vertex_decl, BGFX_ATTRIB_POSITION,  2, BGFX_ATTRIB_TYPE_FLOAT, false, false);
-    bgfx_vertex_decl_add (vertex_decl, BGFX_ATTRIB_COLOR0,    4, BGFX_ATTRIB_TYPE_UINT8, true,  false);
-//    bgfx_vertex_decl_add (vertex_decl, BGFX_ATTRIB_TEXCOORD0, 2, BGFX_ATTRIB_TYPE_FLOAT, false, false);
-    bgfx_vertex_decl_end (vertex_decl);
+    bgfx_vertex_decl_t vertex_decl;
+    bgfx_vertex_decl_begin (&vertex_decl, BGFX_RENDERER_TYPE_OPENGL);
+    bgfx_vertex_decl_add (&vertex_decl, BGFX_ATTRIB_POSITION,  2, BGFX_ATTRIB_TYPE_FLOAT, false, false);
+    bgfx_vertex_decl_add (&vertex_decl, BGFX_ATTRIB_COLOR0,    4, BGFX_ATTRIB_TYPE_UINT8, true,  false);
+    bgfx_vertex_decl_add (&vertex_decl, BGFX_ATTRIB_TEXCOORD0, 2, BGFX_ATTRIB_TYPE_FLOAT, false, false);
+    bgfx_vertex_decl_end (&vertex_decl);
 
-    render->__cur_tvb = NULL;
-    render->__n_vertices = 0;
+
     return render;
 }
 
@@ -84,31 +83,20 @@ void s2_sprite_renderer_destroy(struct s2_sprite_renderer* self)
 
 void s2_sprite_renderer_begin(struct s2_sprite_renderer* self)
 {
-    // alloc the buffer.
-    bgfx_transient_vertex_buffer_t tvb;
-    bgfx_alloc_transient_vertex_buffer(&tvb, sprite_renderer_MAX_VERTICES, &self->__vertex_decl);
-
-    self->__cur_tvb = &tvb; // __cur_tvb only have 1 frame lifecycle.
     self->__n_vertices = 0;
 }
 
 void s2_sprite_renderer_draw(struct s2_sprite_renderer* self, struct s2_vertex* quad)
 {
-    // copy the vertex
-    struct s2_vertex* vertex = (struct s2_vertex*)self->__cur_tvb->data;
-    for (int i = 0; i < 4; ++i)
-    {
-        vertex[i] = quad[i];
-    }
-    self->__n_vertices += 4;
+
 }
 
 void s2_sprite_renderer_end(struct s2_sprite_renderer* self)
 {
-    bgfx_set_transient_vertex_buffer(self->__cur_tvb, 0, self->__n_vertices);
+
+
     bgfx_set_state(BGFX_STATE_DEFAULT, 0);
     bgfx_submit(0, self->__program->handle, 0, 0);
 
-    self->__cur_tvb = NULL;
     self->__n_vertices = 0;
 }

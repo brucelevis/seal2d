@@ -100,6 +100,6 @@ struct s2_sprite_image {
 struct s2_sprite_image* s2_sprite_image_create_tex(struct s2_texture* texture);
 
 // called from s2_node_draw
-void s2_sprite_image_draw(struct s2_sprite_image* self, struct s2_affine* model_transform);
+void s2_sprite_image_draw(struct s2_sprite_image* self, struct s2_affine* mt);
 
 #endif
