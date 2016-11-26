@@ -27,27 +27,6 @@
 #define __s2_util__
 
 #include "s2_common.h"
-
-#define DELCARE_ARC_METHOD(struct_name) \
-    struct ##struct_name* ##struct_name_retain(struct ##struct_name* self); \
-    void ##struct_name_release(struct ##struct_name* self);
-
-#define IMPL_ARC_METHOD(struct_name) \
-struct STRINGFY(struct_name)* STRINGFY(struct_name)_retain(struct STRINGFY(struct_name)* self) \
-{ \
-    self->ref++; \
-    return self; \
-}\
-\
-void STRINGFY(struct_name)_release(STRINGFY(struct_name)* self) \
-{ \
-    self->ref--; \
-    if(self->ref == 0) \
-    { \
-        STRINGFY(struct_name)_destory(self); \
-    } \
-}
-
 #if !defined(SEAL_PLATFORM_ANDROID)
     #if defined (SDK_DEBUG_LOG)
         #define LOGI(format, ...)       ((void) printf ("SEAL2D: " format "\n", ##__VA_ARGS__))

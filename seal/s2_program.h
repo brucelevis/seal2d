@@ -29,8 +29,15 @@
 #include "s2_common.h"
 
 struct s2_program {
+    int ref;
     bgfx_program_handle_t __handle;
 };
+
+
+struct s2_program* s2_program_retain(struct s2_program* self);
+void s2_program_release(struct s2_program* self);
+
+
 
 struct s2_program* s2_program_create(const char* vsh, const char* fsh);
 void s2_program_destroy(struct s2_program* self);

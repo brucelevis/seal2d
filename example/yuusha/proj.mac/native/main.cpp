@@ -19,7 +19,7 @@ class Yuusha : public entry::AppI
             "Yuusha", (int)(1024 * scale), (int)(768 * scale), 0
         };
 
-        s2_game_init(&config);
+        s2_game_init(&game, &config);
     }
 
     virtual int shutdown() BX_OVERRIDE
@@ -59,12 +59,7 @@ class Yuusha : public entry::AppI
     uint32_t m_debug;
     uint32_t m_reset;
 
-    bgfx_program_handle_t m_program_handle;
-    bgfx_vertex_decl_t m_vertex_decl;
-    bgfx_vertex_buffer_handle_t m_vbh;
-    bgfx_index_buffer_handle_t m_ibh;
-    bgfx_texture_handle m_tex_handle;
-    bgfx_uniform_handle_t m_tex_uniform_handle;
+    struct s2_game game;
 };
 
 ENTRY_IMPLEMENT_MAIN(Yuusha);

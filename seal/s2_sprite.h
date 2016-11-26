@@ -87,6 +87,10 @@ struct s2_node {
 
 void s2_node_visit(struct s2_node* self);
 void s2_node_add_child(struct s2_node* self, struct s2_node* child);
+void s2_node_remove_child(struct s2_node* self, struct s2_node* child);
+void s2_node_remove_all_child(struct s2_node* self);
+void s2_node_remove_from_parent(struct s2_node* self);
+
 
 struct s2_sprite_image {
     struct s2_node __super;
@@ -97,9 +101,11 @@ struct s2_sprite_image {
     union s2_rect texture_rect;
 };
 
-struct s2_sprite_image* s2_sprite_image_create_tex(struct s2_texture* texture);
+struct s2_sprite_image* s2_sprite_image_create_with_texture(struct s2_texture* texture);
 
 // called from s2_node_draw
 void s2_sprite_image_draw(struct s2_sprite_image* self, struct s2_affine* mt);
+
+void s2_sprite_destroy(struct s2_sprite_image* self);
 
 #endif

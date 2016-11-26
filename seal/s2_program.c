@@ -28,6 +28,7 @@
 struct s2_program* s2_program_create(const char* vsh, const char* fsh)
 {
     struct s2_program* program = malloc(sizeof(*program));
+    program->ref = 1;
 
     const bgfx_memory_t* vs = s2_fs_read(vsh);
     const bgfx_memory_t* fs = s2_fs_read(fsh);
@@ -38,6 +39,19 @@ struct s2_program* s2_program_create(const char* vsh, const char* fsh)
     program->__handle = bgfx_create_program(vs_handle, fs_handle, true);
 
     return program;
+}
+struct s2_program* s2_program_retain(struct s2_program* self)
+{
+    self->ref++;
+    return self;
+}
+
+void s2_program_release(struct s2_program* self)
+{
+    self->ref--;
+    if(self->ref == 0) {
+        s2_program_destroy(self);
+    }
 }
 
 void s2_program_destroy(struct s2_program* self)

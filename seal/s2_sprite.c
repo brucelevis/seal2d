@@ -163,18 +163,60 @@ void s2_node_add_child(struct s2_node* self, struct s2_node* child)
     self->children_count++;
 }
 
+static void s2_node_destroy(struct s2_node* self)
+{
+    switch (self->__type) {
+        case S2_NODE_TYPE_SPRITE_IMAGE:
+            s2_sprite_destroy((struct s2_sprite_image*)self);
+            break;
 
-struct s2_sprite_image* s2_sprite_image_create_tex(struct s2_texture* texture)
+        default:
+            break;
+    }
+}
+
+void s2_node_remove_child(struct s2_node* self, struct s2_node* child)
+{
+    int found = -1;
+    for (int i = self->children_count-1; i > 0 ; --i) {
+        if (self->children[i] == child) {
+            self->children[i] = NULL;
+            found = i;
+            break;
+        }
+    }
+
+    for (int i = found; i < self->children_count-1; ++i) {
+        self->children[i] = self->children[i+1];
+    }
+    s2_node_destroy(child);
+}
+
+void s2_node_remove_all_child(struct s2_node* self)
+{
+    for (int i = self->children_count; i > 0; ++i) {
+        s2_node_remove_from_parent(self->children[i]);
+    }
+}
+
+void s2_node_remove_from_parent(struct s2_node* self)
+{
+    s2_assert(self->parent);
+    s2_node_remove_child(self->parent, self);
+}
+
+
+struct s2_sprite_image* s2_sprite_image_create_with_texture(struct s2_texture* texture)
 {
     struct s2_sprite_image* sprite = s2_malloc(sizeof(*sprite));
     //TODO: cast may better?(struct s2_node*)(sprite)
     s2_node_init(&sprite->__super, S2_NODE_TYPE_SPRITE_IMAGE);
 
-    sprite->texture = texture;
+    sprite->texture = s2_texture_retain(texture);
     sprite->texture_rect.x = 0;
     sprite->texture_rect.y = 0;
-    sprite->texture_rect.w = 0;
-    sprite->texture_rect.h = 0;
+    sprite->texture_rect.w = texture->width;
+    sprite->texture_rect.h = texture->height;
 
     /*
      * Quad layout:
@@ -207,6 +249,12 @@ struct s2_sprite_image* s2_sprite_image_create_tex(struct s2_texture* texture)
     return sprite;
 }
 
+void s2_sprite_destroy(struct s2_sprite_image* self)
+{
+    s2_texture_release(self->texture);
+    s2_free(self);
+}
+
 // WC: Vertices should pre-mulitply model matrix before their submission to the renderer
 void s2_sprite_image_draw(struct s2_sprite_image* self, struct s2_affine* mt)
 {
@@ -237,13 +285,13 @@ void s2_sprite_image_draw(struct s2_sprite_image* self, struct s2_affine* mt)
     v[3].pos.x = a * w0 + c * h0 + tx;
     v[3].pos.y = d * h0 + b * w0 + ty;
 
-    LOGP("{%.2f, %.2f}, {%.2f, %.2f}, {%.2f, %.2f}, {%.2f, %.2f}",
-         v[0].pos.x, v[0].pos.y,
-         v[1].pos.x, v[1].pos.y,
-         v[2].pos.x, v[2].pos.y,
-         v[3].pos.x, v[3].pos.y);
-
     s2_sprite_renderer_draw(s2_game_G()->sprite_renderer, self->__quad, self->texture);
+
+//    LOGP("{%.2f, %.2f}, {%.2f, %.2f}, {%.2f, %.2f}, {%.2f, %.2f}",
+//         v[0].pos.x, v[0].pos.y,
+//         v[1].pos.x, v[1].pos.y,
+//         v[2].pos.x, v[2].pos.y,
+//         v[3].pos.x, v[3].pos.y);
 }
 
 
