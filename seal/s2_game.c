@@ -11,7 +11,7 @@ struct s2_game* s2_game_G()
     return GAME;
 }
 
-static void s2_game_init_bgfx(uint32_t width, uint32_t height)
+static void s2_game_init_bgfx(/* WC: pass game in */ uint32_t width, uint32_t height)
 {
     bool inited = bgfx_init(BGFX_RENDERER_TYPE_OPENGL, BGFX_PCI_ID_NONE, 0, NULL, NULL);
     if (!inited) {
@@ -31,7 +31,7 @@ static void s2_game_init_bgfx(uint32_t width, uint32_t height)
 #endif
 }
 
-void s2_game_init(struct s2_game_config* config)
+void s2_game_init(/* WC: pass game in */ struct s2_game_config* config)
 {
     s2_game_init_bgfx(config->design_height, config->design_height);
 
@@ -43,7 +43,7 @@ void s2_game_init(struct s2_game_config* config)
     GAME->root = root;
 }
 
-void s2_game_update()
+void s2_game_update(/* WC: pass game in */)
 {
     static struct s2_mat4 mat;
     s2_mat4_identify(&mat);

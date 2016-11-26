@@ -52,12 +52,12 @@ void s2_node_init(struct s2_node* self, enum s2_node_type type)
 
 static void s2_node_update_local_transform(struct s2_node* self)
 {
-    float cos = cosf(self->rotation);
-    float sin = sinf(self->rotation);
-    float a = self->scale_x *  cos;
-    float b = self->scale_x *  sin;
-    float c = self->scale_y * -sin;
-    float d = self->scale_y *  cos;
+    float rcos = cosf(self->rotation);
+    float rsin = sinf(self->rotation);
+    float a = self->scale_x *  rcos;
+    float b = self->scale_x *  rsin;
+    float c = self->scale_y * -rsin;
+    float d = self->scale_y *  rcos;
     float x = self->x - self->anchor_x * a - self->anchor_y * c;
     float y = self->y - self->anchor_x * b - self->anchor_y * d;
 
@@ -125,6 +125,7 @@ static void s2_node_draw(struct s2_node* self)
 
 void s2_node_visit(struct s2_node* self)
 {
+    // WC: 先draw自己还是先draw childs?
     for (int i = 0; i < self->children_count; ++i) {
         struct s2_node* child = self->children[i];
         s2_assert(child);
@@ -206,6 +207,7 @@ struct s2_sprite_image* s2_sprite_image_create_tex(struct s2_texture* texture)
     return sprite;
 }
 
+// WC: Vertices should pre-mulitply model matrix before their submission to the renderer
 void s2_sprite_image_draw(struct s2_sprite_image* self, struct s2_affine* model_transform)
 {
     s2_sprite_renderer_draw(s2_game_G()->sprite_renderer, self->__quad);
