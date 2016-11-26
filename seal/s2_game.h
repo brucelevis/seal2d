@@ -43,7 +43,7 @@ struct s2_game_config {
 struct s2_game {
     struct s2_node* root;
 
-    struct s2_sprite_render* sprite_render;
+    struct s2_sprite_renderer* sprite_renderer;
     unsigned long __node_counter;
 };
 

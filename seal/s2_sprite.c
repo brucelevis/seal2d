@@ -208,7 +208,7 @@ struct s2_sprite_image* s2_sprite_image_create_tex(struct s2_texture* texture)
 
 void s2_sprite_image_draw(struct s2_sprite_image* self, struct s2_affine* model_transform)
 {
-    s2_sprite_render_draw(s2_game_G()->sprite_render, self->__quad);
+    s2_sprite_renderer_draw(s2_game_G()->sprite_renderer, self->__quad);
 }
 
 
@@ -1114,7 +1114,7 @@ void s2_sprite_image_draw(struct s2_sprite_image* self, struct s2_affine* model_
 //static void sprite_draw_pic(struct sprite* self)
 //{
 //    render_switch(R, RENDER_TYPE_SPRITE);
-//    sprite_render_func_draw(R, self);
+//    sprite_renderer_func_draw(R, self);
 //}
 //
 //static void sprite_draw_clip(struct sprite* self)
