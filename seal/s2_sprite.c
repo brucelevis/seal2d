@@ -93,7 +93,8 @@ static struct s2_affine s2_node_transform_to(struct s2_node* self, struct s2_nod
         s2_affine_concat(&ret, &from->local_transform);
         from = from->parent;
     }
-
+    
+    s2_affine_concat(&ret, &to->local_transform);
     return ret;
 }
 
@@ -125,14 +126,13 @@ static void s2_node_draw(struct s2_node* self)
 void s2_node_visit(struct s2_node* self)
 {
     s2_node_draw(self);
-//    // WC: 先draw自己还是先draw childs?
-//    for (int i = 0; i < self->children_count; ++i) {
-//        struct s2_node* child = self->children[i];
-//        s2_assert(child);
-//        s2_node_visit(child);
-//    }
 
-
+    // WC: 先draw自己还是先draw childs?
+    for (int i = 0; i < self->children_count; ++i) {
+        struct s2_node* child = self->children[i];
+        s2_assert(child);
+        s2_node_visit(child);
+    }
 }
 
 void s2_node_add_child(struct s2_node* self, struct s2_node* child)
@@ -213,22 +213,35 @@ void s2_sprite_image_draw(struct s2_sprite_image* self, struct s2_affine* mt)
     struct s2_node* super = &self->__super;
     struct s2_vertex* v = self->__quad;
 
-    float left = super->x;
-    float bottom = super->y;
-    float right = super->x + super->width;
-    float top = super->y + super->height;
+    float w0 = super->width * (1 - super->anchor_x);
+    float w1 = super->width * (0 - super->anchor_x);
 
-    v[0].pos.x = mt->a * left + mt->b * bottom + mt->x;
-    v[0].pos.y = mt->c * left + mt->c * bottom + mt->y;
+    float h0 = super->height * (1 - super->anchor_y);
+    float h1 = super->height * (0 - super->anchor_y);
+    float a = mt->a;
+    float b = mt->b;
+    float c = mt->c;
+    float d = mt->d;
+    float tx = mt->x;
+    float ty = mt->y;
 
-    v[1].pos.x = mt->a * right + mt->b * bottom + mt->x;
-    v[1].pos.y = mt->c * right + mt->c * bottom + mt->y;
+    v[0].pos.x = a * w1 + c * h1 + tx;
+    v[0].pos.y = d * h1 + b * w1 + ty;
 
-    v[2].pos.x = mt->a * left + mt->b * top + mt->x;
-    v[2].pos.y = mt->c * left + mt->d * top + mt->y;
+    v[1].pos.x = a * w0 + c * h1 + tx;
+    v[1].pos.y = d * h1 + b * w0 + ty;
 
-    v[3].pos.x = mt->a * right + mt->b * top + mt->x;
-    v[3].pos.y = mt->c * right + mt->d * top + mt->y;
+    v[2].pos.x = a * w1 + c * h0 + tx;
+    v[2].pos.y = d * h0 + b * w1 + ty;
+
+    v[3].pos.x = a * w0 + c * h0 + tx;
+    v[3].pos.y = d * h0 + b * w0 + ty;
+
+    LOGP("{%.2f, %.2f}, {%.2f, %.2f}, {%.2f, %.2f}, {%.2f, %.2f}",
+         v[0].pos.x, v[0].pos.y,
+         v[1].pos.x, v[1].pos.y,
+         v[2].pos.x, v[2].pos.y,
+         v[3].pos.x, v[3].pos.y);
 
     s2_sprite_renderer_draw(s2_game_G()->sprite_renderer, self->__quad, self->texture);
 }

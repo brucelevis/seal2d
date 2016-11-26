@@ -30,8 +30,8 @@
 
 
 struct s2_texture {
+    int ref;
     bgfx_texture_handle_t __handle;
-
     float width, height;
 };
 
@@ -39,4 +39,6 @@ struct s2_texture* s2_texture_create(const char* path);
 
 void s2_texture_destory(struct s2_texture* self);
 
+struct s2_texture* s2_texture_retain(struct s2_texture* self);
+void s2_texture_release(struct s2_texture* self);
 #endif /* __s2_texture__ */

@@ -30,6 +30,7 @@ struct s2_texture* s2_texture_create(const char* path)
     const char* p =path + (strlen(path) - 3);
     if (strcmp(p, "png") == 0) {
         struct s2_texture* texture = s2_malloc(sizeof(*texture));
+        texture->ref = 0;
 
         const bgfx_memory_t* mem = s2_fs_read(path);
 
@@ -37,8 +38,7 @@ struct s2_texture* s2_texture_create(const char* path)
         int y = 0;
         int comp = 0;
         unsigned char* img = stbi_load_from_memory(mem->data, mem->size, &x, &y, &comp, 0);
-        texture->__handle =
-        bgfx_create_texture_2d(x, y,
+        texture->__handle = bgfx_create_texture_2d(x, y,
                                false,
                                0,
                                BGFX_TEXTURE_FORMAT_RGBA8,
@@ -49,6 +49,20 @@ struct s2_texture* s2_texture_create(const char* path)
     }
 
     return NULL;
+}
+
+struct s2_texture* s2_texture_retain(struct s2_texture* self)
+{
+    self->ref++;
+    return self;
+}
+
+void s2_texture_release(struct s2_texture* self)
+{
+    self->ref--;
+    if(self->ref == 0) {
+        s2_texture_destory(self);
+    }
 }
 
 void s2_texture_destory(struct s2_texture* self)

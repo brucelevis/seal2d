@@ -27,7 +27,7 @@
 #define __s2_renderer__
 
 #include "s2_common.h"
-#include "s2_texture.h"
+struct s2_texture;
 
 struct s2_vertex;
 
