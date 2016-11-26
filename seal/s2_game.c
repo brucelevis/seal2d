@@ -70,6 +70,8 @@ void s2_game_shutdown(struct s2_game* self)
     s2_node_remove_all_child(self->root);
     s2_node_destroy(self->root);
     s2_sprite_renderer_destroy(self->sprite_renderer);
+
+    s2_memory_dump_memory();
 }
 
 #ifdef __cplusplus

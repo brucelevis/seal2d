@@ -52,6 +52,7 @@ class Yuusha : public entry::AppI
         }
 
         s2_game_shutdown(&game);
+        
         return false;
     }
     

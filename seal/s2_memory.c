@@ -113,5 +113,9 @@ void s2_memory_dump_memory() {
         }
     }
 
-    LOGP("total allocated memory in [%ld] bytes, [%.2f] MB", total, ((float)total)/(1024*1024));
+    if (total == 0) {
+        LOGP("no memory leak.");
+    } else {
+        LOGP("total allocated memory in [%ld] bytes, [%.2f] MB", total, ((float)total)/(1024*1024));
+    }
 }

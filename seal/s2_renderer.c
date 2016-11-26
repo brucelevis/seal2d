@@ -85,17 +85,17 @@ void s2_sprite_renderer_destroy(struct s2_sprite_renderer* self)
 
 void s2_sprite_renderer_draw(struct s2_sprite_renderer* self, struct s2_vertex* quad, struct s2_texture* tex)
 {
-    bgfx_transient_vertex_buffer_t tvb;
-    bgfx_alloc_transient_vertex_buffer(&tvb, 4, &self->__vertex_decl);
-
-    memcpy(tvb.data, quad,sizeof(struct s2_vertex) * 4);
-
-    bgfx_set_texture(0, self->__uniform_handle, tex->__handle, UINT32_MAX);
-    bgfx_set_transient_vertex_buffer(&tvb, 0, 4);
-
-    bgfx_set_state(BGFX_STATE_DEFAULT
-                   | BGFX_STATE_PT_TRISTRIP
-                   | BGFX_STATE_BLEND_FUNC(BGFX_STATE_BLEND_SRC_ALPHA, BGFX_STATE_BLEND_INV_SRC_ALPHA),
-                   0);
-    bgfx_submit(0, self->__program->__handle, 0, false);
+//    bgfx_transient_vertex_buffer_t tvb;
+//    bgfx_alloc_transient_vertex_buffer(&tvb, 4, &self->__vertex_decl);
+//
+//    memcpy(tvb.data, quad,sizeof(struct s2_vertex) * 4);
+//
+//    bgfx_set_texture(0, self->__uniform_handle, tex->__handle, UINT32_MAX);
+//    bgfx_set_transient_vertex_buffer(&tvb, 0, 4);
+//
+//    bgfx_set_state(BGFX_STATE_DEFAULT
+//                   | BGFX_STATE_PT_TRISTRIP
+//                   | BGFX_STATE_BLEND_FUNC(BGFX_STATE_BLEND_SRC_ALPHA, BGFX_STATE_BLEND_INV_SRC_ALPHA),
+//                   0);
+//    bgfx_submit(0, self->__program->__handle, 0, false);
 }
