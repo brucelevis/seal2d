@@ -30,14 +30,16 @@ struct s2_mat4 {
     float m[16];
 };
 
-void s2_mat4_identify(struct s2_mat4* out);
-void s2_mat4_load_translate(struct s2_mat4* out, float x, float y, float z);
-void s2_mat4_load_scale(struct s2_mat4* out, float x, float y, float z);
+void s2_mat4_mk_identify(struct s2_mat4* out);
+void s2_mat4_mk_translation(struct s2_mat4* out, float x, float y, float z);
+void s2_mat4_mk_scale(struct s2_mat4* out, float x, float y, float z);
 
 void s2_mat4_orth(struct s2_mat4* out,
                float left,  float bottom,
                float right, float top,
                float near,  float far);
+
+extern void void s2_mat4_orth2 (struct mat4 * matrix, float left, float right, float bottom, float top, float nnear, float nfar);
 
 void s2_mat4_translate(struct s2_mat4* out, float x, float y, float z);
 void s2_mat4_scale(struct s2_mat4* out, float x, float y, float z);

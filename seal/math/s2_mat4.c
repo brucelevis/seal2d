@@ -34,7 +34,7 @@
  */
 #define MAT4_SIZE (sizeof(float)* 16)
 
-void s2_mat4_identify(struct s2_mat4* out)
+void s2_mat4_mk_identify(struct s2_mat4* out)
 {
     float* m = out->m;
     m[0] = 1.0f;
@@ -55,7 +55,7 @@ void s2_mat4_identify(struct s2_mat4* out)
     m[15] = 1.0f;
 }
 
-void s2_mat4_load_translate(struct s2_mat4* out, float x, float y, float z)
+void s2_mat4_mk_translation(struct s2_mat4* out, float x, float y, float z)
 {
     float* m = out->m;
     m[0] = 1.0f;
@@ -76,7 +76,7 @@ void s2_mat4_load_translate(struct s2_mat4* out, float x, float y, float z)
     m[15] = 1.0f;
 }
 
-void s2_mat4_load_scale(struct s2_mat4* out, float x, float y, float z)
+void s2_mat4_mk_scale(struct s2_mat4* out, float x, float y, float z)
 {
     float* m = out->m;
     m[0] = x;
@@ -97,7 +97,7 @@ void s2_mat4_load_scale(struct s2_mat4* out, float x, float y, float z)
     m[15] = 1.0f;
 }
 
-void s2_mat4_load_rotate_z(struct s2_mat4* out, float degree)
+void s2_mat4_mk_rotate_z(struct s2_mat4* out, float degree)
 {
     float c = cos(degree);
     float s = sin(degree);
@@ -145,6 +145,41 @@ void s2_mat4_orth(struct s2_mat4* out,
     m[15] = 1.0f;
 }
 
+void s2_mat4_orth2 (struct mat4 * matrix, float left, float right, float bottom, float top, float nnear, float nfar)
+{
+        float     * m   = matrix->m;
+        m[0]    = 2.0f / (right-left);
+        m[1]    = 0.0f;
+        m[2]    = 0.0f;
+        m[3]    = 0.0f;
+
+        m[4]    = 0.0f;
+        m[5]    = 2.0f / (top-bottom);
+        m[6]    = 0.0f;
+        m[7]    = 0.0f;
+
+        m[8]    = 0.0f;
+        m[9]    = 0.0f;
+        m[10]   = -2.0f / (nfar-nnear);
+        m[11]   = 0.0f;
+
+        m[12]   = -(right+left) / (right-left);
+        m[13]   = -(top+bottom) / (top-bottom);
+        m[14]   = -(nfar+nnear) / (nfar-nnear);
+        m[15]   = 1.0f;
+
+        // float l = left, r = right, b = bottom, t = top, n = front, f = back;
+        // float tx = -(r + l) / (r - l);
+        // float ty = -(t + b) / (t - b);
+        // float tz = -(f + n) / (f - n);
+        // return mat4(
+        //      2 / (r - l),  0,            0,            tx,
+        //      0,            2 / (t - b),  0,            ty,
+        //      0,            0,            2 / (f - n),  tz,
+        //      0,            0,            0,            1
+        // );
+}
+
 void s2_mat4_multiply(struct s2_mat4* out, struct s2_mat4* l, struct s2_mat4* r)
 {
     float* m1 = l->m;
@@ -177,21 +212,21 @@ void s2_mat4_multiply(struct s2_mat4* out, struct s2_mat4* l, struct s2_mat4* r)
 void s2_mat4_translate(struct s2_mat4* out, float x, float y, float z)
 {
     struct s2_mat4 tmp;
-    s2_mat4_load_translate(&tmp, x, y, z);
+    s2_mat4_mk_translation(&tmp, x, y, z);
     s2_mat4_multiply(out, &tmp, out);
 }
 
 void s2_mat4_scale(struct s2_mat4* out, float x, float y, float z)
 {
     struct s2_mat4 tmp;
-    s2_mat4_load_scale(out, x, y, z);
+    s2_mat4_mk_scale(out, x, y, z);
     s2_mat4_multiply(out, &tmp, out);
 }
 
 void s2_mat4_rotate_z(struct s2_mat4* out, float rad)
 {
     struct s2_mat4 tmp;
-    s2_mat4_load_rotate_z(out, rad);
+    s2_mat4_mk_rotate_z(out, rad);
     s2_mat4_multiply(out, &tmp, out);
 }
 
