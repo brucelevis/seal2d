@@ -68,7 +68,7 @@ struct s2_sprite_renderer* s2_sprite_renderer_create()
     bgfx_vertex_decl_begin (vertex_decl, BGFX_RENDERER_TYPE_OPENGL);
     bgfx_vertex_decl_add (vertex_decl, BGFX_ATTRIB_POSITION,  2, BGFX_ATTRIB_TYPE_FLOAT, false, false);
     bgfx_vertex_decl_add (vertex_decl, BGFX_ATTRIB_COLOR0,    4, BGFX_ATTRIB_TYPE_UINT8, true,  false);
-//    bgfx_vertex_decl_add (vertex_decl, BGFX_ATTRIB_TEXCOORD0, 2, BGFX_ATTRIB_TYPE_FLOAT, false, false);
+    bgfx_vertex_decl_add (vertex_decl, BGFX_ATTRIB_TEXCOORD0, 2, BGFX_ATTRIB_TYPE_FLOAT, false, false);
     bgfx_vertex_decl_end (vertex_decl);
     
     render->__uniform_handle = bgfx_create_uniform("s_texColor", BGFX_UNIFORM_TYPE_INT1, 1);
@@ -93,7 +93,7 @@ void s2_sprite_renderer_draw(struct s2_sprite_renderer* self, struct s2_vertex* 
     }
     
 
-//    bgfx_set_texture(0, self->__uniform_handle, tex->__handle, UINT32_MAX);
+    bgfx_set_texture(0, self->__uniform_handle, tex->__handle, UINT32_MAX);
     bgfx_set_transient_vertex_buffer(&tvb, 0, 4);
     bgfx_set_state(BGFX_STATE_DEFAULT | BGFX_STATE_PT_TRISTRIP, 0);
     bgfx_submit(0, self->__program->__handle, 0, false);

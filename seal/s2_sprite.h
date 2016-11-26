@@ -53,7 +53,7 @@ enum s2_node_type {
 struct s2_vertex {
     union s2_vec2 pos;
     union s2_color_4b color;
-//    union s2_vec2 uv;
+    union s2_vec2 uv;
 };
 
 union s2_rect {
