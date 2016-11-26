@@ -14,8 +14,9 @@ class Yuusha : public entry::AppI
 {
     void init(int _argc, char** _argv) BX_OVERRIDE
     {
+        float scale = 0.5f;
         struct s2_game_config config = {
-            "Yuusha", 1024, 768, 0
+            "Yuusha", (int)(1024 * scale), (int)(768 * scale), 0
         };
 
         s2_game_init(&config);

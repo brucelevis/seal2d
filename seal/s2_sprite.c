@@ -230,13 +230,6 @@ void s2_sprite_image_draw(struct s2_sprite_image* self, struct s2_affine* mt)
     v[3].pos.x = mt->a * right + mt->b * top + mt->x;
     v[3].pos.y = mt->c * right + mt->d * top + mt->y;
 
-    LOGP("{%.2f, %.2f}, {%.2f, %.2f}, {%.2f, %.2f}, {%.2f, %.2f}",
-            v[0].pos.x, v[0].pos.y,
-            v[1].pos.x, v[1].pos.y,
-            v[2].pos.x, v[2].pos.y,
-            v[3].pos.x, v[3].pos.y
-        );
-
     s2_sprite_renderer_draw(s2_game_G()->sprite_renderer, self->__quad, self->texture);
 }
 
