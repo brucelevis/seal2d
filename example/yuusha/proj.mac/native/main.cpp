@@ -105,9 +105,6 @@ class Yuusha : public entry::AppI
         bgfx_vertex_decl_add (&m_vertex_decl, BGFX_ATTRIB_COLOR0,    4, BGFX_ATTRIB_TYPE_UINT8, true,  false);
         bgfx_vertex_decl_end (&m_vertex_decl);
 
-
-        m_vbh = bgfx_create_vertex_buffer(bgfx_make_ref(v, sizeof(v)), &m_vertex_decl, BGFX_BUFFER_NONE);
-        m_ibh = bgfx_create_index_buffer(bgfx_make_ref(idx, sizeof(idx)), BGFX_BUFFER_NONE);
     }
 
     virtual int shutdown() BX_OVERRIDE
@@ -128,13 +125,33 @@ class Yuusha : public entry::AppI
             bx::mtxOrtho(ortho, 0, m_width, m_height, 0, -1.0f, 1.0f);
 
             bgfx_set_view_transform(0, NULL, ortho);
-            bgfx_set_view_rect(0, 0, 0, uint16_t(m_width), uint16_t(m_height) );
+            bgfx_set_view_rect(0, 0, 0, uint16_t(m_width), uint16_t(m_height));
 
-            bgfx_set_vertex_buffer(m_vbh, 0, 4);
-            bgfx_set_index_buffer(m_ibh, 0, 6);
+
+            bgfx_transient_vertex_buffer tvb;
+            bgfx_alloc_transient_vertex_buffer(&tvb, sizeof(v), &m_vertex_decl);
+
+            struct s2_vertex* vertex = (struct s2_vertex*)tvb.data;
+            for (int i = 0; i < 4; ++i)
+            {
+                vertex[i] = v[i];
+            }
+
+            bgfx_transient_index_buffer tib;
+            bgfx_alloc_transient_index_buffer(&tib, sizeof(idx));
+
+            uint16_t* vi = (uint16_t*)&tib.data;
+            for (int i = 0; i < 6; ++i)
+            {
+                vi[i] = idx[i];
+            }
 
             bgfx_set_state(BGFX_STATE_DEFAULT, 0);
-            
+
+
+            bgfx_set_transient_vertex_buffer(&tvb, 0, 4);
+            bgfx_set_transient_index_buffer(&tib, 0, 6);
+
             bgfx_submit(0, m_program_handle, 0, false);
 
             bgfx_dbg_text_clear(0, false);
