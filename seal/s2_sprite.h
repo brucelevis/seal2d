@@ -33,7 +33,10 @@ union s2_vec2 {
     struct {
         float x, y;
     };
-    float v[2];
+    struct {
+        float u, v;
+    };
+    float p[2];
 };
 
 union s2_color_4b {
@@ -50,6 +53,7 @@ enum s2_node_type {
 struct s2_vertex {
     union s2_vec2 pos;
     union s2_color_4b color;
+    union s2_vec2 uv;
 };
 
 union s2_rect {

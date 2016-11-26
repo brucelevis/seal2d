@@ -27,16 +27,28 @@
 
 struct s2_texture* s2_texture_create(const char* path)
 {
-    struct s2_texture* texture = s2_malloc(sizeof(*texture));
+    const char* p =path + (strlen(path) - 3);
+    if (strcmp(p, "png") == 0) {
+        struct s2_texture* texture = s2_malloc(sizeof(*texture));
 
-    const bgfx_memory_t* mem = s2_fs_read(path);
-    bgfx_texture_info_t info;
+        const bgfx_memory_t* mem = s2_fs_read(path);
 
-    texture->__handle = bgfx_create_texture(mem, BGFX_TEXTURE_NONE, 0, &info);
-    texture->width = info.width;
-    texture->height = info.height;
+        int x = 0;
+        int y = 0;
+        int comp = 0;
+        unsigned char* img = stbi_load_from_memory(mem->data, mem->size, &x, &y, &comp, 0);
+        texture->__handle =
+        bgfx_create_texture_2d(x, y,
+                               false,
+                               0,
+                               BGFX_TEXTURE_FORMAT_RGBA8,
+                               BGFX_TEXTURE_NONE,
+                               bgfx_make_ref(img, x*y*comp));
 
-    return texture;
+        return texture;
+    }
+
+    return NULL;
 }
 
 void s2_texture_destory(struct s2_texture* self)

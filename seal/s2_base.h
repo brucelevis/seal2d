@@ -42,6 +42,7 @@
 #include <bgfx/c99/bgfx.h>
 #include <bgfx/c99/bgfxplatform.h>
 
+#include "../libs/bgfx/3rdparty/stb/stb_image.c"
 // WC: Hardcoding is preferred to keep cross-platform compatibilithy
 // Different platforms has very different ways of specifying compiler flags such as -I
 #include "../libs/lua-5.3.2/src/lua.h"
