@@ -37,7 +37,7 @@ void s2_game_init(struct s2_game_config* config)
 
     GAME = s2_malloc(sizeof(struct s2_game));
     GAME->__node_counter = 0;
-    GAME->sprite_render = s2_sprite_render_create();
+    GAME->sprite_renderer = s2_sprite_renderer_create();
 
     struct s2_node* root = (struct s2_node*)s2_sprite_image_create_tex(NULL);
     GAME->root = root;
@@ -49,11 +49,11 @@ void s2_game_update()
     s2_mat4_identify(&mat);
 
     bgfx_set_transform(&mat, 1);
-    s2_sprite_render_begin(GAME->sprite_render);
+    s2_sprite_renderer_begin(GAME->sprite_renderer);
 
     s2_node_visit(GAME->root);
 
-    s2_sprite_render_end(GAME->sprite_render);
+    s2_sprite_renderer_end(GAME->sprite_renderer);
 }
 
 #ifdef __cplusplus

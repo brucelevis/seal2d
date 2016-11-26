@@ -27,7 +27,7 @@
 
 #define SPRITE_RENDER_MAX_VERTICES (16*1024)
 
-static const char* s2_sprite_render_get_shader_path()
+static const char* s2_sprite_renderer_get_shader_path()
 {
     switch (bgfx_get_renderer_type())
     {
@@ -45,9 +45,9 @@ static const char* s2_sprite_render_get_shader_path()
     }
 }
 
-static struct s2_program* s2_sprite_render_load_program()
+static struct s2_program* s2_sprite_renderer_load_program()
 {
-    const char* prefix = s2_sprite_render_get_shader_path();
+    const char* prefix = s2_sprite_renderer_get_shader_path();
 
     char vs_name[128] = "";
     char fs_name[128] = "";
@@ -57,12 +57,12 @@ static struct s2_program* s2_sprite_render_load_program()
     return s2_program_create(vs_name, fs_name);
 }
 
-struct s2_sprite_render* s2_sprite_render_create()
+struct s2_sprite_renderer* s2_sprite_renderer_create()
 {
-    struct s2_sprite_render* render = s2_malloc(sizeof(*render));
+    struct s2_sprite_renderer* render = s2_malloc(sizeof(*render));
     memset(render, 0, sizeof(*render));
 
-    render->__program = s2_sprite_render_load_program();
+    render->__program = s2_sprite_renderer_load_program();
 
     bgfx_vertex_decl_t* vertex_decl = &render->__vertex_decl;
     bgfx_vertex_decl_begin (vertex_decl, BGFX_RENDERER_TYPE_OPENGL);
@@ -76,23 +76,23 @@ struct s2_sprite_render* s2_sprite_render_create()
     return render;
 }
 
-void s2_sprite_render_destroy(struct s2_sprite_render* self)
+void s2_sprite_renderer_destroy(struct s2_sprite_renderer* self)
 {
     s2_program_destroy(self->__program);
     s2_free(self);
 }
 
-void s2_sprite_render_begin(struct s2_sprite_render* self)
+void s2_sprite_renderer_begin(struct s2_sprite_renderer* self)
 {
     // alloc the buffer.
     bgfx_transient_vertex_buffer_t tvb;
-    bgfx_alloc_transient_vertex_buffer(&tvb, SPRITE_RENDER_MAX_VERTICES, &self->__vertex_decl);
+    bgfx_alloc_transient_vertex_buffer(&tvb, sprite_renderer_MAX_VERTICES, &self->__vertex_decl);
 
     self->__cur_tvb = &tvb; // __cur_tvb only have 1 frame lifecycle.
     self->__n_vertices = 0;
 }
 
-void s2_sprite_render_draw(struct s2_sprite_render* self, struct s2_vertex* quad)
+void s2_sprite_renderer_draw(struct s2_sprite_renderer* self, struct s2_vertex* quad)
 {
     // copy the vertex
     struct s2_vertex* vertex = (struct s2_vertex*)self->__cur_tvb->data;
@@ -103,7 +103,7 @@ void s2_sprite_render_draw(struct s2_sprite_render* self, struct s2_vertex* quad
     self->__n_vertices += 4;
 }
 
-void s2_sprite_render_end(struct s2_sprite_render* self)
+void s2_sprite_renderer_end(struct s2_sprite_renderer* self)
 {
     bgfx_set_transient_vertex_buffer(self->__cur_tvb, 0, self->__n_vertices);
     bgfx_set_state(BGFX_STATE_DEFAULT, 0);
