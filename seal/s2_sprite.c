@@ -184,17 +184,17 @@ struct s2_sprite_image* s2_sprite_image_create_tex(struct s2_texture* texture)
      *      0-----1
      *
      */
-    sprite->__quad[0].uv.u = 0.0f;
-    sprite->__quad[0].uv.v = 0.0f;
-
-    sprite->__quad[1].uv.u = 1.0f;
-    sprite->__quad[1].uv.v = 0.0f;
-
-    sprite->__quad[2].uv.u = 0.0f;
-    sprite->__quad[2].uv.v = 1.0f;
-    
-    sprite->__quad[3].uv.u = 1.0f;
-    sprite->__quad[3].uv.v = 1.0f;
+//    sprite->__quad[0].uv.u = 0.0f;
+//    sprite->__quad[0].uv.v = 0.0f;
+//
+//    sprite->__quad[1].uv.u = 1.0f;
+//    sprite->__quad[1].uv.v = 0.0f;
+//
+//    sprite->__quad[2].uv.u = 0.0f;
+//    sprite->__quad[2].uv.v = 1.0f;
+//    
+//    sprite->__quad[3].uv.u = 1.0f;
+//    sprite->__quad[3].uv.v = 1.0f;
 
     for (int i = 0; i < 4; ++i)
     {
@@ -224,11 +224,11 @@ void s2_sprite_image_draw(struct s2_sprite_image* self, struct s2_affine* mt)
     v[1].pos.x = mt->a * right + mt->b * bottom + mt->x;
     v[1].pos.y = mt->c * right + mt->c * bottom + mt->y;
 
-    v[2].pos.x = mt->c * left + mt->d * top + mt->y;
-    v[2].pos.y = mt->a * left + mt->b * top + mt->x;
+    v[2].pos.x = mt->a * left + mt->b * top + mt->x;
+    v[2].pos.y = mt->c * left + mt->d * top + mt->y;
 
-    v[3].pos.x = mt->c * right + mt->d * top + mt->y;
-    v[3].pos.y = mt->a * right + mt->b * top + mt->x;
+    v[3].pos.x = mt->a * right + mt->b * top + mt->x;
+    v[3].pos.y = mt->c * right + mt->d * top + mt->y;
 
     LOGP("{%.2f, %.2f}, {%.2f, %.2f}, {%.2f, %.2f}, {%.2f, %.2f}",
             v[0].pos.x, v[0].pos.y,

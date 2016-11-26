@@ -44,8 +44,8 @@ void s2_game_init(/* WC: pass game in */ struct s2_game_config* config)
     struct s2_node* root = (struct s2_node*)s2_sprite_image_create_tex(tex);
     root->x = 0;
     root->y = 0;
-    root->width = config->design_width;
-    root->height = config->design_height;
+    root->width = 200; //config->design_width;
+    root->height = 200;//config->design_height;
 
     struct s2_node* child = (struct s2_node*)s2_sprite_image_create_tex(tex);
     child->x = 50;
