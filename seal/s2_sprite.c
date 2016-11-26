@@ -207,6 +207,7 @@ struct s2_sprite_image* s2_sprite_image_create_tex(struct s2_texture* texture)
     return sprite;
 }
 
+// WC: Vertices should pre-mulitply model matrix before their submission to the renderer
 void s2_sprite_image_draw(struct s2_sprite_image* self, struct s2_affine* model_transform)
 {
     s2_sprite_renderer_draw(s2_game_G()->sprite_renderer, self->__quad);
