@@ -31,12 +31,12 @@ class Yuusha : public entry::AppI
 
     bool update() BX_OVERRIDE
     {
-        float ortho[16];
-        bx::mtxOrtho(ortho, 0, m_width, m_height, 0, -1.0f, 1.0f);
+        struct s2_mat4 ortho;
         if (!entry::processEvents(m_width, m_height, m_debug, m_reset) )
         {
+            s2_mat4_orth2(&ortho, 0, m_width, m_height, 0, -1.0f, 1.0f);
             bgfx_touch(0);
-            bgfx_set_view_transform(0, NULL, ortho);
+            bgfx_set_view_transform(0, NULL, &ortho.m);
             bgfx_set_view_rect(0, 0, 0, uint16_t(m_width), uint16_t(m_height));
 
             s2_node_visit(s2_game_G()->root);

@@ -35,12 +35,12 @@ struct s2_program* s2_program_create(const char* vsh, const char* fsh)
     bgfx_shader_handle_t vs_handle = bgfx_create_shader(vs);
     bgfx_shader_handle_t fs_handle = bgfx_create_shader(fs);
 
-    program->handle = bgfx_create_program(vs_handle, fs_handle, true);
+    program->__handle = bgfx_create_program(vs_handle, fs_handle, true);
 
     return program;
 }
 
 void s2_program_destroy(struct s2_program* self)
 {
-    bgfx_destroy_program(self->handle);
+    bgfx_destroy_program(self->__handle);
 }

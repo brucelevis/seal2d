@@ -43,7 +43,7 @@
 #include "s2_program.h"
 #include "s2_sprite.h"
 #include "s2_util.h"
-#include "s2_render.h"
+#include "s2_renderer.h"
 #include "s2_texture.h"
 
 

@@ -23,9 +23,9 @@
 * THE SOFTWARE.
 */
 
-#include "s2_render.h"
+#include "s2_renderer.h"
 
-#define SPRITE_MAX_OBJECTS (16*1024)
+#define SPRITE_VERTEX_CAP (32*1024)
 
 static const char* s2_sprite_renderer_get_shader_path()
 {
@@ -64,13 +64,14 @@ struct s2_sprite_renderer* s2_sprite_renderer_create()
 
     render->__program = s2_sprite_renderer_load_program();
 
-    bgfx_vertex_decl_t vertex_decl;
-    bgfx_vertex_decl_begin (&vertex_decl, BGFX_RENDERER_TYPE_OPENGL);
-    bgfx_vertex_decl_add (&vertex_decl, BGFX_ATTRIB_POSITION,  2, BGFX_ATTRIB_TYPE_FLOAT, false, false);
-    bgfx_vertex_decl_add (&vertex_decl, BGFX_ATTRIB_COLOR0,    4, BGFX_ATTRIB_TYPE_UINT8, true,  false);
-    bgfx_vertex_decl_add (&vertex_decl, BGFX_ATTRIB_TEXCOORD0, 2, BGFX_ATTRIB_TYPE_FLOAT, false, false);
-    bgfx_vertex_decl_end (&vertex_decl);
-
+    bgfx_vertex_decl_t* vertex_decl = &render->__vertex_decl;
+    bgfx_vertex_decl_begin (vertex_decl, BGFX_RENDERER_TYPE_OPENGL);
+    bgfx_vertex_decl_add (vertex_decl, BGFX_ATTRIB_POSITION,  2, BGFX_ATTRIB_TYPE_FLOAT, false, false);
+    bgfx_vertex_decl_add (vertex_decl, BGFX_ATTRIB_COLOR0,    4, BGFX_ATTRIB_TYPE_UINT8, true,  false);
+    bgfx_vertex_decl_add (vertex_decl, BGFX_ATTRIB_TEXCOORD0, 2, BGFX_ATTRIB_TYPE_FLOAT, false, false);
+    bgfx_vertex_decl_end (vertex_decl);
+    
+    render->__uniform_handle = bgfx_create_uniform("s_texColor", BGFX_UNIFORM_TYPE_INT1, 1);
 
     return render;
 }
@@ -81,22 +82,14 @@ void s2_sprite_renderer_destroy(struct s2_sprite_renderer* self)
     s2_free(self);
 }
 
-void s2_sprite_renderer_begin(struct s2_sprite_renderer* self)
+void s2_sprite_renderer_draw(struct s2_sprite_renderer* self, struct s2_vertex* quad, struct s2_texture* tex)
 {
-    self->__n_vertices = 0;
-}
+    bgfx_transient_vertex_buffer_t tvb;
+    bgfx_alloc_transient_vertex_buffer(&tvb, 4, &self->__vertex_decl);
+    memcpy(tvb.data, quad, sizeof(struct s2_vertex)*4);
 
-void s2_sprite_renderer_draw(struct s2_sprite_renderer* self, struct s2_vertex* quad)
-{
-
-}
-
-void s2_sprite_renderer_end(struct s2_sprite_renderer* self)
-{
-
-
-    bgfx_set_state(BGFX_STATE_DEFAULT, 0);
-    bgfx_submit(0, self->__program->handle, 0, 0);
-
-    self->__n_vertices = 0;
+    bgfx_set_texture(0, self->__uniform_handle, tex->__handle, UINT32_MAX);
+    bgfx_set_transient_vertex_buffer(&tvb, 0, 4);
+    bgfx_set_state(BGFX_STATE_DEFAULT | BGFX_STATE_PT_TRISTRIP, 0);
+    bgfx_submit(0, self->__program->__handle, 0, false);
 }

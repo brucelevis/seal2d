@@ -39,7 +39,7 @@ void s2_mat4_orth(struct s2_mat4* out,
                float right, float top,
                float near,  float far);
 
-extern void void s2_mat4_orth2 (struct mat4 * matrix, float left, float right, float bottom, float top, float nnear, float nfar);
+void s2_mat4_orth2 (struct s2_mat4 * matrix, float left, float right, float bottom, float top, float nnear, float nfar);
 
 void s2_mat4_translate(struct s2_mat4* out, float x, float y, float z);
 void s2_mat4_scale(struct s2_mat4* out, float x, float y, float z);

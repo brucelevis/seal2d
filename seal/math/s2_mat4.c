@@ -145,7 +145,7 @@ void s2_mat4_orth(struct s2_mat4* out,
     m[15] = 1.0f;
 }
 
-void s2_mat4_orth2 (struct mat4 * matrix, float left, float right, float bottom, float top, float nnear, float nfar)
+void s2_mat4_orth2 (struct s2_mat4 * matrix, float left, float right, float bottom, float top, float nnear, float nfar)
 {
         float     * m   = matrix->m;
         m[0]    = 2.0f / (right-left);

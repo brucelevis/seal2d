@@ -23,25 +23,23 @@
 * THE SOFTWARE.
 */
 
-#ifndef __s2_render__
-#define __s2_render__
+#ifndef __s2_renderer__
+#define __s2_renderer__
 
 #include "s2_common.h"
+#include "s2_texture.h"
 
 struct s2_vertex;
 
 struct s2_sprite_renderer {
     struct s2_program* __program;
 
-    
-
-    size_t __n_vertices;
+    bgfx_uniform_handle_t __uniform_handle;
+    bgfx_vertex_decl_t __vertex_decl;
 };
 
 struct s2_sprite_renderer* s2_sprite_renderer_create();
 void s2_sprite_renderer_destroy(struct s2_sprite_renderer* self);
 
-void s2_sprite_renderer_begin(struct s2_sprite_renderer* self);
-void s2_sprite_renderer_draw(struct s2_sprite_renderer* self, struct s2_vertex* quad);
-void s2_sprite_renderer_end(struct s2_sprite_renderer* self);
+void s2_sprite_renderer_draw(struct s2_sprite_renderer* self, struct s2_vertex* quad, struct s2_texture* texture);
 #endif /* __s2_render__ */

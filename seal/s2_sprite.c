@@ -125,12 +125,12 @@ static void s2_node_draw(struct s2_node* self)
 void s2_node_visit(struct s2_node* self)
 {
     s2_node_draw(self);
-    // WC: 先draw自己还是先draw childs?
-    for (int i = 0; i < self->children_count; ++i) {
-        struct s2_node* child = self->children[i];
-        s2_assert(child);
-        s2_node_visit(child);
-    }
+//    // WC: 先draw自己还是先draw childs?
+//    for (int i = 0; i < self->children_count; ++i) {
+//        struct s2_node* child = self->children[i];
+//        s2_assert(child);
+//        s2_node_visit(child);
+//    }
 
 
 }
@@ -170,7 +170,7 @@ struct s2_sprite_image* s2_sprite_image_create_tex(struct s2_texture* texture)
     //TODO: cast may better?(struct s2_node*)(sprite)
     s2_node_init(&sprite->__super, S2_NODE_TYPE_SPRITE_IMAGE);
 
-    sprite->texture = NULL;
+    sprite->texture = texture;
     sprite->texture_rect.x = 0;
     sprite->texture_rect.y = 0;
     sprite->texture_rect.w = 0;
@@ -186,10 +186,13 @@ struct s2_sprite_image* s2_sprite_image_create_tex(struct s2_texture* texture)
      */
     sprite->__quad[0].uv.u = 0.0f;
     sprite->__quad[0].uv.v = 0.0f;
+
     sprite->__quad[1].uv.u = 1.0f;
     sprite->__quad[1].uv.v = 0.0f;
+
     sprite->__quad[2].uv.u = 0.0f;
     sprite->__quad[2].uv.v = 1.0f;
+    
     sprite->__quad[3].uv.u = 1.0f;
     sprite->__quad[3].uv.v = 1.0f;
 
@@ -219,13 +222,13 @@ void s2_sprite_image_draw(struct s2_sprite_image* self, struct s2_affine* mt)
     v[0].pos.y = mt->c * left + mt->c * bottom + mt->y;
 
     v[1].pos.x = mt->a * right + mt->b * bottom + mt->x;
-    v[1].pos.y = mt->c * right+ mt->c * bottom + mt->y;
+    v[1].pos.y = mt->c * right + mt->c * bottom + mt->y;
 
-    v[2].pos.x = mt->a * left + mt->b * top + mt->x;
-    v[2].pos.y = mt->c * left + mt->c * top + mt->y;
+    v[2].pos.x = mt->c * left + mt->d * top + mt->y;
+    v[2].pos.y = mt->a * left + mt->b * top + mt->x;
 
-    v[3].pos.x = mt->a * right + mt->b * top + mt->x;
-    v[3].pos.y = mt->c * right + mt->c * top + mt->y;
+    v[3].pos.x = mt->c * right + mt->d * top + mt->y;
+    v[3].pos.y = mt->a * right + mt->b * top + mt->x;
 
     LOGP("{%.2f, %.2f}, {%.2f, %.2f}, {%.2f, %.2f}, {%.2f, %.2f}",
             v[0].pos.x, v[0].pos.y,
@@ -234,7 +237,7 @@ void s2_sprite_image_draw(struct s2_sprite_image* self, struct s2_affine* mt)
             v[3].pos.x, v[3].pos.y
         );
 
-    s2_sprite_renderer_draw(s2_game_G()->sprite_renderer, self->__quad);
+    s2_sprite_renderer_draw(s2_game_G()->sprite_renderer, self->__quad, self->texture);
 }
 
 
