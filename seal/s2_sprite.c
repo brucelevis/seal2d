@@ -185,16 +185,16 @@ struct s2_sprite_image* s2_sprite_image_create_tex(struct s2_texture* texture)
      *
      */
     sprite->__quad[0].uv.u = 0.0f;
-    sprite->__quad[0].uv.v = 0.0f;
+    sprite->__quad[0].uv.v = 1.0f - 0.0f;
 
     sprite->__quad[1].uv.u = 1.0f;
-    sprite->__quad[1].uv.v = 0.0f;
+    sprite->__quad[1].uv.v = 1.0f - 0.0f;
 
     sprite->__quad[2].uv.u = 0.0f;
-    sprite->__quad[2].uv.v = 1.0f;
+    sprite->__quad[2].uv.v = 1.0f - 1.0f;
     
     sprite->__quad[3].uv.u = 1.0f;
-    sprite->__quad[3].uv.v = 1.0f;
+    sprite->__quad[3].uv.v = 1.0f - 1.0f;
 
     for (int i = 0; i < 4; ++i)
     {
