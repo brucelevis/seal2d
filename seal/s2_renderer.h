@@ -38,8 +38,12 @@ struct s2_sprite_renderer {
     bgfx_vertex_decl_t __vertex_decl;
 };
 
-struct s2_sprite_renderer* s2_sprite_renderer_create();
-void s2_sprite_renderer_destroy(struct s2_sprite_renderer* self);
+struct s2_sprite_renderer*  s2_sprite_renderer_create();
+void                        s2_sprite_renderer_destroy(struct s2_sprite_renderer* self);
+void                        s2_sprite_renderer_draw(struct s2_sprite_renderer* self,
+                                                    struct s2_vertex* vertex,
+                                                    int n_vertices,
+                                                    struct s2_texture* texture);
 
-void s2_sprite_renderer_draw(struct s2_sprite_renderer* self, struct s2_vertex* quad, struct s2_texture* texture);
+
 #endif /* __s2_render__ */

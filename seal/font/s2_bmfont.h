@@ -27,7 +27,7 @@
 #ifndef __seal__bmfont__
 #define __seal__bmfont__
 
-#include "seal_base.h"
+#include "s2_common.h"
 
 #ifdef WIN32
 #include <stdint.h>
@@ -41,7 +41,7 @@ struct sprite;
 #define PAGE_FILE_NAME_LEN  (128)
 
 // move outside of bmfont definition to get rid of warning. :0
-struct charc {
+struct s2_charc {
     int64_t id;     // 64 (8bytes should be enough for most cases)
     int x, y, width, height;
     int xoffset, yoffset;
@@ -51,7 +51,7 @@ struct charc {
     char letter[8]; // for implemention simplicty, use more bytes :), 4 bytes is enough for most cases.
 };
 
-struct bmfont{
+struct s2_bmfont {
     struct info {
 /* we only need the spacing right now */
 
@@ -90,19 +90,18 @@ struct bmfont{
 };
 
 
-struct bmfont* bmfont_new(const char* bmfont_data);
-void bmfont_free(struct bmfont* self);
+struct s2_bmfont*   s2_bmfont_new(const uint8_t* bmfont_data);
+void                s2_bmfont_free(struct s2_bmfont* self);
+struct charc*       s2_bmfont_load_charc(struct s2_bmfont* self, const char* c);
 
-struct charc* bmfont_load_charc(struct bmfont* self, const char* c);
 
-
-struct bmfont_cache {
+struct s2_bmfont_cache {
     struct Hashmap* cache;
     unsigned int nframes;
 };
 
-struct bmfont_cache* bmfont_cache_new();
-void bmfont_cache_free(struct bmfont_cache* cache);
-void bmfont_cache_add(struct bmfont_cache* self, struct bmfont* font, const char* key);
-struct bmfont* bmfont_cache_get(struct bmfont_cache* self, const char* key);
+struct s2_bmfont_cache* s2_bmfont_cache_create();
+void                    s2_bmfont_cache_destroy(struct s2_bmfont_cache* cache);
+void                    s2_bmfont_cache_add(struct s2_bmfont_cache* self, struct s2_bmfont* font, const char* key);
+struct s2_bmfont*       s2_bmfont_cache_get(struct s2_bmfont_cache* self, const char* key);
 #endif

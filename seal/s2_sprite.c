@@ -242,8 +242,7 @@ struct s2_sprite_image* s2_sprite_image_create_with_texture(struct s2_texture* t
     sprite->__quad[3].uv.u = 1.0f;
     sprite->__quad[3].uv.v = 1.0f - 1.0f;
 
-    for (int i = 0; i < 4; ++i)
-    {
+    for (int i = 0; i < 4; ++i) {
         sprite->__quad[i].color.r = 255;
         sprite->__quad[i].color.g = 255;
         sprite->__quad[i].color.b = 255;
@@ -289,7 +288,7 @@ void s2_sprite_image_draw(struct s2_sprite_image* self, struct s2_affine* mt)
     v[3].pos.x = a * w0 + c * h0 + tx;
     v[3].pos.y = d * h0 + b * w0 + ty;
 
-    s2_sprite_renderer_draw(s2_game_G()->sprite_renderer, self->__quad, self->texture);
+    s2_sprite_renderer_draw(s2_game_G()->sprite_renderer, self->__quad, 4, self->texture);
 
 //    LOGP("{%.2f, %.2f}, {%.2f, %.2f}, {%.2f, %.2f}, {%.2f, %.2f}",
 //         v[0].pos.x, v[0].pos.y,

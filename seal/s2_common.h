@@ -45,6 +45,6 @@
 #include "s2_sprite.h"
 #include "s2_renderer.h"
 #include "s2_texture.h"
-
+#include "s2_bmfont.h"
 
 #endif

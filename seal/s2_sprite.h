@@ -94,12 +94,20 @@ void s2_node_remove_from_parent(struct s2_node* self);
 void s2_node_destroy(struct s2_node* self);
 
 struct s2_sprite_image {
-    struct s2_node __super;
+    struct s2_node      __super;
 
-    struct s2_vertex __quad[4];
+    struct s2_vertex    __quad[4];
+    struct s2_texture*  texture;
+    union  s2_rect      texture_rect;
+};
 
-    struct s2_texture* texture;
-    union s2_rect texture_rect;
+struct s2_sprite_label_bmfont {
+    struct s2_node      __super;
+
+    struct s2_vertex*   __font_vertex;
+    char*               text;
+    
+    struct s2_bmfont* font_data;
 };
 
 struct s2_sprite_image* s2_sprite_image_create_with_texture(struct s2_texture* texture);

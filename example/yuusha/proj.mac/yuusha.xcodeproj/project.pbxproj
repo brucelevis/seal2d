@@ -57,6 +57,7 @@
 		4DBCF29F1DE5DBC900E2B898 /* hmd.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4DBCF29D1DE5DBC900E2B898 /* hmd.cpp */; };
 		4DBCFC7C1DE5EDB300E2B898 /* indexbuffercompression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4DBCF9731DE5EDB100E2B898 /* indexbuffercompression.cpp */; };
 		4DBCFC7D1DE5EDB300E2B898 /* indexbufferdecompression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4DBCF9761DE5EDB100E2B898 /* indexbufferdecompression.cpp */; };
+		4DC746511DEB4A9D008BFE28 /* s2_bmfont.c in Sources */ = {isa = PBXBuildFile; fileRef = 4DC7464F1DEB4A9D008BFE28 /* s2_bmfont.c */; };
 		4DDA8E2C1C4F5AE700ED5325 /* lapi.c in Sources */ = {isa = PBXBuildFile; fileRef = 4DDA8DED1C4F5AE700ED5325 /* lapi.c */; };
 		4DDA8E2D1C4F5AE700ED5325 /* lauxlib.c in Sources */ = {isa = PBXBuildFile; fileRef = 4DDA8DEF1C4F5AE700ED5325 /* lauxlib.c */; };
 		4DDA8E2E1C4F5AE700ED5325 /* lbaselib.c in Sources */ = {isa = PBXBuildFile; fileRef = 4DDA8DF11C4F5AE700ED5325 /* lbaselib.c */; };
@@ -286,6 +287,8 @@
 		4DBCF97B1DE5EDB100E2B898 /* writebitstream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = writebitstream.h; sourceTree = "<group>"; };
 		4DBCFD731DE5F11400E2B898 /* glfw3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = glfw3.h; sourceTree = "<group>"; };
 		4DBCFD741DE5F11400E2B898 /* glfw3native.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = glfw3native.h; sourceTree = "<group>"; };
+		4DC7464F1DEB4A9D008BFE28 /* s2_bmfont.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = s2_bmfont.c; sourceTree = "<group>"; };
+		4DC746501DEB4A9D008BFE28 /* s2_bmfont.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = s2_bmfont.h; sourceTree = "<group>"; };
 		4DDA8DED1C4F5AE700ED5325 /* lapi.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = lapi.c; sourceTree = "<group>"; };
 		4DDA8DEE1C4F5AE700ED5325 /* lapi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lapi.h; sourceTree = "<group>"; };
 		4DDA8DEF1C4F5AE700ED5325 /* lauxlib.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = lauxlib.c; sourceTree = "<group>"; };
@@ -797,6 +800,15 @@
 			path = ../../../libs/glfw/mac/include/GLFW;
 			sourceTree = "<group>";
 		};
+		4DC7464E1DEB4A9D008BFE28 /* font */ = {
+			isa = PBXGroup;
+			children = (
+				4DC7464F1DEB4A9D008BFE28 /* s2_bmfont.c */,
+				4DC746501DEB4A9D008BFE28 /* s2_bmfont.h */,
+			);
+			path = font;
+			sourceTree = "<group>";
+		};
 		4DDA8DDE1C4F5AE700ED5325 /* lua-5.3.2 */ = {
 			isa = PBXGroup;
 			children = (
@@ -894,6 +906,7 @@
 		4DE642B51C5B3BCA003EBBC0 /* seal */ = {
 			isa = PBXGroup;
 			children = (
+				4DC7464E1DEB4A9D008BFE28 /* font */,
 				A68675E31DE7D802009408AC /* math */,
 				A6136F2C1DE6FE5200BD1627 /* base */,
 				A685921C1DE6F582000B7595 /* platform */,
@@ -1410,6 +1423,7 @@
 				4DBCF28B1DE5D5C900E2B898 /* glcontext_wgl.cpp in Sources */,
 				A68591D01DE69016000B7595 /* makefile in Sources */,
 				A68592071DE6BE9A000B7595 /* s2_renderer.c in Sources */,
+				4DC746511DEB4A9D008BFE28 /* s2_bmfont.c in Sources */,
 				A68591B71DE69016000B7595 /* bounds.cpp in Sources */,
 				4DBCF28E1DE5D5C900E2B898 /* image.cpp in Sources */,
 				4DDA8E4E1C4F5AE700ED5325 /* lzio.c in Sources */,
